@@ -1,5 +1,5 @@
-import './App.css';
-import login from './screens/account';
+import login from './screens/account/test';
+import RoutePages from './screens/routing';
 
 function App() {
 
@@ -12,9 +12,7 @@ function App() {
   });
 
   return (
-    <div>
-      <p>Hello World!</p>
-    </div>
+    <RoutePages />
   );
 }
 
