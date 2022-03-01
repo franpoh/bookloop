@@ -35,3 +35,10 @@
     height: 60vh;
     border: solid 1px blue;
 }
+
+textarea {
+    min-width: 200px;
+    min-height: 250px;
+    max-width: 95%;
+    max-height: 500px;
+}
