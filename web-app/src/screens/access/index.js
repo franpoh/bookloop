@@ -1,6 +1,8 @@
+import Login from "./components/login";
+
 function Access() {
     return(
-        <h1>Access</h1>
+        <Login />
     )
 }
 
