@@ -1,9 +1,13 @@
 .header {
-    /* temp */
-    display: flex;
-    column-gap: 10px; 
-    text-align: center;
-    /* temp */
-    background-color: #9cc99c;
-    height: 15vh;
+  /* temp */
+  display: flex;
+  column-gap: 10px;
+  text-align: center;
+  /* temp */
+  background-color: #9cc99c;
+  height: 15vh;
+}
+
+.search {
+  display: flex;
 }
