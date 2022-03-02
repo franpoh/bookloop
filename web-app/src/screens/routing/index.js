@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import TopNav from "./top-nav";
+
+import styles from "../../styling/styles.css";
 
 import Access from "../access";
 import Account from "../account";
@@ -12,15 +15,19 @@ import UploadBook from "../upload-book";
 function RoutePages() {
     return (
         <BrowserRouter>
-            <TopNav />
-            <Routes>
-                <Route path="/" element={<BookList />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/access" element={<Access />} />
-                <Route path="/bookdetails" element={<BookDetails />} />
-                <Route path="/uploadbook" element={<UploadBook />} />
-                <Route path="/admin" element={<Admin />} />
-            </Routes>
+            <div className="container">
+                <TopNav />
+                <div>
+                    <Routes>
+                        <Route path="/" element={<BookList />} />
+                        <Route path="/account" element={<Account />} />
+                        <Route path="/access" element={<Access />} />
+                        <Route path="/bookdetails" element={<BookDetails />} />
+                        <Route path="/uploadbook" element={<UploadBook />} />
+                        <Route path="/admin" element={<Admin />} />
+                    </Routes>
+                </ div>
+            </div>
         </BrowserRouter>
     )
 }
