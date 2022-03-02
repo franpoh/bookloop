@@ -4,12 +4,16 @@ const fontType = "sans-serif";
 
 const styles = {
     topBar: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: "50px",
         width: "100vw",
-        height: "15vh",
-        backgroundColor: colours.secondaryLight,
+        height: "10vh",
+        backgroundColor: colours.baseWhite,
+        borderBottom: `1px solid ${colours.secondaryLight}`
     },
 
-    topBarTemp: {
+    topBarTemp: { // Temp styling for top bar
         display: "flex",
         columnGap: "10px", 
         textAlign: "center",
@@ -31,9 +35,10 @@ const styles = {
 
     containerStart: {
         display: "flex",
+        flexFlow: "column",
         justifyContent: "center",
         alignItems: "flex-start",
-        padding: "20px"
+        rowGap: "20px"
     },
 
     containerAlt: {
@@ -43,7 +48,7 @@ const styles = {
     },
 
     alignCentre: {
-        alignSelf: "center"
+        alignSelf: "center",
     },
 
     h1Font: {
@@ -73,20 +78,45 @@ const styles = {
     textNormal: {
         fontFamily: fontType,
         fontWeight: 'normal',
-        color: colours.baseDark
+        color: colours.baseDark,
+        fontSize: "17px"
     },
 
     textBold: {
         fontFamily: fontType,
         fontWeight: 'normal',
-        color: colours.secondaryDark
+        color: colours.secondaryDark,
+        fontSize: "17px"
     },
 
     textBox: {
-        height: "50px",
+        height: "20px",
         width: "300px",
-        marginTop: "20px"
+        padding: "10px",
+        border: `1px solid ${colours.primary}`,
+        borderRadius: "5px",
+        fontSize: "17px"
     },
+
+    button: {
+        height: "40px",
+        width: "130px",
+        backgroundColor: colours.secondaryLight,
+        border: "none",
+        borderRadius: "5px",
+        color: colours.primary,
+        fontWeight: "400",
+        fontSize: "17px"
+    },
+
+    msgGap: {
+        height: "20px"
+    },
+
+    marginAtTop: {
+        marginTop: "15vh"
+    }
+
 }
 
 export default styles;
