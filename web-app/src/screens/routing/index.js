@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import TopNav from "./top-nav";
 
-import styles from "../../styling/styles.css";
+import styles from "../../styling/style-sheet";
 
 import Access from "../access";
 import Account from "../account";
@@ -15,7 +15,7 @@ import UploadBook from "../upload-book";
 function RoutePages() {
     return (
         <BrowserRouter>
-            <div className="container">
+            <div style={{...styles.container, ...styles.border}}>
                 <TopNav />
                 <div>
                     <Routes>
