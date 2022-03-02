@@ -1,4 +1,5 @@
 .header {
+<<<<<<< HEAD
   /* temp */
   display: flex;
   column-gap: 10px;
@@ -11,3 +12,27 @@
 .search {
   display: flex;
 }
+=======
+    /* temp */
+    display: flex;
+    column-gap: 10px; 
+    text-align: center;
+    /* temp */
+    width: 100vw;
+    height: 15vh;
+    background-color: #C8DBA3;
+}
+
+.container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: auto;
+    width: 50vw;
+    height: 100vh;
+    /* temp */
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    /* temp */
+}
+>>>>>>> a38c0217cc3fcd4588db19fd5870f90b4f6950db
