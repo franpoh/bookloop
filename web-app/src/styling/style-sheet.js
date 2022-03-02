@@ -51,6 +51,13 @@ const styles = {
         alignSelf: "center",
     },
 
+    headerFont: {
+        fontFamily: fontType,
+        fontWeight: 'bold',
+        color: colours.primary,
+        fontSize: "50px"
+    },
+
     h1Font: {
         fontFamily: fontType,
         fontWeight: 'bold',

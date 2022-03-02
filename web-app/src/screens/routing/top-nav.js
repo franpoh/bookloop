@@ -10,7 +10,7 @@ function TopNav() {
     return (
         <div style={{...styles.topBar, ...styles.topBarTemp}}>
             <img src={logo} alt="website logo" width="70px" height="70px" />
-            <h1 style={styles.h1Font}>BOOK LOOP</h1>
+            <h1 style={styles.headerFont}>BOOK LOOP</h1>
             <Link to="/"><MyButton name={"Book List"} /></Link>
             <Link to="/uploadbook"><MyButton name={"Upload Book"} /></Link>
             <Link to="/account"><MyButton name={"Account"} /></Link>
