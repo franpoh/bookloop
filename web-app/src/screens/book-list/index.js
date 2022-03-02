@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import "../../styling/styles.css";
 import styles from "../../styling/style-sheet"
 import TextField from "@mui/material/TextField";
 import bookAPI from "../../API/book-api";
@@ -7,10 +6,10 @@ import Title from "./title"
 
 const BookList = () => {
 
-    const [book, setBook] = useState({
-        title: "",
-        image: ''
-    });
+    // const [book, setBook] = useState({
+    //     title: "",
+    //     image: ''
+    // });
     const [title, setTitle] = useState([]);
 
     useEffect(() => {
@@ -39,9 +38,11 @@ const BookList = () => {
                             label="Search Books"
                         />
                     </div>
-                    {/* <img src={image} /> */}
-                    <Title data={title} />
+                    <div style={{ width: "45vw" }} >
+                        <Title data={title} />
+                    </div>
                 </div>
+
 
             </div>
         </>
