@@ -18,7 +18,6 @@
     display: flex;
     flex-flow: column wrap;
     height: 100vh;
-    width: 40vw;
     border: solid 1px black;
 }
 
@@ -37,8 +36,9 @@
 }
 
 textarea {
-    min-width: 200px;
-    min-height: 250px;
+    min-width: 180px;
+    min-height: 200px;
     max-width: 95%;
     max-height: 500px;
+    resize: none;
 }
