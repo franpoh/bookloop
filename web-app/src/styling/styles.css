@@ -4,7 +4,7 @@
     column-gap: 10px; 
     text-align: center;
     /* temp */
-    background-color: #9cc99c;
+    width: 100vw;
     height: 15vh;
 }
 
@@ -48,4 +48,17 @@
 .textarea {
   font-size: 15px;
   resize: none;
+}
+    
+.container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: auto;
+    width: 50vw;
+    height: 100vh;
+    /* temp */
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    /* temp */
 }
