@@ -101,10 +101,10 @@ const styles = {
     button: {
         height: "40px",
         width: "130px",
-        backgroundColor: colours.secondaryLight,
+        backgroundColor: colours.primary,
         border: "none",
         borderRadius: "5px",
-        color: colours.primary,
+        color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px"
     },
