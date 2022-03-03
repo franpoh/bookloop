@@ -6,6 +6,7 @@ import "../styling/style.css"
 const MyButton = (props) => {
     return (
         <button 
+            type={props.type}
             style={styles.button} 
             className="mybutton"
             onClick={props.handle}
