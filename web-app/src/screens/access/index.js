@@ -3,7 +3,6 @@ import React from "react";
 import Login from "./components/login";
 import Register from "./components/register";
 
-import styles from "../../styling/style-sheet";
 import MyButton from "../../components/button";
 
 function Access() {
@@ -21,7 +20,7 @@ function Access() {
     }
 
     return (
-        <div style={styles.marginAtTop}>
+        <div>
             {display}
             <MyButton name={buttonText} handle={handleDisplay} />
         </div>

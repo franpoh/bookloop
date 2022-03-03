@@ -10,7 +10,8 @@ const styles = {
         width: "100vw",
         height: "10vh",
         backgroundColor: colours.baseWhite,
-        borderBottom: `1px solid ${colours.secondaryLight}`
+        borderBottom: `1px solid ${colours.secondaryLight}`,
+        marginBottom: "5vh",
     },
 
     topBarTemp: { // Temp styling for top bar
@@ -24,8 +25,9 @@ const styles = {
         flexFlow: "column",
         alignItems: "center",
         margin: "auto",
-        width: "50vw",
         height: "100vh",
+        width: "50vw",
+        rowGap: "20px",
     },
 
     border: { // Guideline for main body styling
@@ -38,13 +40,35 @@ const styles = {
         flexFlow: "column",
         justifyContent: "center",
         alignItems: "flex-start",
-        rowGap: "20px"
+        rowGap: "20px",
     },
 
     containerAlt: {
         display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
+        flexFlow: "column",
+        rowGap: "20px",
+        padding: "50px",
+        paddingTop: "25px",
+        width: "45vw",
+        backgroundColor: colours.secondaryLight,
+        borderRadius: "30px",
+    },
+
+    containerRow: {
+        display: "flex",
+        flexFlow: "row",
+        justifyContent: "space-around",
+        alignItems: 'center',
+        columnGap: "10px",
+        lineHeight: "0"
+    },
+
+    containerRowList: {
+        display: "flex",
+        flexFlow: "row",
+        alignItems: 'center',
+        columnGap: "50px",
+        paddingBottom: "20px"
     },
 
     alignCentre: {
@@ -72,7 +96,7 @@ const styles = {
 
     h3Bold: {
         fontFamily: fontType,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         color: colours.secondaryDark
     },
 
@@ -86,14 +110,14 @@ const styles = {
         fontFamily: fontType,
         fontWeight: 'normal',
         color: colours.baseDark,
-        fontSize: "17px"
+        fontSize: "20px"
     },
 
     textBold: {
         fontFamily: fontType,
-        fontWeight: 'normal',
+        fontWeight: 'bold',
         color: colours.secondaryDark,
-        fontSize: "17px"
+        fontSize: "20px"
     },
 
     textBox: {
@@ -120,6 +144,14 @@ const styles = {
         height: "20px"
     },
 
+    profilePic: {
+        height: "200px",
+        width: "200px",
+        objectFit: "cover",
+        border: `5px solid ${colours.secondaryDark}`,
+        borderRadius: "30px"
+    },
+
     marginAtTop: {
         marginTop: "15vh"
     },
@@ -130,8 +162,23 @@ const styles = {
         height: 60,
         fontSize: 20,
         paddingLeft: 10
-    }
+    },
 
+    profileBookPics: {
+        height: "100px",
+        width: "100px",
+        objectFit: "cover",
+        border: `5px solid ${colours.secondaryDark}`,
+        borderRadius: "30px",
+    },
+
+    profileBookDetails: {
+        width: "30vw",
+    },
+
+    listNoBullets: {
+        listStyleType: "none"
+    }
 }
 
 export default styles;
