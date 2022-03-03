@@ -15,7 +15,7 @@ const styles = {
 
     topBarTemp: { // Temp styling for top bar
         display: "flex",
-        columnGap: "10px", 
+        columnGap: "10px",
         textAlign: "center",
     },
 
@@ -122,6 +122,14 @@ const styles = {
 
     marginAtTop: {
         marginTop: "15vh"
+    },
+
+    searcher: {
+        marginTop: 20,
+        width: 300,
+        height: 60,
+        fontSize: 20,
+        paddingLeft: 10
     }
 
 }
