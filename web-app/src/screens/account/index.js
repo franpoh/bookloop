@@ -1,28 +1,20 @@
 import React from "react";
-import bookAPI from "../../API/book-api";
+
+import styles from "../../styling/style-sheet";
+import UserDetails from "./components/user_details";
+import Wishlist from "./components/wishlist";
+import UploadedBooks from "./components/upload_books"
+import PurchaseHistory from "./components/purchase_history";
+import Reviews from "./components/reviews"
 
 function Account() {
-
-    const [user, setUser] = React.useState('')
-
-    let p = new Promise(async (resolve) => {
-        let result = await bookAPI.get('/protected/viewprofile');
-        let { data } = result;
-        let user = data.data;
-        resolve(user);
-    })
-    
-    p.then((res) => {
-        setUser(res.username);
-    });
-
-    console.log("Test", user);    
-
     return (
-        <div>
-            <h1>Account</h1>
-            <p>testing</p>
-            <p>{user}</p>
+        <div style={styles.container}>
+            <UserDetails />
+            <Reviews />
+            <Wishlist />
+            <UploadedBooks />
+            <PurchaseHistory />
         </div>
     )
 }
