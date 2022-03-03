@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "../../styling/style-sheet";
+
 import UserDetails from "./components/user_details";
 import Wishlist from "./components/wishlist";
 import UploadedBooks from "./components/upload_books"
