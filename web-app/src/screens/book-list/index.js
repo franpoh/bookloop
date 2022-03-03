@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../../styling/style-sheet"
+import "../../styling/style.css"
 import colours from "../../styling/colours";
 import TextField from "@mui/material/TextField";
 // import Autocomplete from '@mui/material/Autocomplete';
 import bookAPI from "../../API/book-api";
 // import Title from "./title";
 // import { useLoading, Audio } from '@agney/react-loading';
+import Grid from '@mui/material/Grid';
 
 
 const BookList = () => {
@@ -52,10 +54,10 @@ const BookList = () => {
         <>
             <div>
                 <h1>BookList</h1>
-                <div style={{ ...styles.container }}>
+                <div style={{ ...styles.container, width: "45vw" }}>
 
                     <TextField
-                        style={{ ...styles.searcher }}
+                        style={{ ...styles.searcher, width: "45vw" }}
                         id="outlined-basic"
                         varient="outlined"
                         fullWidth
@@ -74,8 +76,8 @@ const BookList = () => {
                             }
                         }).map((item, key) => {
                             return (
-                                <div style={{ background: `${colours.secondaryLight}` }} key={key}>
-                                    <div >
+                                <div style={{ border: "green solid 2px", background: `${colours.secondaryLight}` }} key={key}>
+                                    <div>
                                         <p>{item.title}</p>
                                         <img alt="covers" style={{ width: 100, height: 150 }} src={item.imageURL} />
                                     </div>
@@ -83,11 +85,15 @@ const BookList = () => {
                             )
                         })) : (title.map((item, key) => {
                             return (
-                                <div style={{ background: "lightgrey" }} key={key}>
-                                    <div>
-                                        <p>{item.title}</p>
-                                        <img alt="covers" style={{ width: 100, height: 150 }} src={item.imageURL} />
-                                    </div>
+                                <div style={{ border: "grey solid 1px" }} key={key}>
+                                    <Grid container spacing={0.5}>
+                                        <Grid item sm={7} lg={4}>
+                                            <img alt="covers" style={{ width: 150, height: 200 }} src={item.imageURL} />
+                                        </Grid>
+                                        <Grid item sm={6} lg={4}>
+                                            <h3>{item.title}</h3>
+                                        </Grid>
+                                    </Grid>
                                 </div>
                             )
                         }))
