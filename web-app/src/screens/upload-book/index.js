@@ -3,13 +3,18 @@ import bookAPI from "../../API/book-api";
 import styles from "../../styling/style-sheet";
 import Login from "../access/components/login";
 import MyUploads from "./myUploads";
-import UploadNewBook from "./uploadNewBook";
+import UploadNewBook from "./components/uploadNewBook";
 import MyButton from "../../components/button";
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 // what functions do i need?
 // 1. handle submit button
 // 2. handle input > when they type, show suggestion (according to title of book) based on our list of index
 // 3. handle if index exists, handle if index doesn't exist.
+
+
+// backend > if not logged in > route to login
 
 function UploadBook() {
     const [display, setDisplay] = React.useState(<MyUploads/>);

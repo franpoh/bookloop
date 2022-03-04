@@ -1,13 +1,14 @@
 import React from 'react';
-import bookAPI from "../../API/book-api";
-import styles from "../../styling/style-sheet";
+import bookAPI from "../../../API/book-api";
+import styles from "../../../styling/style-sheet";
+import TextInput from "../../../../src/components/textInput";
 
-async function UploadNewBook() {
-    const [userId, setUserId] = React.useState('');
-    const [bookTitle, setBookTitle] = React.useState('');
-    const [bookAuthor, setBookAuthor] = React.useState('');
-    const [bookGenreId, setBookGenreId] = React.useState('');
-    const [bookComments, setBookComments] = React.useState('');
+async function UploadNewBook(data) {
+    console.log(data);
+    const [bookTitle, setBookTitle] = React.useState('Test Book Frontend Backend');
+    const [bookAuthor, setBookAuthor] = React.useState('Test Book Author');
+    const [bookGenreId, setBookGenreId] = React.useState('3');
+    const [bookComments, setBookComments] = React.useState('test comments 4th march');
     // const [bookReview, setBookReview] = React.useState('');
     const [msg, setMsg] = React.useState('');
 
@@ -15,7 +16,7 @@ async function UploadNewBook() {
         e.preventDefault();
 
         await bookAPI.post("protected/uploadbook", {
-            userid: userId,
+            userid: data.userId,
             booktitle: bookTitle,
             bookauthor: bookAuthor,
             bookgenre: bookGenreId,
@@ -37,8 +38,10 @@ async function UploadNewBook() {
             <p style={styles.textNormal}>What book would you like to upload today?</p>
 
             <div style = {{ ...styles.container}} >
+               
+                <form onSubmit={handleSubmit} style={styles.containerStart}>
 
-                <form>
+                    <TextInput req={true} type="text" name ="Book Title" value={bookTitle} setValue={setBookTitle}/>
                     <label for='booktitle'> Book Title: </label><br/>
                     <input type='text' id='booktitle' name='booktitle'/><br/><br/>
 
