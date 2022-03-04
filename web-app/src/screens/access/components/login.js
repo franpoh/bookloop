@@ -39,8 +39,8 @@ function Login() {
                 onSubmit={handleSubmit}
                 style={styles.containerStart}
             >
-                <TextInput type="text" name="Email" value={email} setValue={setEmail} />
-                <TextInput type="password" name="Password" value={pwd} setValue={setPwd} />
+                <TextInput req={true} type="text" name="Email" value={email} setValue={setEmail} />
+                <TextInput req={true} type="password" name="Password" value={pwd} setValue={setPwd} />
                 <MyButton name={"Submit"} />
             </form>
             <p style={styles.textNormal}>Don't have an account yet?</p>

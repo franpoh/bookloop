@@ -7,6 +7,12 @@ function MyUploads() {
     const navigate = useNavigate();
     const [userId, setUserId] = React.useState(8);
 
+    const retrieveUserSwapYes = async (e) => {
+        e.preventDefault();
+        
+        await bookAPI.get("/protected/swap")
+    }
+
     return (
         <div>
             <h1 style={styles.h1Font}>My Uploads</h1>

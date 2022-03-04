@@ -9,7 +9,7 @@ const TextInput = (props) => {
             placeholder={props.name}
             value={props.value}
             onChange={(e) => props.setValue(e.target.value)}
-            required
+            required={props.req}
             autoComplete="off"
             style={styles.textBox}
         />
