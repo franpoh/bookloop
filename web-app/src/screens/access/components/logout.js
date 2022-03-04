@@ -7,8 +7,7 @@ import MyButton from "../../../components/button";
 function Logout() {
     const navigate = useNavigate();
 
-    const handleLogout = async (e) => {
-
+    const handleLogout = async () => {
         await bookAPI.post("/protected/logout"
         ).then((res) => {
             alert(res.data.message);
