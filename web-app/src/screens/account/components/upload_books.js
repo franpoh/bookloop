@@ -19,7 +19,7 @@ function UploadedBooks() {
                 return;
             } else {
                 const swap = res.map((item, index) => {
-                    return <BookListing index={index} item={item} detail="comments" />;
+                    return <BookListing item={item} name="Condition" detail="comments" />;
                 });
 
                 setUploaded(swap);
@@ -28,7 +28,7 @@ function UploadedBooks() {
     }, [])
 
     return (
-        <BookDisplay uploaded={uploaded} />
+        <BookDisplay name={"Uploaded Books"} uploaded={uploaded} />
     )
 }
 
