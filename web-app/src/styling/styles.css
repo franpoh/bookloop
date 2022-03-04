@@ -1,0 +1,64 @@
+.header {
+    /* temp */
+    display: flex;
+    column-gap: 10px; 
+    text-align: center;
+    /* temp */
+    width: 100vw;
+    height: 15vh;
+}
+
+/* g1 */
+.displayWindow {
+  /* position: relative; */
+  margin: 1%;
+  padding-left: 5px;
+  display: block;
+  font-size: 17px;    
+  /* color: black; */
+  width: 60vw;
+  align-items: flex-start;
+  text-align: start;
+  border-width: thin;
+  /* border-color: black; */
+  border-style:solid;
+}
+
+.displayRow {
+  display: flex;
+}
+
+.displayCard {
+  width: '100%';
+  /* margin-left: 15%; */
+  padding-left: 5vw;
+  padding-right: 5vw;
+  display: block;
+  font-size: 17px;    
+  /* color: black; */    
+  align-items: flex-start;
+  text-align: start;
+  border-width: thin;
+  /* border-color: black; */
+  border-style:solid;
+}
+
+  
+/* g1 */
+.textarea {
+  font-size: 15px;
+  resize: none;
+}
+    
+.container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin: auto;
+    width: 50vw;
+    height: 100vh;
+    /* temp */
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    /* temp */
+}
