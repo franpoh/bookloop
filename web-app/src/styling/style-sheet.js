@@ -178,7 +178,13 @@ const styles = {
 
     listNoBullets: {
         listStyleType: "none"
-    }
+    },
+
+    bookList: {
+        backgroundColor: colours.secondaryLight,
+        margin: 6,
+        borderRadius: 10
+    },
 }
 
 export default styles;
