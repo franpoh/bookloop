@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import styles from "../../styling/style-sheet";
 import MyButton from "../../components/button";
-import Logout from "../access/components/logout";
+import LogoutButton from "../access/components/logout";
 
 const logo = require("../../assets/logo.png")
 
@@ -17,7 +17,7 @@ function TopNav() {
             <Link to="/account"><MyButton name={"Account"} /></Link>
             <Link to="/access"><MyButton name={"Access"} /></Link>
             <Link to="/admin"><MyButton name={"Admin"} /></Link>
-            <Logout />
+            <LogoutButton />
         </div>
     )
 }
