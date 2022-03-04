@@ -152,6 +152,39 @@ const styles = {
         borderRadius: "30px"
     },
 
+    // g1
+    displayArea: {        
+        marginLeft: '3vw',        
+        width: "50vw",        
+        borderWidth: 1,
+    },
+
+    displayRow: {
+        display: 'flex',
+    },
+
+    displayCard: {
+        // width: '10%',
+        paddingLeft: '2vw',
+        paddingRight: '2vw',
+        display: 'block',        
+        /* color: black; */    
+        alignItems: 'flex-start',
+        textAlign: 'start',
+        // borderWidth: 'thin',
+        /* border-color: black; */
+        // borderStyle: 'solid',
+    },
+
+    divider: {
+        // color: '#000000',
+        backgroundColor: 'transparent',
+        height: .5,
+        width: '80%',
+        borderColor : colours.baseGrey,
+        marginLeft: '0vw',
+    },
+
     marginAtTop: {
         marginTop: "15vh"
     },
@@ -178,7 +211,13 @@ const styles = {
 
     listNoBullets: {
         listStyleType: "none"
-    }
+    },
+
+    bookList: {
+        backgroundColor: colours.secondaryLight,
+        margin: 6,
+        borderRadius: 10
+    },
 }
 
 export default styles;
