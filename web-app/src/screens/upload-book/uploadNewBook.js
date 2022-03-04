@@ -1,7 +1,7 @@
 import React from 'react';
-import bookAPI from "../../../API/book-api";
-import styles from "../../../styling/style-sheet";
-import TextInput from "../../../../src/components/textInput";
+import bookAPI from "../../API/book-api";
+import styles from "../../styling/style-sheet";
+import TextInput from "../../components/textInput";
 
 async function UploadNewBook(data) {
     console.log(data);
@@ -43,9 +43,9 @@ async function UploadNewBook(data) {
 
                     <TextInput req={true} type="text" name ="Book Title" value={bookTitle} setValue={setBookTitle}/>
                     <label for='booktitle'> Book Title: </label><br/>
-                    <input type='text' id='booktitle' name='booktitle'/><br/><br/>
 
                     <label for='bookauthor'> Author: </label><br/>
+                    <TextInput req={true} type="text" name ="Book Author" value={bookAuthor} setValue={setBookAuthor}/>
                     <input type='text' id='bookauthor' name='bookauthor'/><br/><br/>
 
                     <label for='bookgenre'> Genre: </label><br/>
@@ -80,6 +80,6 @@ async function UploadNewBook(data) {
                 </div>
             </div>
     )
-}
+};
 
 export default UploadNewBook;
