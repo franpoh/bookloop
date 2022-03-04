@@ -1,11 +1,14 @@
 import React from "react";
 import bookAPI from "../../../API/book-api";
+import { useNavigate } from "react-router-dom";
 
 import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
 import TextInput from "../../../components/textInput";
 
 function UserDetails() {
+
+    const navigate = useNavigate();
 
     const [user, setUser] = React.useState('')
     const [email, setEmail] = React.useState('');
@@ -27,7 +30,20 @@ function UserDetails() {
             setEmail(res.email);
             setPic(res.imageURL);
         });
-    }, [])
+    }, []);
+
+    // logout, for auto-logout upon password change
+    const handleLogout = async () => {
+        await bookAPI.post("/protected/logout"
+        ).then((res) => {
+            alert(res.data.message);
+            setTimeout(() => {
+                return navigate('/access');
+            }, 2000);
+        }).catch((error) => {
+            alert(error.data.message);
+        })
+    }
 
     // editing account info
     const handleSubmit = async (e) => {
@@ -40,9 +56,24 @@ function UserDetails() {
                 newPassword: newPwd,
             }
         ).then((response) => {
-            setMsg(response.data.message)
+            let newMsg = response.data.message;
+            setMsg(newMsg)
+            setOldPwd('');
+            setNewPwd('');
+
+            if (newMsg.indexOf('Password Updated') === -1){
+                setTimeout(() => setMsg(''), 5000);
+            } else {
+                setTimeout(() => {
+                    handleLogout();
+                }, 5000);
+            }
+
         }).catch((error) => {
             setMsg(error.response.data.message)
+            setOldPwd('');
+            setNewPwd('');
+            setTimeout(() => setMsg(''), 5000);
         })
     }
 
