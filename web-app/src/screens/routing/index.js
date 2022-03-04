@@ -15,14 +15,14 @@ import UploadBook from "../upload-book";
 function RoutePages() {
     return (
         <BrowserRouter>
-            <div style={{...styles.container, ...styles.border}}>
+            <div style={{ ...styles.container, ...styles.border }}>
                 <TopNav />
                 <div>
                     <Routes>
                         <Route path="/" element={<BookList />} />
                         <Route path="/account" element={<Account />} />
                         <Route path="/access" element={<Access />} />
-                        <Route path="/bookdetails" element={<BookDetails />} />
+                        <Route path="/bookdetails/:index" element={<BookDetails />} />
                         <Route path="/uploadbook" element={<UploadBook />} />
                         <Route path="/admin" element={<Admin />} />
                     </Routes>

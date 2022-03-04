@@ -1,3 +1,11 @@
 .mybutton:hover {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.containerRowGrid {
+  display: "inline-grid";
+  grid-column: 2 / span 3;
+  align-items: "center";
+  padding-bottom: "20px";
+  border: "3px solid black";
 }

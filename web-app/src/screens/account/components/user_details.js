@@ -50,7 +50,7 @@ function UserDetails() {
         <div style={styles.containerAlt}>
             <h1 style={styles.h1Font}>Welcome {user}!</h1>
             <div style={styles.containerRow}>
-                <img src={pic} alt="profile picture" style={styles.profilePic} />
+                <img src={pic} alt="profile" style={styles.profilePic} />
                 <form
                     onSubmit={handleSubmit}
                     style={styles.containerStart}

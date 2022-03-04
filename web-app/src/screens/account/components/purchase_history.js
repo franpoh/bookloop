@@ -5,7 +5,7 @@ import styles from "../../../styling/style-sheet";
 
 function PurchaseHistory() {
 
-    // const [user, setUser] = React.useState('')
+    const [user, setUser] = React.useState('')
 
     // React.useEffect(() => {
     //     let p = new Promise(async (resolve) => {
