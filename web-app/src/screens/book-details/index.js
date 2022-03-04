@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 
 import bookAPI from '../../API/book-api';
 
 import '../../styling/colours.js';
 import '../../styling/styles.css';
-// import styles from '../../styling/style-sheet';
+import styles from '../../styling/style-sheet';
 
 // icons?? images replacements? emojis?
 
@@ -12,19 +13,85 @@ import '../../styling/styles.css';
 import { userA, indexBooks, swapReviewMerged } from '../../test-data';
 // let userA = {};
 // let swapReviewMerged = {};
-// let indexBooks = {};
-let indexId = 1;
+let userToken = false;
 
-function BookDetails() {
+function BookDetails( data ) {
 
-    //try catch to verify if login
-    try {
+    const {state } = useLocation();
+    console.log('TESTING>>>>>>>>', state);
 
-        const result = await bookAPI.get();
-        
-    } catch (error) {
-        
-    }
+    const { index } = useParams();
+
+    console.log('useParams: ', index);
+
+    // need index from data
+    let indexId = 2;
+    
+    
+    const [ matchIndex, updateMatchIndex] = useState({});
+    const [ user, setUser ] = useState('')
+
+    useEffect(() => {
+        retrieveBookDetails();
+        retrieveUser();
+        retrieveAll();
+        if (user != '') {
+            userToken = true;            
+        };
+        console.log('token: ', userToken);
+    }, []);
+
+    // try catch for fetch book info
+    async function retrieveBookDetails() {
+        try {
+            const result = await bookAPI.get(`/general/detail?bookID=${indexId}`);
+
+            console.log(result.data);            
+            console.log(result.data.data.title);
+
+            updateMatchIndex({...matchIndex, ...result.data.data});
+        } catch (error) {
+            console.log('Book Detail error: ', error);
+        };
+    };
+
+    ////////////////////////////////////////
+    // try catch for user info if avail
+    async function retrieveUser() {
+        try {
+            const result = await bookAPI.get('/protected/viewprofile');
+
+            console.log('user: ', result.data.data);
+
+        } catch (error) {
+            console.log('User info error', error);
+        }
+    };
+
+    // G1 test
+    async function retrieveAll() {
+        try {
+            const result = await bookAPI.get('/protected/getusers');
+
+            console.log('All user: ', result.data.data);
+
+        } catch (error) {
+            console.log('User info error', error);
+        };
+    };
+    // let p = new Promise(async (resolve) => {
+    //     let result = await bookAPI.get('/protected/viewprofile');
+    //     let { data } = result;
+    //     let user = data.data;
+    //     resolve(user);
+    // })
+    
+    // p.then((res) => {
+    //     setUser(res.username);
+    // });
+
+    // console.log("Test", user);  
+    ////////////////////////////////////////
 
 
     // need userid
@@ -33,15 +100,14 @@ function BookDetails() {
     // need swap
     let localSwapBooks = swapReviewMerged;
 
-    // need index
-    let localIndexBooks = indexBooks;  
+    
     
 
     // localUser.points = 0; // for testing when points unable to purchase books
 
     if (localUser.wishlist === null) { localUser.wishlist = [] };
 
-    const matchIndex = localIndexBooks.filter(data => data.indexId === indexId);
+    // const matchIndex = localIndexBooks.filter(data => data.indexId === indexId);
     // const matchSwap = localSwapBooks.filter(data => (data.indexId === indexId && data.availability === 'YES')); // check swap for YES/NO
 
     const [matchSwap, updateMatchSwap] = useState(localSwapBooks.filter(data => (data.indexId === indexId && data.availability === 'YES')));
@@ -84,25 +150,42 @@ function BookDetails() {
         )
     };
 
-    console.log(matchIndex[0].imageURL.uri);
-    // matchIndex[0].imageURL = null; // for testing when book has no imageURL
+    if (matchIndex.indexId) {
+    console.log('image url', matchIndex.imageURL)} else console.log('index empty');
+    // matchIndex.imageURL = null; // for testing when book has no imageURL
 
     return(
-        <div className='displayWindow'>
-            <h1>{matchIndex[0].title} (Title of book here)</h1>
-            <div className='displayRow'>
-                <div className='displayCard' >
-                    {(matchIndex[0].imageURL != null) ? <img src={matchIndex[0].imageURL.uri} /> : <div className='displayCard'></div> }
+        <div style={styles.displayArea}>
+            <h1>{matchIndex.title}</h1>
+            <div style={styles.displayRow}>
+                <div style={styles.displayCard}>
+                    {(matchIndex.imageURL != null) ? <img src={matchIndex.imageURL} style={{ height: 'auto', width:'100%' }} /> : <div ></div> }
                 </div>                
-                <div className='displayCard' style={{ marginLeft: 15 }}>
-                    <h1>details</h1>
+                <div style={{ marginLeft: 15 }}>
+                    {<h1 style={{...styles.textNormal, fontSize: '1em' }}>Author: {matchIndex.author}</h1>}
+                    {<h1 style={{...styles.textNormal, fontSize: '1em' }}>Year: {(matchIndex.year)?matchIndex.year:'-'}</h1>}
                 </div>
             </div>
-            <WishButton />
-            <UploadReviewButton />
+            <hr style={styles.divider}/>
+
+            <div style={{ opacity: userToken ? 1 : 0.4 }}>
+                <h3 style={styles.textNormal}>Current available points: {(userToken) ? user.points : 'You are not logged in..' }</h3>
+                <WishButton />
+                <UploadReviewButton />    
+            </div>
+
+            
             
             {/* div style to check swap.length to show display as none or inline */}
+            <hr style={styles.divider}/>
             <div>
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
+                <DisplaySwapInventory />
                 <DisplaySwapInventory />
             </div>
 
