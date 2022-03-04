@@ -181,7 +181,13 @@ function BookDetails() {
                             <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>By user: {swapItem.User.username}</h3> 
                             <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.price}</h3> 
                         </div>
-                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Condition: {(swapItem.comments !== null ) ? swapItem.comments : <h3 style={{ ...styles.textBold, fontSize:'1em', color:'red'}}>USER DID NOT PROVIDE COMMMENT</h3>}</h3>
+                        <div>
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Condition:</h3>
+                            {(swapItem.comments !== null ) ? 
+                                <h3 style={{ ...styles.textBold, fontSize:'.7em'}}>{swapItem.comments}</h3> 
+                                : 
+                                <h3 style={{ ...styles.textBold, fontSize:'.7em', color:'red'}}>USER DID NOT PROVIDE COMMMENT</h3>}
+                        </div>                            
                     </a>
                 </div>
             )
