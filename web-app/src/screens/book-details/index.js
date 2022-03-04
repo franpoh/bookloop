@@ -9,13 +9,9 @@ import styles from '../../styling/style-sheet';
 
 import removeBookfromWishList from './/remove-book-wishlist';
 import addBooktoWishList from './/add-book-wishlist';
+import colours from '../../styling/colours.js';
 
 // icons?? images replacements? emojis?
-
-//mock place data
-import { swapReviewMerged } from '../../test-data';
-// let userA = {};
-// let swapReviewMerged = {};
 
 function BookDetails() {
 
@@ -26,16 +22,18 @@ function BookDetails() {
     // need index from data
     let indexId = parseInt(index);
     
-    const [ matchIndex, updateMatchIndex] = useState({});
+    const [ matchIndex, updateMatchIndex ] = useState({});
     const [ user, setUser ] = useState('')
-    const [ userToken, setUserToken] = useState(false); // for controlling display for non-login
-    const [userWishlist, updateUserWishlist] = useState([]);
-    const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
+    const [ userToken, setUserToken ] = useState(false); // for controlling display for non-login
+    const [ userWishlist, updateUserWishlist ] = useState([]);
+    const [ currentBookWish, updateCurrentBookWish ] = useState(false); // for toggling button status
+    const [ matchSwap, updateMatchSwap ] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
         retrieveBookDetails();
         retrieveUser();
+        retrieveSwap();
         // retrieveAll();
     }, []);
 
@@ -65,11 +63,10 @@ function BookDetails() {
         try {
             const result = await bookAPI.get(`/general/detail?bookID=${indexId}`);
 
-            console.log(result.data);            
+            console.log(result.data);
             console.log(result.data.data.title);
 
             updateMatchIndex(result.data.data);
-            // updateMatchIndex({...matchIndex, ...result.data.data});
         } catch (error) {
             console.log('Book Detail error: ', error);
         };
@@ -89,46 +86,36 @@ function BookDetails() {
         }
     };
 
+    // try catch for related swap data
+    async function retrieveSwap() {
+        try {
+            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);
+
+            console.log(result.data);
+            console.log('retr Swap by Index: ', result.data.data);
+            
+            updateMatchSwap(result.data.data);
+        } catch(error) {
+            console.log('retr Swap by Index error', error);
+        };
+    };
+
+
+    /////////////////////////////////////
     // G1 test
-    // async function retrieveAll() {
-    //     try {
-    //         const result = await bookAPI.get('/protected/getusers');
+    async function retrieveAll() {
+        try {
+            const result = await bookAPI.get('/protected/getusers');
 
-    //         console.log('All user: ', result.data.data);
+            console.log('All user: ', result.data.data);
 
-    //     } catch (error) {
-    //         console.log('User info error', error);
-    //     };
-    // };
-    
-
-    // need userid
-    
-    // const [localUser, updateLocalUser] = useState(userA);
-
-    // need swap
-    let localSwapBooks = swapReviewMerged;
+        } catch (error) {
+            console.log('User info error', error);
+        };
+    };
+    /////////////////////////////////////
 
     
-    
-
-    // user.points = 0; // for testing when points unable to purchase books
-
-    
-
-    // const matchIndex = localIndexBooks.filter(data => data.indexId === indexId);
-    // const matchSwap = localSwapBooks.filter(data => (data.indexId === indexId && data.availability === 'YES')); // check swap for YES/NO
-
-    const [matchSwap, updateMatchSwap] = useState(localSwapBooks.filter(data => (data.indexId === indexId && data.availability === 'YES')));
-
-    
-
-    
-
-    
-
-
-    /////////
     function wishButton() {
 
         console.log("wishbutton, token: ", userToken);        
@@ -150,11 +137,7 @@ function BookDetails() {
             updateUserWishlist(updateWishlist);
             updateCurrentBookWish(true);
         };
-
-
-        return (
-            <h2>wishbutton</h2>
-        )
+        return;
     };
 
     /////////
@@ -162,17 +145,52 @@ function BookDetails() {
 
         console.log("uploadReviewButton");
 
-        return (
-            <h2>UploadReviewButton</h2>
-        )
+        return;
     };
 
     /////////
     function DisplaySwapInventory() {
-        return (
-            <h2 style={{ ...styles.textNormal, fontWeight: 'normal' }}
-            >DisplaySwapInventory test</h2>
-        )
+
+        if (matchSwap.length === 0) {
+            return(
+                <div></div>
+            );
+        };
+
+        return matchSwap.map((swapItem, index) => {
+            console.log(swapItem, index);
+            return (
+                // <div style={styles.containerRowList}>
+                <div key={swapItem.swapId} style={{...styles.containerRowList, lineHeight:'1'}}>
+                    <a title="Click to buy item" href="#" 
+                    onClick={() => {
+                        alert(`Buy: ${swapItem.swapId} from ${swapItem.User.username}`);
+                        console.log('Buy: ', swapItem.swapId, swapItem.availability, swapItem.price, swapItem.User.username);
+                        return;
+                    }}
+                    style={{
+                        ...styles.textBox, 
+                        textDecoration: 'none',
+                        height:'auto',
+                        width:'35vw',
+                        backgroundColor: colours.baseWhite
+                    }}
+                    >
+                    
+                        <div style={{ justifyContent:'space-between', display: 'flex' }}>
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>By user: {swapItem.User.username}</h3> 
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.price}</h3> 
+                        </div>
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Condition: {(swapItem.comments !== null ) ? swapItem.comments : <h3 style={{ ...styles.textBold, fontSize:'1em', color:'red'}}>USER DID NOT PROVIDE COMMMENT</h3>}</h3>
+                    </a>
+                </div>
+            )
+        });
+
+        // return (
+        //     <h2 style={{ ...styles.textNormal, fontWeight: 'normal' }}
+        //     >DisplaySwapInventory test</h2>
+        // )
     };
 
     
@@ -194,10 +212,9 @@ function BookDetails() {
             <hr style={styles.divider}/>
 
             <div style={{ position: 'relative',top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
-                <h3 style={styles.textNormal}>Current available points: {(userToken) ? user.points : 'You are not logged in..' } {userToken? 'True':'False' }</h3>
+                <h3 style={{...styles.textNormal, fontSize: '1em'}}>Current available points: {(userToken) ? user.points : 'You are not logged in..' }</h3>
                 <div style={styles.containerRow}>
                 <MyButton name={currentBookWish?"Now in Wishlist" : "Add to Wishlist"}
-                currentBookWish
                     type={"button"}
                     handle={
                         () => wishButton()
@@ -210,24 +227,18 @@ function BookDetails() {
                     }
                 />
                 </div>
-                {/* <WishButton /> */}
-                {/* <UploadReviewButton /> */}
+                
             </div>
 
-            
-            
-            {/* div style to check swap.length to show display as none or inline */}
             <hr style={{...styles.divider, position: 'relative',top: '-3vh'}}/>
-            <div>
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
-                <DisplaySwapInventory />
+
+            <div style={{ position: 'relative',top: '-6vh', opacity: userToken ? 1 : 0.4 }}>
+                <h3 style={{...styles.textBold, fontSize: '1em'}}>Inventory available: {matchSwap.length}</h3>
                 <DisplaySwapInventory />
             </div>
+            
+            {/* div style to check swap.length to show display as none or inline */}
+            
 
 
         </div>
