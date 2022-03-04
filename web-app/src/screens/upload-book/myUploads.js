@@ -12,6 +12,7 @@ function MyUploads() {
         
         await bookAPI.get("/protected/swap")
     }
+
     return (
         <div>
             <h1 style={styles.h1Font}>My Uploads</h1>
