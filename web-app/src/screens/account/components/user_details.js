@@ -46,6 +46,7 @@ function UserDetails() {
             }
         ).then((response) => {
             setMsg(response.data.message)
+            setTimeout(() => setMsg(''), 3000);
         }).catch((error) => {
             setMsg(error.response.data.message)
         })

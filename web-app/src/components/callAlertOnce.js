@@ -6,7 +6,7 @@ const callAlertOnce = ((text) => {
             alert(text);
             setTimeout(() => {
                 executed = false;
-            }, 3000);
+            }, 2000);
         }
     } 
 })();
