@@ -11,6 +11,7 @@ import Admin from "../admin";
 import BookDetails from "../book-details";
 import BookList from "../book-list";
 import UploadBook from "../upload-book";
+import Wishlist from '../wish-list'; // need to chamge
 
 function RoutePages() {
     return (
@@ -22,7 +23,8 @@ function RoutePages() {
                         <Route path="/" element={<BookList />} />
                         <Route path="/account" element={<Account />} />
                         <Route path="/access" element={<Access />} />
-                        <Route path="/bookdetails" element={<BookDetails />} />
+                        <Route path="/wishlist" element={<Wishlist />} />
+                        <Route path="/bookdetails/:index" element={<BookDetails />} />
                         <Route path="/uploadbook" element={<UploadBook />} />
                         <Route path="/admin" element={<Admin />} />
                     </Routes>
