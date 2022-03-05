@@ -14,6 +14,8 @@ import { history } from "../../components/history";
 
 // added custom router for navigating outside of react context
 // https://stackoverflow.com/questions/69871987/react-router-v6-navigate-outside-of-components
+// you can now navigate to specific path, Example: return history.push("/access");
+// back and forward navigation as well
 
 // Router: The common low-level interface for all router components. 
 // The most common use-case for using the low-level <Router> is to synchronize a custom history with a state management lib like Redux or Mobx
