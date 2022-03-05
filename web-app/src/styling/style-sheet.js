@@ -214,7 +214,8 @@ const styles = {
     },
 
     bookList: {
-        borderBottom: "lightgrey 1px solid"
+        borderBottom: "lightgrey 1px solid",
+        paddingLeft: 11
     },
 }
 

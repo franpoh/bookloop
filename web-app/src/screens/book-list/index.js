@@ -4,11 +4,13 @@ import styles from "../../styling/style-sheet"
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
-
-import TextField from "@mui/material/TextField";
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LinearProgress from '@mui/material/LinearProgress';
+import {
+    LinearProgress,
+    Grid,
+    Box,
+    TextField,
+    CircularProgress
+} from '@mui/material';
 
 
 const BookList = () => {
@@ -39,10 +41,10 @@ const BookList = () => {
     };
 
     useEffect(() => {
-        setTimeout(() => { // remove in finale
-            console.log("Delaying for testing");
-            retrieve();
-        }, 1000);
+        // setTimeout(() => { // remove in finale
+        //     console.log("Delaying for testing");
+        retrieve();
+        // }, 500);
         setIsLoading(true);
         console.log("useEffect-ed")
     }, [])
@@ -56,7 +58,7 @@ const BookList = () => {
                     style={{ ...styles.searcher, width: "45vw" }}
                     id="standard-basic"
                     varient="standard"
-                    placeholder="Search books"
+                    placeholder="Search for more books available"
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
                 />
@@ -96,9 +98,9 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.slice(0, 5).map((item, key) => {
+                            })) : (title.slice(0, 4).map((item, key) => {
                                 return (
-                                    <div style={styles.bookList} key={key}>
+                                    <div style={{ ...styles.bookList, marginBottom: 10 }} key={key}>
                                         <Grid
                                             container spacing={0.5}
                                             onClick={() => {
