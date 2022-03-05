@@ -6,6 +6,8 @@ import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
 import TextInput from "../../../components/textInput";
 
+import authWrapper from "../../../components/auth_wrapper";
+
 function UserDetails() {
 
     const navigate = useNavigate();
@@ -20,16 +22,20 @@ function UserDetails() {
     // getting user info
     React.useEffect(() => {
         let p = new Promise(async (resolve) => {
-            let profile = await bookAPI.get('/protected/viewprofile');
-            let res = profile.data.data.user;
+            let res = authWrapper(bookAPI.get('/protected/viewprofile'));
             resolve(res);
-        })
+        });
 
         p.then((res) => {
-            setUser(res.username);
-            setEmail(res.email);
-            setPic(res.imageURL);
-        });
+            if (!res) {
+                return;
+            } else {
+                let profile = res.data.data.user;
+                setUser(profile.username);
+                setEmail(profile.email);
+                setPic(profile.imageURL);
+            }
+        })
     }, []);
 
     // logout, for auto-logout upon password change
@@ -61,7 +67,7 @@ function UserDetails() {
             setOldPwd('');
             setNewPwd('');
 
-            if (newMsg.indexOf('Password Updated') === -1){
+            if (newMsg.indexOf('Password Updated') === -1) {
                 setTimeout(() => setMsg(''), 5000);
             } else {
                 setTimeout(() => {
@@ -77,29 +83,32 @@ function UserDetails() {
         })
     }
 
-    return (
-        <div style={styles.containerAlt}>
-            <h1 style={styles.h1Font}>Welcome {user}!</h1>
-            <div style={styles.containerRow}>
-                <img src={pic} alt="profile" style={styles.profilePic} />
-                <form
-                    onSubmit={handleSubmit}
-                    style={styles.containerStart}
-                >
-                    <TextInput req={false} type="text" name="Email" value={email} setValue={setEmail} />
-                    <TextInput req={true} type="password" name="Old Password" value={oldPwd} setValue={setOldPwd} />
-                    <TextInput req={false} type="password" name="New Password" value={newPwd} setValue={setNewPwd} />
-                    <div style={styles.containerRow}>
-                        <MyButton name={"Save Profile"} />
-                        <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
-                        <MyButton type={"button"} name={"Admin"} handle={() => console.log("admin")} />
-                    </div>
-                    <p style={styles.textBold}>{msg}</p>
-                </form>
+    if (!user) {
+        return <></>
+    } else {
+        return (
+            <div style={styles.containerAlt}>
+                <h1 style={styles.h1Font}>Welcome {user}!</h1>
+                <div style={styles.containerRow}>
+                    <img src={pic} alt="profile" style={styles.profilePic} />
+                    <form
+                        onSubmit={handleSubmit}
+                        style={styles.containerStart}
+                    >
+                        <TextInput req={false} type="text" name="Email" value={email} setValue={setEmail} />
+                        <TextInput req={true} type="password" name="Old Password" value={oldPwd} setValue={setOldPwd} />
+                        <TextInput req={false} type="password" name="New Password" value={newPwd} setValue={setNewPwd} />
+                        <div style={styles.containerRow}>
+                            <MyButton name={"Save Profile"} />
+                            <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
+                            <MyButton type={"button"} name={"Admin"} handle={() => console.log("admin")} />
+                        </div>
+                        <p style={styles.textBold}>{msg}</p>
+                    </form>
+                </div>
             </div>
-        </div>
-
-    )
+        )
+    }
 }
 
 export default UserDetails;
