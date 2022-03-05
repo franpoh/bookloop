@@ -2,32 +2,33 @@ import React from "react";
 import bookAPI from "../../../API/book-api";
 
 import styles from "../../../styling/style-sheet";
+import { BookListing, BookDisplay } from "./book_listings";
 
 function Wishlist() {
+    const [uploaded, setUploaded] = React.useState(<li style={styles.textBold}>You have not uploaded anything yet!</li>)
 
-    // const [user, setUser] = React.useState('')
+    React.useEffect(() => {
+        let p = new Promise(async (resolve) => {
+            let list = await bookAPI.get('/protected/wishlist');
+            let res = list.data.data;
+            resolve(res);
+        })
 
-    // React.useEffect(() => {
-    //     let p = new Promise(async (resolve) => {
-    //         let profile = await bookAPI.get('/protected/viewprofile');
-    //         let res = profile.data.data;
-    //         resolve(res);
-    //     })
+        p.then((res) => {
+            if (!res || res.length === 0) {
+                return;
+            } else {
+                const swap = res.map((item, index) => {
+                    return <BookListing item={item} name="Availability" detail="availability" />;
+                });
 
-    //     p.then((res) => {
-    //         console.log("account.js", res)
-    //         setUser(res.username);
-    //         setEmail(res.email);
-    //         setPic(res.imageURL);
-    //     });
-    // }, [])
+                setUploaded(swap);
+            }
+        });
+    }, [])
 
     return (
-        <div style={styles.containerAlt}>
-            <h1 style={styles.h1Font}>Wishlist</h1>
-            <div></div>
-        </div>
-
+        <BookDisplay name={"Wishlist"} uploaded={uploaded} />
     )
 }
 
