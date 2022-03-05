@@ -23,17 +23,19 @@ const BookList = () => {
     }
 
     const retrieve = async () => {
-        console.log("Fetching items from API Swap Index....");
-        await bookAPI.get(`general/searchIndex`)
-            .then(res => {
-                console.log("recieves these..:", res.data.data);
-                setTitle(res.data.data);
-                setIsLoading(false);
-            })
-            .catch(err => {
-                console.log("You have an error: ", err);
-            })
-
+        console.log("Fetching items from API....");
+        try {
+            const data = await bookAPI.get(`general/searchIndex`)
+                .then(res => {
+                    console.log("Fetching items from API....", res)
+                    console.log("to read these..:", res.data.data);
+                    setTitle(res.data.data);
+                    setIsLoading(false);
+                })
+        }
+        catch (err) {
+            console.log("You have an error: ", err);
+        }
     }
 
     useEffect(() => {
@@ -72,7 +74,7 @@ const BookList = () => {
                             }
                         }).map((item, key) => {
                             return (
-                                <div style={styles.bookList} key={key}>
+                                <div style={{ borderBottom: "lightgrey 1px solid" }} key={key}>
                                     <Grid
                                         container spacing={0.5}
                                         onClick={() => {
