@@ -180,7 +180,7 @@ const styles = {
         // color: '#000000',
         backgroundColor: 'transparent',
         height: .5,
-        width: '80%',
+        width: '85%',
         borderColor : colours.baseGrey,
         marginLeft: '0vw',
     },
@@ -211,7 +211,7 @@ const styles = {
 
     listNoBullets: {
         listStyleType: "none"
-    }
+    },
 }
 
 export default styles;

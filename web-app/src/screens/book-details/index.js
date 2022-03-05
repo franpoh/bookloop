@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import bookAPI from '../../API/book-api';
 
 import MyButton from "../../components/button";
-import '../../styling/colours.js';
 import styles from '../../styling/style-sheet';
+import colours from '../../styling/colours.js';
 
 import removeBookfromWishList from './/remove-book-wishlist';
 import addBooktoWishList from './/add-book-wishlist';
-import colours from '../../styling/colours.js';
+import grabABook from './/grab-book';
 
 // icons?? images replacements? emojis?
 
@@ -33,7 +33,7 @@ function BookDetails() {
     useEffect(() => {
         retrieveBookDetails();
         retrieveUser();
-        retrieveSwap();
+        retrieveSwap();        
         // retrieveAll();
     }, []);
 
@@ -148,7 +148,6 @@ function BookDetails() {
         return;
     };
 
-    /////////
     function DisplaySwapInventory() {
 
         if (matchSwap.length === 0) {
@@ -164,8 +163,30 @@ function BookDetails() {
                 <div key={swapItem.swapId} style={{...styles.containerRowList, lineHeight:'1'}}>
                     <a title="Click to buy item" href="#" 
                     onClick={() => {
-                        alert(`Buy: ${swapItem.swapId} from ${swapItem.User.username}`);
-                        console.log('Buy: ', swapItem.swapId, swapItem.availability, swapItem.price, swapItem.User.username);
+                        if (!userToken) { // block if no token
+                            return;
+                        };
+                        if (user.points < swapItem.price) { // check for enough points
+                            alert('You do not have enough points');
+                            return;
+                        };
+                        // eslint-disable-next-line no-restricted-globals
+                        let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.swapId}`);
+
+                        if (!buyConfirm) {
+                            console.log('cnfirm: ',buyConfirm);
+                            return;
+                        };
+
+                        // start grab process
+                        let grabProcess = grabABook({
+                            swapId: swapItem.swapId,
+                        });
+
+
+                        
+                        // alert(`Buy: ${swapItem.swapId} from ${swapItem.User.username}`);
+                        // console.log('Buy: ', swapItem.swapId, swapItem.availability, swapItem.price, swapItem.User.username);
                         return;
                     }}
                     style={{
@@ -178,7 +199,7 @@ function BookDetails() {
                     >
                     
                         <div style={{ justifyContent:'space-between', display: 'flex' }}>
-                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>By user: {swapItem.User.username}</h3> 
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>(Serial {swapItem.swapId}) By user: {swapItem.User.username}</h3> 
                             <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.price}</h3> 
                         </div>
                         <div>
@@ -192,15 +213,7 @@ function BookDetails() {
                 </div>
             )
         });
-
-        // return (
-        //     <h2 style={{ ...styles.textNormal, fontWeight: 'normal' }}
-        //     >DisplaySwapInventory test</h2>
-        // )
     };
-
-    
-    // matchIndex.imageURL = null; // for testing when book has no imageURL
 
     return(
         <div style={styles.containerAlt}>
@@ -219,36 +232,29 @@ function BookDetails() {
 
             <div style={{ position: 'relative',top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{...styles.textNormal, fontSize: '1em'}}>Current available points: {(userToken) ? user.points : 'You are not logged in..' }</h3>
-                <div style={styles.containerRow}>
-                <MyButton name={currentBookWish?"Now in Wishlist" : "Add to Wishlist"}
-                    type={"button"}
-                    handle={
-                        () => wishButton()
-                    }
-                />
-                <MyButton name={"Upload Review"}
-                    type={"button"}
-                    handle={
-                        () => uploadReviewButton()
-                    }
-                />
+                <div style={{...styles.containerRow, width:'85%'}}>
+                    <MyButton name={currentBookWish?"Now in Wishlist" : "Add to Wishlist"}
+                        type={"button"}
+                        handle={
+                            () => wishButton()
+                        }
+                    />
+                    <MyButton name={"Upload Review"}
+                        type={"button"}
+                        handle={
+                            () => uploadReviewButton()
+                        }
+                    />
                 </div>
-                
             </div>
 
             <hr style={{...styles.divider, position: 'relative',top: '-3vh'}}/>
 
             <div style={{ position: 'relative',top: '-6vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{...styles.textBold, fontSize: '1em'}}>Inventory available: {matchSwap.length}</h3>
-                <DisplaySwapInventory />
+                <DisplaySwapInventory />                
             </div>
-            
-            {/* div style to check swap.length to show display as none or inline */}
-            
-
-
         </div>
-        
     )
 };
 
