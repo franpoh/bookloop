@@ -64,9 +64,9 @@ function BookDetails() {
             const result = await bookAPI.get(`/general/detail?bookID=${indexId}`);
 
             console.log(result.data);
-            console.log(result.data.data.title);
+            console.log(result.data.data[0].title);
 
-            updateMatchIndex(result.data.data);
+            updateMatchIndex(result.data.data[0]);
         } catch (error) {
             console.log('Book Detail error: ', error);
         };
@@ -248,7 +248,7 @@ function BookDetails() {
                 <div style={{ marginLeft: 15 }}>
                     {<h1 style={{...styles.textBold, fontSize: '1em' }}>Author: {matchIndex.author}</h1>}
                     {<h1 style={{...styles.textBold, fontSize: '1em' }}>Year: {(matchIndex.year)?matchIndex.year:'-'}</h1>}
-                    {<h1 style={{...styles.textBold, fontSize: '1em' }}>Genre: {(matchIndex.genreId)?matchIndex.genreId:'-'}</h1>}
+                    {<h1 style={{...styles.textBold, fontSize: '1em' }}>Genre: {(matchIndex.genreId)?matchIndex.Genre.genre:'-'}</h1>}
                 </div>
             </div>
             <hr style={styles.divider}/>
