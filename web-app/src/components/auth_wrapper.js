@@ -6,12 +6,10 @@ const authWrapper = (apiCall) => {
         return res;
     }).catch((err) => {
         callAlertOnce("You are not logged in! Redirecting...");
-        setTimeout(() => {
-            return history.push("/access");
-            // Push a new entry onto the history stack.
-            // part of history library
-            // https://github.com/remix-run/history/blob/3e9dab413f4eda8d6bce565388c5ddb7aeff9f7e/docs/navigation.md
-        }, 2000);
+        return history.push("/access");
+        // Push a new entry onto the history stack.
+        // part of history library
+        // https://github.com/remix-run/history/blob/3e9dab413f4eda8d6bce565388c5ddb7aeff9f7e/docs/navigation.md
     })
 }
 
