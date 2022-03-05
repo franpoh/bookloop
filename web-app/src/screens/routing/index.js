@@ -8,6 +8,7 @@ import Admin from "../admin";
 import BookDetails from "../book-details";
 import BookList from "../book-list";
 import UploadBook from "../upload-book";
+import Wishlist from '../../screens/account/components/wishlist'; // need to chamge
 
 import styles from "../../styling/style-sheet";
 import { history } from "../../components/history";

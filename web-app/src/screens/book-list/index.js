@@ -33,7 +33,6 @@ const BookList = () => {
             .catch(err => {
                 console.log("You have an error: ", err);
             })
-
     }
 
     useEffect(() => {
