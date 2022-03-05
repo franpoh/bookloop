@@ -50,10 +50,10 @@ function BookDetails() {
         let xx;        
         for (xx = 0; xx < userWishlist.length; xx++) {
             if (userWishlist[xx] === indexId) {
-            console.log('book is already in wishlist');
+            // console.log('book is already in wishlist');
             updateCurrentBookWish(true);
             } else {
-                console.log('book is NOT in wishlist', indexId, userWishlist[xx]);
+                // console.log('book is NOT in wishlist', indexId, userWishlist[xx]);
             };
         };
     }, [userWishlist]);
@@ -84,6 +84,7 @@ function BookDetails() {
         } catch (error) {
             console.log('User info error', error);
         }
+        return;
     };
 
     // try catch for related swap data
@@ -98,6 +99,7 @@ function BookDetails() {
         } catch(error) {
             console.log('retr Swap by Index error', error);
         };
+        return;
     };
 
 
@@ -105,7 +107,7 @@ function BookDetails() {
     // G1 test
     async function retrieveAll() {
         try {
-            const result = await bookAPI.get('/protected/getusers');
+            const result = await bookAPI.get('/protected/getusers?swapId=33');
 
             console.log('All user: ', result.data.data);
 
@@ -157,12 +159,12 @@ function BookDetails() {
         };
 
         return matchSwap.map((swapItem, index) => {
-            console.log(swapItem, index);
+            // console.log(swapItem, index);
             return (
                 // <div style={styles.containerRowList}>
                 <div key={swapItem.swapId} style={{...styles.containerRowList, lineHeight:'1'}}>
                     <a title="Click to buy item" href="#" 
-                    onClick={() => {
+                    onClick={async () => {
                         if (!userToken) { // block if no token
                             return;
                         };
@@ -174,19 +176,40 @@ function BookDetails() {
                         let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.swapId}`);
 
                         if (!buyConfirm) {
-                            console.log('cnfirm: ',buyConfirm);
+                            console.log('confirm: ', buyConfirm);
                             return;
                         };
 
                         // start grab process
-                        let grabProcess = grabABook({
+                        let grabProcess = await grabABook({
                             swapId: swapItem.swapId,
                         });
 
+                        console.log('this should only trigger after grab component finish', grabProcess.status);
 
-                        
-                        // alert(`Buy: ${swapItem.swapId} from ${swapItem.User.username}`);
-                        // console.log('Buy: ', swapItem.swapId, swapItem.availability, swapItem.price, swapItem.User.username);
+                        if (grabProcess.status === 'Grab Fail' || grabProcess.status === 'Unknown Error') { // failed transaction
+                            console.log('Grab error:', grabProcess.status);
+                            return;
+                        };
+
+                        if (grabProcess.status === 'Grab Done') { // transaction complete
+                            
+                            retrieveSwap(); // trigger fresh pull from swap for index book
+                            retrieveUser(); // same for user points
+
+                            // trigger remove index from user wishlist if valid
+                            console.log('index vs wishlist: ', userWishlist.includes(indexId));
+                            if (userWishlist.includes(indexId)) {
+                                console.log('also removing from wishlist');
+                                const updateWishlist = removeBookfromWishList({
+                                    indexId: indexId,
+                                    userWishlist: userWishlist
+                                  });
+                                updateUserWishlist(updateWishlist);
+                                updateCurrentBookWish(false);
+                            };
+                            return;
+                        };
                         return;
                     }}
                     style={{
@@ -252,7 +275,7 @@ function BookDetails() {
 
             <div style={{ position: 'relative',top: '-6vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{...styles.textBold, fontSize: '1em'}}>Inventory available: {matchSwap.length}</h3>
-                <DisplaySwapInventory />                
+                {matchSwap.length > 0 ? <DisplaySwapInventory /> : <div></div>}
             </div>
         </div>
     )
