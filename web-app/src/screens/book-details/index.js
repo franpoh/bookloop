@@ -1,12 +1,17 @@
+// libraries
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+// internal global components
 import bookAPI from '../../API/book-api';
+// import authWrapper from "../../components/auth_wrapper";
 
+// styling
 import MyButton from "../../components/button";
 import styles from '../../styling/style-sheet';
 import colours from '../../styling/colours.js';
 
+// folder sub-components
 import removeBookfromWishList from './/remove-book-wishlist';
 import addBooktoWishList from './/add-book-wishlist';
 import grabABook from './/grab-book';
