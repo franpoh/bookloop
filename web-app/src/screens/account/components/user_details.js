@@ -22,6 +22,7 @@ function UserDetails() {
         let p = new Promise(async (resolve) => {
             let profile = await bookAPI.get('/protected/viewprofile');
             let res = profile.data.data.user;
+            console.log("view profile", res.userId);
             resolve(res);
         })
 
@@ -61,7 +62,7 @@ function UserDetails() {
             setOldPwd('');
             setNewPwd('');
 
-            if (newMsg.indexOf('Password Updated') === -1){
+            if (newMsg.indexOf('Password Updated') === -1) {
                 setTimeout(() => setMsg(''), 5000);
             } else {
                 setTimeout(() => {

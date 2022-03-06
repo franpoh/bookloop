@@ -98,7 +98,7 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.slice(0, 4).map((item, key) => {
+                            })) : (title.map((item, key) => {
                                 return (
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={key}>
                                         <Grid

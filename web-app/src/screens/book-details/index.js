@@ -11,7 +11,7 @@ import colours from '../../styling/colours.js';
 import removeBookfromWishList from './/remove-book-wishlist';
 import addBooktoWishList from './/add-book-wishlist';
 import grabABook from './/grab-book';
-import { ListReviews, ReviewInput, AddReviewButton } from "./add-review";
+import { ListReviews, ReviewInputDialog, AddReviewButton } from "./add-review";
 
 // icons?? images replacements? emojis?
 
@@ -31,6 +31,7 @@ function BookDetails() {
     const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
     const [matchSwap, updateMatchSwap] = useState([]);
     const [reviews, setReviews] = useState('');
+    const [show, setShow] = useState(false);
 
     // trigger on "component mount"
     useEffect(() => {
@@ -162,11 +163,13 @@ function BookDetails() {
         }
     }
 
+    // const handleClick = () => {
+    //     setShow(!show);
+    //   };
+
     function uploadReviewButton() {
-
         console.log("uploadReviewButton");
-
-        return;
+        setShow(!show);
     };
 
     function DisplaySwapInventory() {
@@ -259,6 +262,7 @@ function BookDetails() {
 
     return (
         <div style={styles.containerAlt}>
+
             <h1 style={styles.h1Font}>{matchIndex.title}</h1>
             <div style={styles.displayRow}>
                 <div style={styles.displayCard}>
@@ -281,7 +285,7 @@ function BookDetails() {
                             () => wishButton()
                         }
                     />
-                    <MyButton name={"Upload Review"}
+                    <MyButton name={show ? "Input your Review" : "Upload Review"}
                         type={"button"}
                         handle={
                             () => uploadReviewButton()
@@ -289,6 +293,7 @@ function BookDetails() {
                     />
                 </div>
             </div>
+            <ReviewInputDialog data={show} />
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
@@ -297,7 +302,9 @@ function BookDetails() {
                 {matchSwap.length > 0 ? <DisplaySwapInventory /> : <div></div>}
             </div>
 
-            <div>
+            <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
+
+            <div style={{ position: 'relative', top: '-6vh' }}>
                 {/* test the book On Writing for multiple reviews, a few books has error but not from this component  */}
                 <ListReviews data={reviews} />
                 {/* {reviews} this gets just one entry */}
