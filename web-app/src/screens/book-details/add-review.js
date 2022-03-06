@@ -6,6 +6,7 @@ import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
 import { Portal, TextField, Box } from '@mui/material';
 import MyButton from "../../components/button";
+import authWrapper from "../../components/auth_wrapper"
 
 
 const ListReviews = ({ data }) => {
@@ -34,14 +35,16 @@ const ReviewInputDialog = ({ data, user, index }) => {
     const [submit, setSubmit] = useState();
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
+    const getindex = index.indexId;
+    const getuser = user.userId;
 
-    const addReview = async () => {
+    const addReview = async () => { //  no props ............. move to another file?
         console.log("Fetching items from API....");
         try {
-            const addRev = await bookAPI.post(`/protected/${index.indexId}/addReview`, {
-                userId: user.userId,
+            const addRev = await authWrapper(bookAPI.post(`/protected/6/addReview`, {
+                userId: 5,
                 rev: { reviewInput }
-            });
+            }));
             return addRev.data.data.review;
         } catch (err) {
             console.log("You have an error: ", err);
@@ -51,12 +54,12 @@ const ReviewInputDialog = ({ data, user, index }) => {
     };
 
     useEffect(() => {
-        addReview();
+        // addReview();
         // setIsLoading(true); // for user perception
     }, [])
 
     const handleSubmit = () => {
-        setreviewInput(reviewInput)
+        addReview();
     }
 
     const inputHandler = (event) => {
@@ -72,7 +75,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
                         id="standard-basic"
                         label="Add your review here"
                         variant="filled"
-                        multiline="true"
+                        multiline
                         minRows="3"
                         fullWidth
                         value={reviewInput}

@@ -32,7 +32,7 @@ function BookDetails() {
     const [matchSwap, updateMatchSwap] = useState([]);
     const [reviews, setReviews] = useState('');
     const [show, setShow] = useState(false);
-    const [userId, setUserId] = useState();
+    const [userId, setUserId] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
@@ -279,6 +279,7 @@ function BookDetails() {
 
             <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
+                <h3 style={{ ...styles.textNormal, fontSize: '1em' }}> [Testing] User: {(userToken) ? userId : 'You are not logged in..'}</h3>
                 <div style={{ ...styles.containerRow, width: '85%' }}>
                     <MyButton name={currentBookWish ? "Now in Wishlist" : "Add to Wishlist"}
                         type={"button"}
