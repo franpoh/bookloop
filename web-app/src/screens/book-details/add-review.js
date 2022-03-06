@@ -38,7 +38,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
     const addReview = async () => {
         console.log("Fetching items from API....");
         try {
-            const addRev = await bookAPI.post(`/protected/${data.indexId}/addReview`, {
+            const addRev = await bookAPI.post(`/protected/${index.indexId}/addReview`, {
                 userId: user.userId,
                 rev: { reviewInput }
             });
@@ -59,9 +59,9 @@ const ReviewInputDialog = ({ data, user, index }) => {
         setreviewInput(reviewInput)
     }
 
-    // const inputHandler = (event) => {
-    //     setreviewInput(event.target.value);
-    // }
+    const inputHandler = (event) => {
+        setreviewInput(event.target.value);
+    }
 
 
     return (
@@ -76,6 +76,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
                         minRows="3"
                         fullWidth
                         value={reviewInput}
+                        onChange={inputHandler.bind(this)}
                     />
                     <MyButton
                         name="Submit"

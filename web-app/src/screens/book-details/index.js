@@ -32,6 +32,7 @@ function BookDetails() {
     const [matchSwap, updateMatchSwap] = useState([]);
     const [reviews, setReviews] = useState('');
     const [show, setShow] = useState(false);
+    const [userId, setUserId] = useState();
 
     // trigger on "component mount"
     useEffect(() => {
@@ -85,7 +86,7 @@ function BookDetails() {
             console.log('user: ', result.data.data);
             if (result.data.data.user.wishlist === null) { result.data.data.user.wishlist = [] };
             setUser(result.data.data.user); // Comment this out to test no login
-
+            setUserId(result.data.data.user.userId);
         } catch (error) {
             console.log('User info error', error);
         }
@@ -293,7 +294,7 @@ function BookDetails() {
                     />
                 </div>
             </div>
-            <ReviewInputDialog data={show} />
+            <ReviewInputDialog data={show} user={userId} index={indexId} />
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
