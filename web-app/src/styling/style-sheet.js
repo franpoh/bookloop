@@ -153,9 +153,9 @@ const styles = {
     },
 
     // g1
-    displayArea: {        
-        marginLeft: '3vw',        
-        width: "50vw",        
+    displayArea: {
+        marginLeft: '3vw',
+        width: "50vw",
         borderWidth: 1,
     },
 
@@ -167,8 +167,8 @@ const styles = {
         // width: '10%',
         paddingLeft: '2vw',
         paddingRight: '2vw',
-        display: 'block',        
-        /* color: black; */    
+        display: 'block',
+        /* color: black; */
         alignItems: 'flex-start',
         textAlign: 'start',
         // borderWidth: 'thin',
@@ -181,7 +181,7 @@ const styles = {
         backgroundColor: 'transparent',
         height: .5,
         width: '85%',
-        borderColor : colours.baseGrey,
+        borderColor: colours.baseGrey,
         marginLeft: '0vw',
     },
 
@@ -214,9 +214,8 @@ const styles = {
     },
 
     bookList: {
-        backgroundColor: colours.secondaryLight,
-        margin: 6,
-        borderRadius: 10
+        borderBottom: "lightgrey 1px solid",
+        paddingLeft: 11
     },
 }
 
