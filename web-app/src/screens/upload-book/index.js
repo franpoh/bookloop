@@ -7,48 +7,48 @@ import MyUploads from "./myUploads";
 import UploadNewBook from "./uploadNewBook";
 import MyButton from "../../components/button";
 import TextInput from "../../components/textInput";
-import FreeSoloCreateOption from "../../components/autocompletebutton";
+import {TextField, Autocomplete} from "@mui/material";
 
 // what functions do i need?
 // 1. handle submit button
 // 2. handle input > when they type, show suggestion (according to title of book) based on our list of index
-// 3. handle if index exists, handle if index doesn't exist.
-
+// 3. handle if index exists, handle if index doesn't exist (frontend?) maybe a popup to confirm add new book?
 // backend > if not logged in > route to login
 
 function UploadBook() {
     const [user, setUser] = useState('');
     const [userToken, setUserToken] = useState(false)
-    // const [display, setDisplay] = React.useState(<MyUploads/>);
-    // const [display, setDisplay] = React.useState(<UploadNewBook/>);
-    // const [buttonText, setButtonText] = React.useState("Upload a New Book");
     const [bookTitle, setBookTitle] = React.useState('Test Book Frontend Backend');
     const [bookAuthor, setBookAuthor] = React.useState('Test Book Author');
-    const [bookGenreId, setBookGenreId] = React.useState('3');
+    const [bookGenreId, setBookGenreId] = React.useState('');
+    const [bookGenre, setBookGenre] = useState('');
     const [bookYear, setBookYear] = React.useState('2009');
     const [bookComments, setBookComments] = React.useState('test comments 4th march');
     const [msg, setMsg] = React.useState('');
-    const [value, setValue] = useState(null);
     const [library, setLibrary] = useState([])
+    const [genreList, setGenreList] = useState([])
+    const [value, setValue] = useState(genreList[0]);
+    const [inputValue, setInputValue] = useState('');
 
 //trigger on component mount
     useEffect(() => {
-        retrieveUser();
-        retrieveIndex();
+        retrieveUser();                 //user id
+        retrieveIndex();                //author and book title
+        retrieveGenreList();            //genre list
     }, []);
 
 //trigger on user update
     useEffect(() => {
-        if (user !== '') {
+        if (user.username !== '') {
             setUserToken(true);
-            console.log("User is logged in:", userToken);
         };
-    }, [user]);
+    });
 
     async function retrieveUser() {
         try {
             const result = await bookAPI.get('/protected/viewprofile');
-            console.log('user: ', result.data.data);
+            console.log('user: ', result.data.data.user.username);
+            console.log('userId: ', result.data.data.user.userId);
             setUser(result.data.data.user);
         } catch (err) {
             console.log('User Info Error', err);
@@ -58,13 +58,22 @@ function UploadBook() {
     async function retrieveIndex() {
         try{
             const result = await bookAPI.get(`general/searchIndex`);
-            console.log('retrieve Index Type:', typeof result.data.data);
-            console.log('Retrieve Index: ', result.data.data);
+            console.log('Retrieve Index Success', result.data.data);
             setLibrary(result.data.data)
         } catch (err) {
-            console.log('Index Retrieval Error:', err);
+            console.log('Index Retrieval Error: ', err);
         }
     };
+
+    async function retrieveGenreList() {
+        try{
+            const result = await bookAPI.get(`general/genres`);
+            console.log('Retrieve Genre Success ', result.data.data);
+            setGenreList(result.data.data)
+        } catch (err) {
+            console.log('Genre List Retrieval Error: ', err);
+        }
+    }
 
     function uploadButton() {
         if (userToken===false){
@@ -76,21 +85,11 @@ function UploadBook() {
         }
     }
 
-    // function handleDisplay() {
-    //     if (buttonText ==="Upload a New Book") {
-    //         setDisplay(<UploadNewBook/>);
-    //         setButtonText("Back to My Uploads");
-    //     } else if (buttonText ==="Back to My Uploads") {
-    //         setDisplay(<MyUploads/>);
-    //         setButtonText("Upload a New Book");
-    //     }
-    // }
-
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         await bookAPI.post("protected/uploadbook", {
-            userid: user.user.userId,
+            userid: user.userId,
             booktitle: bookTitle,
             bookauthor: bookAuthor,
             bookgenre: bookGenreId,
@@ -106,12 +105,11 @@ function UploadBook() {
         })
     }
 
-// land on screen, show list of 
 return (
     <div>
         <h1 style={styles.h1Font}>Upload Book</h1>
 
-        <p style={styles.textNormal}>Hi What book would you like to upload today?</p>
+        <p style={styles.textNormal}>What book would you like to upload today?</p>
 
         <div style = {{ ...styles.container}} >
            
@@ -119,39 +117,27 @@ return (
                 
                 <label for='booktitle'> Book Title: </label>
                 <TextInput type='text' req={true} name='booktitle' value={bookTitle} setValue={setBookTitle}/>
-                {/* <FreeSoloCreateOption 
-                    value={bookTitle} 
-                    setValue={setBookTitle}
-                    onChange={(event, newValue) => {
-                        if (typeof newValue === 'string') {
-                          setValue({
-                            title: newValue,
-                          });
-                        } else if (newValue && newValue.inputValue) {
-                          // Create a new value from the user input
-                          setValue({
-                            title: newValue.inputValue,
-                          });
-                        } else {
-                          setValue(newValue);
-                        }
-                    }}/> */}
+
                 <label for='bookauthor'> Author: </label>
                 <TextInput req={true} type="text" name ="bookauthor" value={bookAuthor} setValue={setBookAuthor}/>
 
-                <label for='bookgenre'> Genre: </label>
-                <select name='bookgenre' id='bookgenre'>
-                    <option value="1">Fantasy</option>
-                    <option value="2">Historical Fiction</option>
-                    <option value="3">Horror</option>
-                    <option value="4">Action</option>
-                    <option value="5">Mystery</option>
-                    <option value="6">Sci-fi</option>
-                    <option value="7">Romance</option>
-                    <option value="8">Thriller</option>
-                    <option value="9">Dystopian</option>
-                    <option value="10">Non-Fiction</option>
-                </select>
+                <Autocomplete
+                    value={bookGenre}
+                    onChange={(event, newValue) => {
+                        setBookGenre(newValue);
+                        console.log(bookGenre);
+                    }} 
+                    inputValue={bookGenre}
+                    onInputChange={(event, newInputValue) => {
+                        setBookGenre(newInputValue)
+                        console.log(bookGenre);
+                    }}
+                    id="combo-box-demo"
+                    options={genreList}
+                    getOptionLabel={(option) => option.genre}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Genre" />}
+                />
 
                 <label for='bookyear'> Year of Publishing: </label>
                 <TextInput req={true} type="text" name ="bookyear" value={bookYear} setValue={setBookYear}/>
