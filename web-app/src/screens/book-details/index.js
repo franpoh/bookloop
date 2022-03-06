@@ -222,7 +222,7 @@ function BookDetails() {
                     >
                     
                         <div style={{ justifyContent:'space-between', display: 'flex' }}>
-                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>(Serial {swapItem.swapId}) By user: {swapItem.User.username}</h3> 
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>(Serial {swapItem.swapId}) By user: {swapItem.username}</h3> 
                             <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.price}</h3> 
                         </div>
                         <div>
