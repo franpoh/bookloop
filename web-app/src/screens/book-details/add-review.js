@@ -35,15 +35,15 @@ const ReviewInputDialog = ({ data, user, index }) => {
     const [submit, setSubmit] = useState();
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
-    const getindex = index.indexId;
-    const getuser = user.userId;
+    const getindex = index;
+    const getuser = user;
 
     const addReview = async () => { //  no props ............. move to another file?
         console.log("Fetching items from API....");
         try {
-            const addRev = await authWrapper(bookAPI.post(`/protected/6/addReview`, {
-                userId: 5,
-                rev: { reviewInput }
+            const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
+                userId: getuser,
+                rev: reviewInput
             }));
             return addRev.data.data.review;
         } catch (err) {
@@ -54,7 +54,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
     };
 
     useEffect(() => {
-        // addReview();
+        addReview();
         // setIsLoading(true); // for user perception
     }, [])
 

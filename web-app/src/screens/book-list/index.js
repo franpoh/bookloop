@@ -25,12 +25,12 @@ const BookList = () => {
     }
 
     const retrieve = async () => {
-        console.log("Fetching items from API....");
+        // console.log("Fetching items from API....");
         try {
             await bookAPI.get(`general/searchIndex`)
                 .then(res => {
-                    console.log("Fetching items from API....", res)
-                    console.log("to read these..:", res.data.data);
+                    // console.log("Fetching items from API....", res)
+                    // console.log("to read these..:", res.data.data);
                     setTitle(res.data.data);
                 });
         } catch (err) {
@@ -39,7 +39,7 @@ const BookList = () => {
             setIsLoading(false);
         }
     };
-
+    console.log("this is render")
     useEffect(() => {
         // setTimeout(() => { // remove in finale
         //     console.log("Delaying for testing");
@@ -74,7 +74,7 @@ const BookList = () => {
                                 if (searchInput === " ") {
 
                                 } else if (val.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    console.log("val returns:", val)
+                                    // console.log("val returns:", val)
                                     return val;
                                 }
                             }).map((item, key) => {
