@@ -34,9 +34,9 @@ function BookDetails() {
     const [userWishlist, updateUserWishlist] = useState([]);
     const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
     const [matchSwap, updateMatchSwap] = useState([]);
-    const [reviews, setReviews] = useState('');
+    const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
-    const [userId, setUserId] = useState([]);
+    // const [userId, setUserId] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
@@ -90,7 +90,7 @@ function BookDetails() {
             console.log('user: ', result.data.data);
             if (result.data.data.user.wishlist === null) { result.data.data.user.wishlist = [] };
             setUser(result.data.data.user); // Comment this out to test no login
-            setUserId(result.data.data.user.userId);
+            // setUserId(result.data.data.user.userId);
         } catch (error) {
             console.log('User info error', error);
         }
@@ -100,12 +100,18 @@ function BookDetails() {
     // try catch for related swap data
     async function retrieveSwap() {
         try {
-            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);
+            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);            
 
-            console.log(result.data);
-            console.log('retr Swap by Index: ', result.data.data);
-
-            updateMatchSwap(result.data.data);
+            if (result.data.data.length ===0) {
+                updateMatchSwap([]);
+                console.log('retr Swap by Index is ZERO');
+                return;
+            } else {
+                console.log('retr Swap by Index: ', result.data.data);
+                updateMatchSwap(result.data.data);
+                return;
+            };
+            
         } catch (error) {
             console.log('retr Swap by Index error', error);
         };
@@ -156,24 +162,48 @@ function BookDetails() {
     async function retrieveReview() {
         try {
             const result = await bookAPI.get(`/general/reviews?indexId=${indexId}`);
-            console.log("Reviews in details screen", result.data.data);
+            
+            if (result.data.data.length === 0) {
+                setReviews([]);
+                console.log('retr reviews by Index is ZERO');
+                return;
+            } else {
+                console.log('retr reviews by Index: ', result.data.data);
+                setReviews(result.data.data);
+                return;
+            };
+            
+        } catch (error) {
+            console.log('retr reviews by Index error', error);
+        };
+        return;
+    };
+
+            ///////////////////////////////////
             // this gets just one entry
             // for (let i = 0; i < result.data.data.length; i++) {
             //     console.log("by looping: ", result.data.data[i].review);
             //     setReviews(result.data.data[i].review);
             // }
-            setReviews(result.data.data);
-        } catch (error) {
-            console.log("Review info error", error);
-        }
-    }
 
     // const handleClick = () => {
     //     setShow(!show);
     //   };
 
-    function uploadReviewButton() {
+    function uploadReviewButton( data ) {
         console.log("uploadReviewButton");
+        if (userToken === false) { // halt process if not logined
+            return;
+        };
+
+        if ( data !== undefined ) {
+            if ( data.status ) {
+            console.log('triggering refresh of all reviews');
+            data.status = false; // reset status of addreview component
+            retrieveReview();
+            };
+        };
+        
         setShow(!show);
     };
 
@@ -283,7 +313,7 @@ function BookDetails() {
 
             <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
-                <h3 style={{ ...styles.textNormal, fontSize: '1em' }}> [Testing] User: {(userToken) ? userId : 'You are not logged in..'}</h3>
+                {/* <h3 style={{ ...styles.textNormal, fontSize: '1em' }}> [Testing] User: {(userToken) ? userId : 'You are not logged in..'}</h3> */}
                 <div style={{ ...styles.containerRow, width: '85%' }}>
                     <MyButton name={currentBookWish ? "Now in Wishlist" : "Add to Wishlist"}
                         type={"button"}
@@ -299,7 +329,7 @@ function BookDetails() {
                     />
                 </div>
             </div>
-            <ReviewInputDialog data={show} user={userId} index={indexId} />
+            <ReviewInputDialog data={show} user={(userToken) ? user.userId : false } index={indexId} passToReviewButton={uploadReviewButton} />
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
