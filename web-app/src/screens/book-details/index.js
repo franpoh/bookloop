@@ -162,18 +162,18 @@ function BookDetails() {
             // console.log(swapItem, index);
             return (
                 // <div style={styles.containerRowList}>
-                <div key={swapItem.swapId} style={{...styles.containerRowList, lineHeight:'1'}}>
-                    <a title="Click to buy item" href="#" 
+                <div key={swapItem.data.swapId} style={{...styles.containerRowList, lineHeight:'1'}}>
+                    <a title="Click to buy item" /* href="#" */
                     onClick={async () => {
                         if (!userToken) { // block if no token
                             return;
                         };
-                        if (user.points < swapItem.price) { // check for enough points
+                        if (user.points < swapItem.data.price) { // check for enough points
                             alert('You do not have enough points');
                             return;
                         };
                         // eslint-disable-next-line no-restricted-globals
-                        let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.swapId}`);
+                        let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}`);
 
                         if (!buyConfirm) {
                             console.log('confirm: ', buyConfirm);
@@ -182,7 +182,7 @@ function BookDetails() {
 
                         // start grab process
                         let grabProcess = await grabABook({
-                            swapId: swapItem.swapId,
+                            swapId: swapItem.data.swapId,
                         });
 
                         console.log('this should only trigger after grab component finish', grabProcess.status);
@@ -222,13 +222,13 @@ function BookDetails() {
                     >
                     
                         <div style={{ justifyContent:'space-between', display: 'flex' }}>
-                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>(Serial {swapItem.swapId}) By user: {swapItem.User.username}</h3> 
-                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.price}</h3> 
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>(Serial {swapItem.data.swapId}) By user: {swapItem.username}</h3> 
+                            <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Cost: {swapItem.data.price}</h3> 
                         </div>
                         <div>
                             <h3 style={{...styles.textBold, fontSize:'0.7em', color: colours.baseDark}}>Condition:</h3>
-                            {(swapItem.comments !== null ) ? 
-                                <h3 style={{ ...styles.textBold, fontSize:'.7em'}}>{swapItem.comments}</h3> 
+                            {(swapItem.data.comments !== null ) ? 
+                                <h3 style={{ ...styles.textBold, fontSize:'.7em'}}>{swapItem.data.comments}</h3> 
                                 : 
                                 <h3 style={{ ...styles.textBold, fontSize:'.7em', color:'red'}}>USER DID NOT PROVIDE COMMMENT</h3>}
                         </div>                            
