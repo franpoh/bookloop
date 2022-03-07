@@ -34,3 +34,21 @@
   background-color: #4caf50;
   color: white;
 }
+
+.headerNav:link {
+  text-decoration: none;
+}
+
+.headerNav:visited {
+  text-decoration: none;
+}
+
+.headerNav:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.headerNav:active {
+  text-decoration: none;
+}
+
