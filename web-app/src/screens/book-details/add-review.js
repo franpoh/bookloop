@@ -13,7 +13,8 @@ const ListReviews = ({ data }) => {
     return (
         <>
             <h3 style={{ ...styles.textBold, fontSize: '1em' }}>Community Reviews</h3>
-            {data && data.map((item) => {
+            {(data.length === 0) ? <p><i>No reviews yet.</i></p> : <div></div>}
+            {(data.length > 0) && data.map((item) => {
                 return (
                     <div key={item.reviewId}>
                         <div>
@@ -28,24 +29,53 @@ const ListReviews = ({ data }) => {
     )
 }
 
-const ReviewInputDialog = ({ data, user, index }) => {
+const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
 
     const [submit, setSubmit] = useState();
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
-    const getindex = index;
-    const getuser = user;
+
+    useEffect(() => {
+        // addReview();
+        // setIsLoading(true); // for user perception
+    }, [])
+
+
+
+    console.log('review input params: ', props.data, props.user, props.index)
+
+    if (!props.user) { // this allows reuse of parent userId under user useState
+        return <div></div>;
+    };
+
+    // above console log at start would show false, no. of userId, no. of indexId, not keys
+    const getindex = props.index;
+    // const getuser = user;
 
     const addReview = async () => { //  no props ............. move to another file?
         console.log("Fetching items from API....");
         try {
-            const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
-                userId: getuser,
+            // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
+            //     // userId: getuser,
+            //     rev: { reviewInput }
+            // }));
+            console.log('right before submitting review: ', reviewInput);
+
+            const addRev = await bookAPI.post(`/protected/addReview`, {
+                indexId: getindex,
                 rev: reviewInput
-            }));
-            return addRev.data.data.review;
+            });
+            console.log('Results of AddReview: ', addRev.data);
+
+            // return addRev.data.data.review;
+
+            // after successful submission, clear text input, reset review button
+            setreviewInput("");
+            let status = true;
+            props.passToReviewButton({ status });
+
         } catch (err) {
             console.log("You have an error: ", err);
         } finally {
@@ -53,10 +83,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
         }
     };
 
-    useEffect(() => {
-        addReview();
-        // setIsLoading(true); // for user perception
-    }, [])
+
 
     const handleSubmit = () => {
         addReview();
@@ -69,7 +96,7 @@ const ReviewInputDialog = ({ data, user, index }) => {
 
     return (
         <>
-            <Box sx={{ width: "85%" }} ref={container}>{data ? (
+            <Box sx={{ width: "85%" }} ref={container}>{props.data ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"
