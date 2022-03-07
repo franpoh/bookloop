@@ -12,6 +12,7 @@ function Register() {
     const [pwd, setPwd] = React.useState('');
     const [msg, setMsg] = React.useState('');
 
+    // Submitting user details to register
     const handleSubmit = async (e) => {
         e.preventDefault();
 

@@ -15,6 +15,7 @@ function Login() {
     const [pwd, setPwd] = React.useState('fuckreapers');
     const [msg, setMsg] = React.useState('')
 
+    // Submitting user details to login
     const handleSubmit = async (e) => {
         e.preventDefault();
 
