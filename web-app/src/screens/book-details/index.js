@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 // internal global components
 import bookAPI from '../../API/book-api';
 // import authWrapper from "../../components/auth_wrapper";
+import DialogAlert from '../../components/dialog-alert';
+import DialogConfirm from '../../components/dialog-confirm';
 
 // styling
 import MyButton from "../../components/button";
@@ -36,6 +38,13 @@ function BookDetails() {
     const [matchSwap, updateMatchSwap] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
+    const [toggleAlert, setToggleAlert] = useState(false);
+    const [toggleConfirm, setToggleConfirm] = useState({
+        status: false,
+        swapId: null,
+        bodytext: ''
+    });
+    // const [userId, setUserId] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
@@ -202,6 +211,59 @@ function BookDetails() {
         setShow(!show);
     };
 
+    // control for Dialog-Alert
+    function handleAlertClose() {
+        setToggleAlert(false);
+    };
+
+    function handleConfirmCancel() {
+        setToggleConfirm({
+            status: false,
+            swapId: null
+        });
+    };
+
+    async function handleConfirmYes() {
+        let submittingSwapId = toggleConfirm.swapId;
+        setToggleConfirm({
+            status: false,
+            swapId: null,
+            bodytext: ''
+        });
+        console.log('REDDDDDDDDDDDDDDDDDDDD', submittingSwapId);
+
+        let grabProcess = await grabABook({
+            swapId: submittingSwapId,
+        });
+
+        console.log('this should only trigger after grab component finish', grabProcess.status);
+
+        if (grabProcess.status === 'Grab Fail' || grabProcess.status === 'Unknown Error') { // failed transaction
+            console.log('Grab error:', grabProcess.status);
+            return;
+        };
+
+        if (grabProcess.status === 'Grab Done') { // transaction complete
+
+            retrieveSwap(); // trigger fresh pull from swap for index book
+            retrieveUser(); // same for user points
+
+            // trigger remove index from user wishlist if valid
+            console.log('index vs wishlist: ', userWishlist.includes(indexId));
+            if (userWishlist.includes(indexId)) {
+                console.log('also removing from wishlist');
+                const updateWishlist = removeBookfromWishList({
+                    indexId: indexId,
+                    userWishlist: userWishlist
+                });
+                updateUserWishlist(updateWishlist);
+                updateCurrentBookWish(false);
+            };
+            return;
+        };
+        return;
+    };
+
     function DisplaySwapInventory() {
 
         if (matchSwap.length === 0) {
@@ -217,52 +279,28 @@ function BookDetails() {
                 <div key={swapItem.data.swapId} style={{ ...styles.containerRowList, lineHeight: '1' }}>
                     <a title="Click to buy item" /* href="#" */
                         onClick={async () => {
+
                             if (!userToken) { // block if no token
                                 return;
                             };
                             if (user.points < swapItem.data.price) { // check for enough points
-                                alert('You do not have enough points');
-                                return;
-                            };
-                            // eslint-disable-next-line no-restricted-globals
-                            let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}`);
-
-                            if (!buyConfirm) {
-                                console.log('confirm: ', buyConfirm);
+                                setToggleAlert(true);
                                 return;
                             };
 
-                            // start grab process
-                            let grabProcess = await grabABook({
+                            setToggleConfirm({ // trigger Confirmation box plus send data object
+                                status: true,
                                 swapId: swapItem.data.swapId,
+                                bodytext: `Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}?`
                             });
 
-                            console.log('this should only trigger after grab component finish', grabProcess.status);
-
-                            if (grabProcess.status === 'Grab Fail' || grabProcess.status === 'Unknown Error') { // failed transaction
-                                console.log('Grab error:', grabProcess.status);
-                                return;
-                            };
-
-                            if (grabProcess.status === 'Grab Done') { // transaction complete
-
-                                retrieveSwap(); // trigger fresh pull from swap for index book
-                                retrieveUser(); // same for user points
-
-                                // trigger remove index from user wishlist if valid
-                                console.log('index vs wishlist: ', userWishlist.includes(indexId));
-                                if (userWishlist.includes(indexId)) {
-                                    console.log('also removing from wishlist');
-                                    const updateWishlist = removeBookfromWishList({
-                                        indexId: indexId,
-                                        userWishlist: userWishlist
-                                    });
-                                    updateUserWishlist(updateWishlist);
-                                    updateCurrentBookWish(false);
-                                };
-                                return;
-                            };
                             return;
+
+                            // eslint-disable-next-line no-restricted-globals
+                            /*
+                            let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}`);
+                            */
+
                         }}
                         style={{
                             ...styles.textBox,
@@ -305,6 +343,22 @@ function BookDetails() {
                 </div>
             </div>
             <hr style={styles.divider} />
+
+            <DialogAlert
+                open={toggleAlert}
+                onClick={handleAlertClose}
+                bodytext='You do not have enough points'
+                buttonLabel='Ok'
+            />
+
+            <DialogConfirm
+                open={toggleConfirm.status}
+                bodytext={toggleConfirm.bodytext}
+                onClickA={handleConfirmCancel}
+                buttonLabelA='Cancel'
+                onClickB={handleConfirmYes}
+                buttonLabelB='Confirm'
+            />
 
             <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
