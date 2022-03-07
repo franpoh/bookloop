@@ -1,14 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import bookAPI from "../../../API/book-api";
-import { useNavigate } from "react-router-dom";
 
 import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
 import TextInput from "../../../components/textInput";
 
-function UserDetails() {
+// pass props 
 
-    const navigate = useNavigate();
+function UserDetails(props) {
+    let target = props.target;
 
     const [user, setUser] = React.useState('')
     const [email, setEmail] = React.useState('');
@@ -19,31 +20,21 @@ function UserDetails() {
 
     // getting user info
     React.useEffect(() => {
-        let p = new Promise(async (resolve) => {
-            let profile = await bookAPI.get('/protected/viewprofile');
-            let res = profile.data.data.user;
-            resolve(res);
+        let p = new Promise((resolve) => {
+            let response = target;
+            resolve(response);
         })
 
-        p.then((res) => {
-            setUser(res.username);
-            setEmail(res.email);
-            setPic(res.imageURL);
+        p.then((response) => {
+            if (!response) {
+                return;
+            } else {
+                setUser(response.username);
+                setEmail(response.email);
+                setPic(response.imageURL);
+            }
         });
-    }, []);
-
-    // logout, for auto-logout upon password change
-    const handleLogout = async () => {
-        await bookAPI.post("/protected/logout"
-        ).then((res) => {
-            alert(res.data.message);
-            setTimeout(() => {
-                return navigate('/access');
-            }, 2000);
-        }).catch((error) => {
-            alert(error.data.message);
-        })
-    }
+    }, [target]);
 
     // editing account info
     const handleSubmit = async (e) => {
@@ -56,24 +47,10 @@ function UserDetails() {
                 newPassword: newPwd,
             }
         ).then((response) => {
-            let newMsg = response.data.message;
-            setMsg(newMsg)
-            setOldPwd('');
-            setNewPwd('');
-
-            if (newMsg.indexOf('Password Updated') === -1){
-                setTimeout(() => setMsg(''), 5000);
-            } else {
-                setTimeout(() => {
-                    handleLogout();
-                }, 5000);
-            }
-
+            setMsg(response.data.message)
+            setTimeout(() => setMsg(''), 3000);
         }).catch((error) => {
             setMsg(error.response.data.message)
-            setOldPwd('');
-            setNewPwd('');
-            setTimeout(() => setMsg(''), 5000);
         })
     }
 
@@ -92,14 +69,14 @@ function UserDetails() {
                     <div style={styles.containerRow}>
                         <MyButton name={"Save Profile"} />
                         <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
-                        <MyButton type={"button"} name={"Admin"} handle={() => console.log("admin")} />
+                        <Link to="/admin"><MyButton name={"Admin"} /></Link>
                     </div>
                     <p style={styles.textBold}>{msg}</p>
                 </form>
             </div>
         </div>
-
     )
+
 }
 
 export default UserDetails;

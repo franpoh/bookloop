@@ -3,21 +3,30 @@ import colours from "./colours";
 const fontType = "sans-serif";
 
 const styles = {
+
+    // border: { // Guideline for main body styling
+    //     borderLeft: "1px solid black",
+    //     borderRight: "1px solid black",
+    // },
+
     topBar: {
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: "50px",
-        width: "100vw",
+        justifyContent: 'space-between',
+        paddingLeft: "1vw",
+        paddingRight: "1vw",
+        width: "97vw",
         height: "10vh",
         backgroundColor: colours.baseWhite,
         borderBottom: `1px solid ${colours.secondaryLight}`,
         marginBottom: "5vh",
     },
 
-    topBarTemp: { // Temp styling for top bar
+    topBarSpace: { 
         display: "flex",
         columnGap: "10px",
         textAlign: "center",
+        alignItems: 'center',
     },
 
     container: {
@@ -28,11 +37,6 @@ const styles = {
         height: "100vh",
         width: "50vw",
         rowGap: "20px",
-    },
-
-    border: { // Guideline for main body styling
-        borderLeft: "1px solid black",
-        borderRight: "1px solid black",
     },
 
     containerStart: {
@@ -75,11 +79,15 @@ const styles = {
         alignSelf: "center",
     },
 
+    justifyCentre: {
+        justifyContent: "center",
+    },
+
     headerFont: {
         fontFamily: fontType,
         fontWeight: 'bold',
         color: colours.primary,
-        fontSize: "50px"
+        fontSize: "50px",
     },
 
     h1Font: {
@@ -153,9 +161,9 @@ const styles = {
     },
 
     // g1
-    displayArea: {        
-        marginLeft: '3vw',        
-        width: "50vw",        
+    displayArea: {
+        marginLeft: '3vw',
+        width: "50vw",
         borderWidth: 1,
     },
 
@@ -167,8 +175,8 @@ const styles = {
         // width: '10%',
         paddingLeft: '2vw',
         paddingRight: '2vw',
-        display: 'block',        
-        /* color: black; */    
+        display: 'block',
+        /* color: black; */
         alignItems: 'flex-start',
         textAlign: 'start',
         // borderWidth: 'thin',
@@ -180,8 +188,8 @@ const styles = {
         // color: '#000000',
         backgroundColor: 'transparent',
         height: .5,
-        width: '80%',
-        borderColor : colours.baseGrey,
+        width: '85%',
+        borderColor: colours.baseGrey,
         marginLeft: '0vw',
     },
 
@@ -214,9 +222,8 @@ const styles = {
     },
 
     bookList: {
-        backgroundColor: colours.secondaryLight,
-        margin: 6,
-        borderRadius: 10
+        borderBottom: "lightgrey 1px solid",
+        paddingLeft: 11
     },
 }
 
