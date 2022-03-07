@@ -17,24 +17,26 @@ import AuthContext from "../../components/context";
 
 function RoutePages() {
     const [isLoading, setIsLoading] = React.useState(true);
-    const [userToken, setUserToken] = React.useState(null);
+    const [userToken, setUserToken] = React.useState(localStorage.getItem("userToken"));
 
+    // local storage is used, otherwise userToken is lost upon reloading page
     const authContext = {
         signIn: () => {
             setIsLoading(false);
-            setUserToken("mellon");
+            localStorage.setItem("userToken", "mellon");
+            setUserToken(localStorage.getItem("userToken"))
         },
         signOut: () => {
             setIsLoading(false);
-            setUserToken(null);
+            localStorage.setItem("userToken", null);
+            setUserToken(localStorage.getItem("userToken"))
         },
-        user: userToken,
     }
 
     React.useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 1000);
+        }, 1000);;
     }, [])
 
     if (isLoading) {
