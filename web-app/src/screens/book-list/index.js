@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import styles from "../../styling/style-sheet"
 import "../../styling/style.css"
 import colours from "../../styling/colours";
@@ -81,7 +82,7 @@ const BookList = () => {
                                 }
                             }).map((item, key) => {
                                 return (
-                                    <div style={styles.bookList} key={key}>
+                                    <div style={styles.bookList} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
                                             onClick={() => {
@@ -102,7 +103,7 @@ const BookList = () => {
                                 )
                             })) : (title.map((item, key) => {
                                 return (
-                                    <div style={{ ...styles.bookList, marginBottom: 10 }} key={key}>
+                                    <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
                                             onClick={() => {

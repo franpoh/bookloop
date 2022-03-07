@@ -1,16 +1,17 @@
 import React from "react";
 import { v4 as uuidv4 } from 'uuid';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import styles from "../../../styling/style-sheet";
 
 const BookListing = (props) => {
     const navigate = useNavigate();
-    let passIndex = 7; // test data
 
     const bookItem = props.item;
     const detailName = props.name;
     const detail = props.detail;
+
+    const passIndex = bookItem.Index.indexId;
 
     function navBook() {
         navigate(`/bookdetails/${passIndex}`);
