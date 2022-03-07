@@ -18,14 +18,12 @@ const ListReviews = ({ data }) => {
                 return (
                     <div key={item.reviewId}>
                         <div>
-
                             <p style={{ color: `${colours.baseDark}` }}><i><b>{item.User.username}</b> : {item.review}</i></p>
                         </div>
                     </div>
                 )
             })}
         </>
-
     )
 }
 
@@ -33,16 +31,12 @@ const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
 
-    const [submit, setSubmit] = useState();
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
 
     useEffect(() => {
-        // addReview();
         // setIsLoading(true); // for user perception
     }, [])
-
-
 
     console.log('review input params: ', props.data, props.user, props.index)
 
@@ -52,24 +46,21 @@ const ReviewInputDialog = (props) => {
 
     // above console log at start would show false, no. of userId, no. of indexId, not keys
     const getindex = props.index;
-    // const getuser = user;
 
-    const addReview = async () => { //  no props ............. move to another file?
+    const addReview = async () => {
         console.log("Fetching items from API....");
         try {
             // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
-            //     // userId: getuser,
-            //     rev: { reviewInput }
+            //     userId: getuser,
+            //     rev: reviewInput
             // }));
             console.log('right before submitting review: ', reviewInput);
 
-            const addRev = await bookAPI.post(`/protected/addReview`, {
+            const addRev = await authWrapper(bookAPI.post(`/protected/addReview`, {
                 indexId: getindex,
                 rev: reviewInput
-            });
+            }));
             console.log('Results of AddReview: ', addRev.data);
-
-            // return addRev.data.data.review;
 
             // after successful submission, clear text input, reset review button
             setreviewInput("");
@@ -121,27 +112,7 @@ const ReviewInputDialog = (props) => {
     )
 }
 
-const AddReviewButton = ({ data }) => {
-
-    return (
-        <>
-            {/* {data && data.map((item, key) => {
-                return (
-                    <div key={key}>
-                        <div>
-                            <p>{item.Index.title}</p>
-                            <img alt="covers" style={{ width: 100, height: 150 }} src={item.Index.imageURL} />
-                        </div>
-                    </div>
-                )
-            })} */}
-        </>
-
-    )
-}
-
 export {
     ListReviews,
-    ReviewInputDialog,
-    AddReviewButton
+    ReviewInputDialog
 };

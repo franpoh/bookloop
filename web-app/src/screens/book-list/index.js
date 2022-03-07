@@ -46,7 +46,7 @@ const BookList = () => {
         retrieve();
         // }, 500);
         setIsLoading(true);
-        console.log("useEffect-ed")
+        console.log("API called retrieve()")
     }, [])
 
     return (
