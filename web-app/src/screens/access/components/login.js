@@ -5,8 +5,10 @@ import bookAPI from "../../../API/book-api";
 import styles from "../../../styling/style-sheet";
 import TextInput from "../../../components/textInput";
 import MyButton from "../../../components/button";
+import AuthContext from "../../../components/context";
 
 function Login() {
+    const { signIn } = React.useContext(AuthContext);
     const navigate = useNavigate();
 
     const [email, setEmail] = React.useState('shepard@normandy.com');
@@ -24,6 +26,7 @@ function Login() {
         ).then((response) => {
             setMsg(response.data.message)
             setTimeout(() => {
+                signIn();
                 return navigate('/');
             }, 2000);
         }).catch((error) => {
