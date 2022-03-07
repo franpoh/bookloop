@@ -29,6 +29,7 @@ const ListReviews = ({ data }) => {
     )
 }
 
+// const ReviewInputDialog = (props) => {
 const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
@@ -55,14 +56,25 @@ const ReviewInputDialog = (props) => {
     // const getuser = user;
 
     const addReview = async () => { //  no props ............. move to another file?
+
+        // block if rev string is empty
+        if (reviewInput === '') {
+            console.log('empty string caught');
+            setreviewInput("");
+            let status = false; // so that Community reviews refresh is not triggered
+            props.passToReviewButton({status});
+            return;
+        };
+
         console.log("Fetching items from API....");
+        
         try {
             // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
             //     // userId: getuser,
             //     rev: { reviewInput }
             // }));
             console.log('right before submitting review: ', reviewInput );
-            
+
             const addRev = await bookAPI.post(`/protected/addReview`, {
                 indexId: getindex,
                 rev: reviewInput
