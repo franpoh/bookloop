@@ -1,54 +1,49 @@
 import React, { useState, useEffect } from "react";
-import {useParams} from 'react-router-dom';
 import bookAPI from "../../API/book-api";
 import styles from "../../styling/style-sheet";
-import Login from "../access/components/login";
-import MyUploads from "./myUploads";
-import UploadNewBook from "./uploadNewBook";
 import MyButton from "../../components/button";
 import TextInput from "../../components/textInput";
-import FreeSoloCreateOption from "../../components/autocompletebutton";
-
-// what functions do i need?
-// 1. handle submit button
-// 2. handle input > when they type, show suggestion (according to title of book) based on our list of index
-// 3. handle if index exists, handle if index doesn't exist.
-
-// backend > if not logged in > route to login
+import { useNavigate } from 'react-router-dom';
+// import {TextField, Autocomplete} from "@mui/material";
 
 function UploadBook() {
+    const navigate = useNavigate()
+//#region UseStates
     const [user, setUser] = useState('');
-    const [userToken, setUserToken] = useState(false)
-    // const [display, setDisplay] = React.useState(<MyUploads/>);
-    // const [display, setDisplay] = React.useState(<UploadNewBook/>);
-    // const [buttonText, setButtonText] = React.useState("Upload a New Book");
-    const [bookTitle, setBookTitle] = React.useState('Test Book Frontend Backend');
-    const [bookAuthor, setBookAuthor] = React.useState('Test Book Author');
-    const [bookGenreId, setBookGenreId] = React.useState('3');
-    const [bookYear, setBookYear] = React.useState('2009');
-    const [bookComments, setBookComments] = React.useState('test comments 4th march');
-    const [msg, setMsg] = React.useState('');
-    const [value, setValue] = useState(null);
-    const [library, setLibrary] = useState([])
+    const [userToken, setUserToken] = useState(false)     
+    const [bookTitle, setBookTitle] = useState('');                                      //usestate for title selection
+    const [bookAuthor, setBookAuthor] = useState('');                                    //useState for author selection
+    const [bookGenreId, setBookGenreId] = useState(1);                                   //useState for bookgenre selection
+    const [bookYear, setBookYear] = useState('2009');                                    //useState for year
+    const [bookComments, setBookComments] = useState('test comments 4th march');         //useState for comments
+    const [msg, setMsg] = useState('');                                                  //no clue
+    const [library, setLibrary] = useState([])                                           //retrieved index stored here
+    const [genreList, setGenreList] = useState([])                                       //retrieved genrelist stored here
+    // const [bookGenre, setBookGenre] = useState('');
+    // const [value, setValue] = useState(genreList[0]);
+    // const [inputValue, setInputValue] = useState('');
+//#endregion UseStates
 
-//trigger on component mount
+//#region useEffects for necessary params
     useEffect(() => {
-        retrieveUser();
-        retrieveIndex();
+        retrieveUser();                 //user id
+        retrieveIndex();                //index info stored in library to sort author & title
+        retrieveGenreList();            //genre list
     }, []);
 
-//trigger on user update
     useEffect(() => {
-        if (user !== '') {
+        if (user.username !== '') {
             setUserToken(true);
-            console.log("User is logged in:", userToken);
         };
     }, [user]);
+//#endregion useEffects for necessary params
 
+//#region async retrieve functions
     async function retrieveUser() {
         try {
             const result = await bookAPI.get('/protected/viewprofile');
-            console.log('user: ', result.data.data);
+            console.log('user: ', result.data.data.user.username);
+            console.log('userId: ', result.data.data.user.userId);
             setUser(result.data.data.user);
         } catch (err) {
             console.log('User Info Error', err);
@@ -56,16 +51,77 @@ function UploadBook() {
     };
 
     async function retrieveIndex() {
-        try{
+        try {
             const result = await bookAPI.get(`general/searchIndex`);
-            console.log('retrieve Index Type:', typeof result.data.data);
-            console.log('Retrieve Index: ', result.data.data);
+            console.log('Retrieve Index Success', result.data.data);
             setLibrary(result.data.data)
         } catch (err) {
-            console.log('Index Retrieval Error:', err);
+            console.log('Index Retrieval Error: ', err);
         }
     };
 
+    async function retrieveGenreList() {
+        try{
+            const result = await bookAPI.get(`general/genres`);
+            console.log('Retrieve Genre Success ', result.data.data);
+            setGenreList(result.data.data)
+        } catch (err) {
+            console.log('Genre List Retrieval Error: ', err);
+        }
+    }
+//#endregion async retrieve functions
+
+//#region handling genre
+    function DisplayOptionGenres() {                            //pretty sure this can be exported
+        return genreList.map((element, index) => {
+            return (
+                <option key={index} value={element.genreId}> {element.genre} </option>
+            )
+        });
+    }
+
+    function handleOption(e) {
+        e.preventDefault();
+        console.log("book genre - e.target.value", e.target.value);
+        setBookGenreId(e.target.value)
+    }
+//#endregion handling genre
+
+//#region handling author & title
+
+    function handleSelect(e) {
+        // console.log(e.target.firstChild.data);
+        setBookTitle(e.target.firstChild.data);
+    }
+
+    function handleAuthorSelect(e) {
+        setBookAuthor(e.target.firstChild.data);
+    }
+
+//#endregion handling author title
+
+//#region submit function
+    //actual submit function
+    const handleSubmit = async(e) => {
+
+        await bookAPI.post("protected/uploadbook", {
+            userid: user.userId,        //done
+            booktitle: bookTitle,       //done
+            bookauthor: bookAuthor,     //done
+            bookgenre: bookGenreId,     //done
+            bookyear: bookYear,         //done
+            usercomments: bookComments  //done
+        }).then((response) => {
+            setMsg(response.data.message)
+            setTimeout(() => {
+                return navigate('/account');
+            }, 2000);
+        }).catch((error) => {
+            setMsg(error.response.data.message)
+        })
+    }
+
+    //placeholder submit function
     function uploadButton() {
         if (userToken===false){
             return;
@@ -75,89 +131,85 @@ function UploadBook() {
             return
         }
     }
+//#endregion submit function
 
-    // function handleDisplay() {
-    //     if (buttonText ==="Upload a New Book") {
-    //         setDisplay(<UploadNewBook/>);
-    //         setButtonText("Back to My Uploads");
-    //     } else if (buttonText ==="Back to My Uploads") {
-    //         setDisplay(<MyUploads/>);
-    //         setButtonText("Upload a New Book");
-    //     }
-    // }
-
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-
-        await bookAPI.post("protected/uploadbook", {
-            userid: user.user.userId,
-            booktitle: bookTitle,
-            bookauthor: bookAuthor,
-            bookgenre: bookGenreId,
-            bookyear: bookYear,
-            usercomments: bookComments
-        }).then((response) => {
-            setMsg(response.data.message)
-            setTimeout(() => {
-                return window.location.reload();
-            }, 2000);
-        }).catch((error) => {
-            setMsg(error.response.data.message)
-        })
-    }
-
-// land on screen, show list of 
 return (
     <div>
+
         <h1 style={styles.h1Font}>Upload Book</h1>
+        <p style={styles.textNormal}>What book would you like to upload today?</p>
+        <div style={{ ...styles.container}} >
 
-        <p style={styles.textNormal}>Hi What book would you like to upload today?</p>
-
-        <div style = {{ ...styles.container}} >
-           
             <form onSubmit={handleSubmit} style={styles.containerStart}>
-                
-                <label for='booktitle'> Book Title: </label>
-                <TextInput type='text' req={true} name='booktitle' value={bookTitle} setValue={setBookTitle}/>
-                {/* <FreeSoloCreateOption 
-                    value={bookTitle} 
-                    setValue={setBookTitle}
-                    onChange={(event, newValue) => {
-                        if (typeof newValue === 'string') {
-                          setValue({
-                            title: newValue,
-                          });
-                        } else if (newValue && newValue.inputValue) {
-                          // Create a new value from the user input
-                          setValue({
-                            title: newValue.inputValue,
-                          });
-                        } else {
-                          setValue(newValue);
+
+                <label> Author: </label>
+                <TextInput type="text" name ="Name of the author" value={bookAuthor} setValue={setBookAuthor}/>
+
+                {bookAuthor ?
+                (library && library.filter(val => {
+                    if(bookAuthor===" ") {
+                        <></>
+                    } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
+                        return val;
+                    }
+                }).map((item) => {
+                    return(
+                        <div value={item.author} onClick={handleAuthorSelect}>
+                            {item.author}
+                        </div>
+                    )
+                })): (library.map((item) => {
+                    return (
+                        <></>
+                    )
+                }))
+                }
+
+                <label> Book Title: </label>
+                <TextInput
+                req={true}
+                type="text"
+                name="Title of the book"
+                value={bookTitle}
+                setValue={setBookTitle}
+                />
+
+                {bookTitle ? 
+                    (library && library.filter(val => {
+                        if (bookTitle === " ") {
+                            <></>
+                        } else if (val.title.toLowerCase().includes(bookTitle.toLowerCase())) {
+                            // console.log("val returns :", val);
+                            return val;
                         }
-                    }}/> */}
-                <label for='bookauthor'> Author: </label>
-                <TextInput req={true} type="text" name ="bookauthor" value={bookAuthor} setValue={setBookAuthor}/>
+                    }).map((item) => {
+                        // console.log("item: ", item);
+                        return (
+                            <div value={item.title} onClick={handleSelect} >
+                                {/* define styling for above div display block*/}
+                                {item.title}
+                            </div>
+                        )
+                    })) : (library.map((item, key) => {
+                        return (
+                            <></>
+                        )   
+                    }))
+                }
 
-                <label for='bookgenre'> Genre: </label>
-                <select name='bookgenre' id='bookgenre'>
-                    <option value="1">Fantasy</option>
-                    <option value="2">Historical Fiction</option>
-                    <option value="3">Horror</option>
-                    <option value="4">Action</option>
-                    <option value="5">Mystery</option>
-                    <option value="6">Sci-fi</option>
-                    <option value="7">Romance</option>
-                    <option value="8">Thriller</option>
-                    <option value="9">Dystopian</option>
-                    <option value="10">Non-Fiction</option>
-                </select>
+                <label htmlFor='bookgenre'> Genre: </label>
+                { genreList.length > 0 ? <select 
+                    value={bookGenreId}
+                    onChange={handleOption}
+                    name="bookgenre" 
+                    id="bookgenre"
+                > <DisplayOptionGenres/> </select> : <div></div> }
 
-                <label for='bookyear'> Year of Publishing: </label>
-                <TextInput req={true} type="text" name ="bookyear" value={bookYear} setValue={setBookYear}/>
+                <label htmlFor='bookyear'> Year of Publishing: </label>
+                <TextInput type="text" name ="bookyear" value={bookYear} setValue={setBookYear}/>
 
-                <label for='bookcomments'> Comments: </label>
-                <TextInput req={true} type="text" name ="bookcomments" value={bookComments} setValue={setBookComments}/>
+                <label htmlFor='bookcomments'> Comments: </label>
+                <TextInput type="text" name ="bookcomments" value={bookComments} setValue={setBookComments}/>
                         
                 {/*
                 Setting this aside temporarily
@@ -166,10 +218,11 @@ return (
                 <textarea>Occaecat nulla deserunt exercitation adipisicing reprehenderit veniam excepteur laborum duis eiusmod elit reprehenderit elit. Pariatur quis consequat qui est occaecat ut enim sit. Laboris enim commodo excepteur excepteur.
                 Est deserunt laboris voluptate duis quis amet eu nisi nostrud proident laborum fugiat occaecat. Voluptate labore qui do dolore. Cillum sunt commodo eiusmod sit adipisicing non. Irure sint dolore in ex labore. Commodo in fugiat et eu irure anim eu nisi adipisicing sint consequat.</textarea><br/><br/> 
                 */}
+
                 <MyButton name={"Upload This Book"}
                     type={"button"}
                     handle={
-                        () => uploadButton() 
+                        () => handleSubmit() 
                     }
                 />
                 </form>
@@ -179,3 +232,6 @@ return (
 };
 
 export default UploadBook;
+
+                
+
