@@ -1,11 +1,12 @@
 import { history } from "./history";
 import callAlertOnce from "./callAlertOnce";
 
-const authWrapper = (apiCall) => {
+const authWrapper = (apiCall, signOut) => {
     return apiCall.then((res) => {
         return res;
     }).catch((err) => {
         if (err.toString().indexOf("403") !== -1) {
+            signOut();
             callAlertOnce("You are not logged in! Redirecting...");
         return history.push("/access");
         // Push a new entry onto the history stack.
