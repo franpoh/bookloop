@@ -13,8 +13,6 @@ const BookListing = (props) => {
     const detailName = props.name;
     const detail = props.detail;
 
-    const passIndex = bookItem.Index.indexId;
-
     function navBook() {
         navigate(`/bookdetails/${passIndex}`);
     }
