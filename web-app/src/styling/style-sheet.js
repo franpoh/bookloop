@@ -193,6 +193,11 @@ const styles = {
         marginLeft: '0vw',
     },
 
+    accountDivider: {
+        borderColor: colours.secondaryLight,
+        width: "100%",
+    },
+
     marginAtTop: {
         marginTop: "15vh"
     },
