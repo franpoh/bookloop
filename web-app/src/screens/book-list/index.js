@@ -10,15 +10,14 @@ import bookAPI from "../../API/book-api";
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 
-
 const BookList = () => {
 
-    const [title, setTitle] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [title, setTitle] = useState([]);             // library equivalent
+    const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
+    const [isLoading, setIsLoading] = useState(false);  //unnecs
     const navigate = useNavigate();
 
-    const searchHandler = (event) => {
+    const searchHandler = (event) => {                  //need this
         setSearchInput(event.target.value);
     }
 
