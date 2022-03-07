@@ -87,7 +87,7 @@ const ReviewInputDialog = (props) => {
 
     return (
         <>
-            <Box sx={{ width: "85%" }} ref={container}>{props.data ? (
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"

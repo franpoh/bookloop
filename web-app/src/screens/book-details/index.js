@@ -15,7 +15,7 @@ import colours from '../../styling/colours.js';
 import removeBookfromWishList from './/remove-book-wishlist';
 import addBooktoWishList from './/add-book-wishlist';
 import grabABook from './/grab-book';
-import { ListReviews, ReviewInputDialog, AddReviewButton } from "./add-review";
+import { ListReviews, ReviewInputDialog } from "./add-review";
 
 // icons?? images replacements? emojis?
 
@@ -36,7 +36,6 @@ function BookDetails() {
     const [matchSwap, updateMatchSwap] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
-    // const [userId, setUserId] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
@@ -100,9 +99,9 @@ function BookDetails() {
     // try catch for related swap data
     async function retrieveSwap() {
         try {
-            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);            
+            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);
 
-            if (result.data.data.length ===0) {
+            if (result.data.data.length === 0) {
                 updateMatchSwap([]);
                 console.log('retr Swap by Index is ZERO');
                 return;
@@ -111,7 +110,7 @@ function BookDetails() {
                 updateMatchSwap(result.data.data);
                 return;
             };
-            
+
         } catch (error) {
             console.log('retr Swap by Index error', error);
         };
@@ -162,7 +161,7 @@ function BookDetails() {
     async function retrieveReview() {
         try {
             const result = await bookAPI.get(`/general/reviews?indexId=${indexId}`);
-            
+
             if (result.data.data.length === 0) {
                 setReviews([]);
                 console.log('retr reviews by Index is ZERO');
@@ -172,38 +171,34 @@ function BookDetails() {
                 setReviews(result.data.data);
                 return;
             };
-            
+
         } catch (error) {
             console.log('retr reviews by Index error', error);
         };
         return;
     };
 
-            ///////////////////////////////////
-            // this gets just one entry
-            // for (let i = 0; i < result.data.data.length; i++) {
-            //     console.log("by looping: ", result.data.data[i].review);
-            //     setReviews(result.data.data[i].review);
-            // }
+    ///////////////////////////////////
+    // this gets just one entry
+    // for (let i = 0; i < result.data.data.length; i++) {
+    //     console.log("by looping: ", result.data.data[i].review);
+    //     setReviews(result.data.data[i].review);
+    // }
 
-    // const handleClick = () => {
-    //     setShow(!show);
-    //   };
-
-    function uploadReviewButton( data ) {
+    function uploadReviewButton(data) {
         console.log("uploadReviewButton");
         if (userToken === false) { // halt process if not logined
             return;
         };
 
-        if ( data !== undefined ) {
-            if ( data.status ) {
-            console.log('triggering refresh of all reviews');
-            data.status = false; // reset status of addreview component
-            retrieveReview();
+        if (data !== undefined) {
+            if (data.status) {
+                console.log('triggering refresh of all reviews');
+                data.status = false; // reset status of addreview component
+                retrieveReview();
             };
         };
-        
+
         setShow(!show);
     };
 
@@ -313,7 +308,6 @@ function BookDetails() {
 
             <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
-                {/* <h3 style={{ ...styles.textNormal, fontSize: '1em' }}> [Testing] User: {(userToken) ? userId : 'You are not logged in..'}</h3> */}
                 <div style={{ ...styles.containerRow, width: '85%' }}>
                     <MyButton name={currentBookWish ? "Now in Wishlist" : "Add to Wishlist"}
                         type={"button"}
@@ -329,11 +323,12 @@ function BookDetails() {
                     />
                 </div>
             </div>
-            <ReviewInputDialog data={show} user={(userToken) ? user.userId : false } index={indexId} passToReviewButton={uploadReviewButton} />
 
-            <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
+            <ReviewInputDialog data={show} user={(userToken) ? user.userId : false} index={indexId} passToReviewButton={uploadReviewButton} />
 
-            <div style={{ position: 'relative', top: '-6vh', opacity: userToken ? 1 : 0.4 }}>
+            <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
+
+            <div style={{ position: 'relative', top: '-5vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textBold, fontSize: '1em' }}>Inventory available: {matchSwap.length}</h3>
                 {matchSwap.length > 0 ? <DisplaySwapInventory /> : <div></div>}
             </div>
@@ -341,7 +336,6 @@ function BookDetails() {
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
             <div style={{ position: 'relative', top: '-6vh' }}>
-                {/* test the book On Writing for multiple reviews, a few books has error but not from this component  */}
                 <ListReviews data={reviews} />
                 {/* {reviews} this gets just one entry */}
             </div>

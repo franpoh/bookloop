@@ -20,10 +20,6 @@ const BookList = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const searchHandler = (event) => {
-        setSearchInput(event.target.value);
-    }
-
     const retrieve = async () => {
         // console.log("Fetching items from API....");
         try {
@@ -39,7 +35,8 @@ const BookList = () => {
             setIsLoading(false);
         }
     };
-    console.log("this is render")
+    // console.log("this is render")
+
     useEffect(() => {
         // setTimeout(() => { // remove in finale
         //     console.log("Delaying for testing");
@@ -48,6 +45,11 @@ const BookList = () => {
         setIsLoading(true);
         console.log("API called retrieve()")
     }, [])
+
+    const searchHandler = (event) => {
+        console.log(event.target.value);
+        setSearchInput(event.target.value);
+    }
 
     return (
         <>
@@ -131,3 +133,4 @@ const BookList = () => {
 
 
 export default BookList;
+
