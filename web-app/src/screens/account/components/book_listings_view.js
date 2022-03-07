@@ -22,8 +22,19 @@ function BookListView(props) {
             } else if (response.length === 0) {
                 setUploaded(<li style={styles.textBold}>{props.noListingMsg}</li>);
             } else {
+
+                // Wishlist Filter for duplicate items
+                if (props.headerName == "Wishlist") {
+                    response = response.filter((value, index, array) => {
+                        return index === array.findIndex((item) => {
+                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || value.availability == "NO")
+                        })
+                    })
+                }
+
+                // Mapping details of each book into a list item
                 const listing = response.map((item) => {
-                    return <BookListing item={item} name={props.detailName} detail={props.detail} />;
+                    return <BookListing item={item} index={item.Index.indexId} name={props.detailName} detail={props.detail} />;
                 });
                 setUploaded(listing);
             }

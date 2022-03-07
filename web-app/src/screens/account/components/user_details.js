@@ -59,20 +59,23 @@ function UserDetails(props) {
             <h1 style={styles.h1Font}>Welcome {user}!</h1>
             <div style={styles.containerRow}>
                 <img src={pic} alt="profile" style={styles.profilePic} />
-                <form
-                    onSubmit={handleSubmit}
-                    style={styles.containerStart}
-                >
-                    <TextInput req={false} type="text" name="Email" value={email} setValue={setEmail} />
-                    <TextInput req={true} type="password" name="Old Password" value={oldPwd} setValue={setOldPwd} />
-                    <TextInput req={false} type="password" name="New Password" value={newPwd} setValue={setNewPwd} />
-                    <div style={styles.containerRow}>
-                        <MyButton name={"Save Profile"} />
-                        <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
-                        <Link to="/admin"><MyButton name={"Admin"} /></Link>
-                    </div>
+                <div>
                     <p style={styles.textBold}>{msg}</p>
-                </form>
+
+                    <form
+                        onSubmit={handleSubmit}
+                        style={styles.containerStart}
+                    >
+                        <TextInput req={false} type="text" name="Email" value={email} setValue={setEmail} />
+                        <TextInput req={true} type="password" name="Old Password" value={oldPwd} setValue={setOldPwd} />
+                        <TextInput req={false} type="password" name="New Password" value={newPwd} setValue={setNewPwd} />
+                        <div style={styles.containerRow}>
+                            <MyButton name={"Save Profile"} />
+                            <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
+                            <Link to="/admin"><MyButton name={"Admin"} /></Link>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )
