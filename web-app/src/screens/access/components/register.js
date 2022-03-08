@@ -2,7 +2,7 @@ import React from "react";
 
 import bookAPI from "../../../API/book-api";
 import styles from "../../../styling/style-sheet";
-import TextInput from "../../../components/textInput";
+import TextInput from "../../../components/text-input";
 import MyButton from "../../../components/button";
 
 function Register() {
@@ -12,6 +12,7 @@ function Register() {
     const [pwd, setPwd] = React.useState('');
     const [msg, setMsg] = React.useState('');
 
+    // Submitting user details to register
     const handleSubmit = async (e) => {
         e.preventDefault();
 

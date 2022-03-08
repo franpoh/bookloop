@@ -1,9 +1,9 @@
-import bookAPI from '../../API/book-api';
+import bookAPI from '../../../API/book-api';
 
 // requires parent to pass swapId as objects
 
-export default async function grabABook (data) {
-    
+export default async function grabABook(data) {
+
     console.log(`grabbing ${data.swapId}`);
 
     try {
@@ -16,7 +16,7 @@ export default async function grabABook (data) {
 
         return { status: 'Grab Done' };
 
-    } catch(error) {        
+    } catch (error) {
         // transaction failed for some reason
         console.log('grab-book error: ', error);
         return { status: 'Grab Fail' }; // failed transaction

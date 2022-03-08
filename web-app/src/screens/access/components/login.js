@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import bookAPI from "../../../API/book-api";
 import styles from "../../../styling/style-sheet";
-import TextInput from "../../../components/textInput";
+import TextInput from "../../../components/text-input";
 import MyButton from "../../../components/button";
 import AuthContext from "../../../components/context";
 
@@ -15,6 +15,7 @@ function Login() {
     const [pwd, setPwd] = React.useState('fuckreapers');
     const [msg, setMsg] = React.useState('')
 
+    // Submitting user details to login
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -37,7 +38,7 @@ function Login() {
     return (
         <div>
             <h1 style={styles.h1Font}>LOGIN</h1>
-            <p style={{...styles.msgGap, ...styles.textBold}}>{msg}</p>
+            <p style={{ ...styles.msgGap, ...styles.textBold }}>{msg}</p>
             <form
                 onSubmit={handleSubmit}
                 style={styles.containerStart}

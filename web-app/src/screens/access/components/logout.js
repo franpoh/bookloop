@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import bookAPI from "../../../API/book-api";
 import MyButton from "../../../components/button";
 import AuthContext from "../../../components/context";
-import authWrapper from "../../../components/auth_wrapper";
+import authWrapper from "../../../components/auth-wrapper";
 
 function Logout() {
     const { signOut } = React.useContext(AuthContext);

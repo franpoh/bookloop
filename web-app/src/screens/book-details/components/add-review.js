@@ -1,31 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from "../../styling/style-sheet"
-import "../../styling/style.css"
-import colours from "../../styling/colours";
-import bookAPI from "../../API/book-api";
+import styles from "../../../styling/style-sheet"
+import "../../../styling/style.css"
+import colours from "../../../styling/colours";
+import bookAPI from "../../../API/book-api";
 import { Portal, TextField, Box } from '@mui/material';
-import MyButton from "../../components/button";
-import authWrapper from "../../components/auth_wrapper"
+import MyButton from "../../../components/button";
 
 
-const ListReviews = ({ data }) => {    
+const ListReviews = ({ data }) => {
     return (
         <>
             <h3 style={{ ...styles.textBold, fontSize: '1em' }}>Community Reviews</h3>
-            {(data.length === 0) ? <p><i>No reviews yet.</i></p>: <div></div>}
+            {(data.length === 0) ? <p><i>No reviews yet.</i></p> : <div></div>}
             {(data.length > 0) && data.map((item) => {
                 return (
                     <div key={item.reviewId}>
                         <div>
-
                             <p style={{ color: `${colours.baseDark}` }}><i><b>{item.User.username}</b> : {item.review}</i></p>
                         </div>
                     </div>
                 )
             })}
         </>
-
     )
 }
 
@@ -34,26 +30,21 @@ const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
 
-    const [submit, setSubmit] = useState();
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
 
     useEffect(() => {
-        // addReview();
         // setIsLoading(true); // for user perception
     }, [])
-
-
 
     console.log('review input params: ', props.data, props.user, props.index)
 
     if (!props.user) { // this allows reuse of parent userId under user useState
         return <div></div>;
     };
-    
+
     // above console log at start would show false, no. of userId, no. of indexId, not keys
     const getindex = props.index;
-    // const getuser = user;
 
     const addReview = async () => { //  no props ............. move to another file?
 
@@ -62,18 +53,18 @@ const ReviewInputDialog = (props) => {
             console.log('empty string caught');
             setreviewInput("");
             let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({status});
+            props.passToReviewButton({ status });
             return;
         };
 
         console.log("Fetching items from API....");
-        
+
         try {
             // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
-            //     // userId: getuser,
-            //     rev: { reviewInput }
+            //     userId: getuser,
+            //     rev: reviewInput
             // }));
-            console.log('right before submitting review: ', reviewInput );
+            console.log('right before submitting review: ', reviewInput);
 
             const addRev = await bookAPI.post(`/protected/addReview`, {
                 indexId: getindex,
@@ -81,12 +72,10 @@ const ReviewInputDialog = (props) => {
             });
             console.log('Results of AddReview: ', addRev.data);
 
-            // return addRev.data.data.review;
-            
             // after successful submission, clear text input, reset review button
             setreviewInput("");
             let status = true;
-            props.passToReviewButton({status});
+            props.passToReviewButton({ status });
 
         } catch (err) {
             console.log("You have an error: ", err);
@@ -95,7 +84,6 @@ const ReviewInputDialog = (props) => {
         }
     };
 
-    
 
     const handleSubmit = () => {
         addReview();
@@ -108,7 +96,7 @@ const ReviewInputDialog = (props) => {
 
     return (
         <>
-            <Box sx={{ width: "85%" }} ref={container}>{props.data ? (
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"
@@ -133,27 +121,7 @@ const ReviewInputDialog = (props) => {
     )
 }
 
-const AddReviewButton = ({ data }) => {
-
-    return (
-        <>
-            {/* {data && data.map((item, key) => {
-                return (
-                    <div key={key}>
-                        <div>
-                            <p>{item.Index.title}</p>
-                            <img alt="covers" style={{ width: 100, height: 150 }} src={item.Index.imageURL} />
-                        </div>
-                    </div>
-                )
-            })} */}
-        </>
-
-    )
-}
-
 export {
     ListReviews,
-    ReviewInputDialog,
-    AddReviewButton
+    ReviewInputDialog
 };
