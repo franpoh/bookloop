@@ -1,11 +1,11 @@
 import React from "react";
 
-import UserDetails from "./components/user_details";
-import BookListView from "./components/book_listings_view";
+import UserDetails from "./components/user-details";
+import BookListView from "./components/book-listings-view";
 
 import styles from "../../styling/style-sheet";
 import bookAPI from "../../API/book-api";
-import authWrapper from "../../components/auth_wrapper";
+import authWrapper from "../../components/auth-wrapper";
 import AuthContext from "../../components/context"
 
 function Account() {

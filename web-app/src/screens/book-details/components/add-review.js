@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from "../../styling/style-sheet"
-import "../../styling/style.css"
-import colours from "../../styling/colours";
-import bookAPI from "../../API/book-api";
+import styles from "../../../styling/style-sheet"
+import "../../../styling/style.css"
+import colours from "../../../styling/colours";
+import bookAPI from "../../../API/book-api";
 import { Portal, TextField, Box } from '@mui/material';
-import MyButton from "../../components/button";
-import authWrapper from "../../components/auth_wrapper"
+import MyButton from "../../../components/button";
 
 
 const ListReviews = ({ data }) => {
@@ -85,7 +83,6 @@ const ReviewInputDialog = (props) => {
             // setIsLoading(false); // for user perception  
         }
     };
-
 
 
     const handleSubmit = () => {

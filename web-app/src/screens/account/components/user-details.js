@@ -4,7 +4,7 @@ import bookAPI from "../../../API/book-api";
 
 import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
-import TextInput from "../../../components/textInput";
+import TextInput from "../../../components/text-input";
 
 // pass props 
 

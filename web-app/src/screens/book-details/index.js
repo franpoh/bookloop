@@ -14,10 +14,10 @@ import styles from '../../styling/style-sheet';
 import colours from '../../styling/colours.js';
 
 // folder sub-components
-import removeBookfromWishList from './/remove-book-wishlist';
-import addBooktoWishList from './/add-book-wishlist';
-import grabABook from './/grab-book';
-import { ListReviews, ReviewInputDialog } from "./add-review";
+import removeBookfromWishList from './components/remove-book-wishlist';
+import addBooktoWishList from './components/add-book-wishlist';
+import grabABook from './components/grab-book';
+import { ListReviews, ReviewInputDialog } from "./components/add-review";
 
 // icons?? images replacements? emojis?
 
