@@ -2,6 +2,7 @@ import React from "react";
 
 import styles from "../../../styling/style-sheet";
 import { BookListing, BookDisplay } from "./book_listings";
+import { v4 as uuidv4 } from 'uuid';
 
 // props to pass in: target, detailName, detail, headerName, noListingMsg
 // <BookListView target={} detailName={} detail={} headerName={} noListingMsg={} />
@@ -34,7 +35,7 @@ function BookListView(props) {
 
                 // Mapping details of each book into a list item
                 const listing = response.map((item) => {
-                    return <BookListing item={item} index={item.Index.indexId} name={props.detailName} detail={props.detail} />;
+                    return <BookListing key={uuidv4()} item={item} index={item.Index.indexId} name={props.detailName} detail={props.detail} />;
                 });
                 setUploaded(listing);
             }
