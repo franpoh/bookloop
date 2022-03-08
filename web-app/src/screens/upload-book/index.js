@@ -3,6 +3,7 @@ import bookAPI from "../../API/book-api";
 import styles from "../../styling/style-sheet";
 import MyButton from "../../components/button";
 import TextInput from "../../components/textInput";
+import ImageUploading from "react-images-uploading";
 import { useNavigate } from 'react-router-dom';
 // import {TextField, Autocomplete} from "@mui/material";
 
@@ -15,6 +16,7 @@ function UploadBook() {
     const [bookTitle, setBookTitle] = useState('');                                      //usestate for title selection
     const [bookAuthor, setBookAuthor] = useState('');                                    //useState for author selection
     const [bookGenreId, setBookGenreId] = useState(1);                                   //useState for bookgenre selection
+    const [bookCover, setBookCover] = useState('');                                      //useState for bookcover selection
     const [bookYear, setBookYear] = useState('');                                        //useState for year
     const [bookComments, setBookComments] = useState('');                                //useState for comments
     const [msg, setMsg] = useState('');                                                  //useState for message storage
@@ -56,6 +58,7 @@ function UploadBook() {
             const result = await bookAPI.get(`general/searchIndex`);
             console.log('Retrieve Index Success', result.data.data);
             setLibrary(result.data.data)
+            // setBookCover(result.data.data)
         } catch (err) {
             console.log('Index Retrieval Error: ', err);
         }
@@ -69,8 +72,21 @@ function UploadBook() {
         } catch (err) {
             console.log('Genre List Retrieval Error: ', err);
         }
-    }
+    };
+
 //#endregion async retrieve functions
+
+//#region async post functions
+    async function filterLibrary() {
+        try{
+            const result = await bookAPI.post(`general/searchIndexByParams`);
+            console.log('Retrieve Details Success', result.data.data);
+            setBookCover(result.data.data)
+        } catch (e) {
+            console.log('Retrieve Details Failed', e);
+        }
+    };
+//#endregion async post functions
 
 //#region handling genre
     function DisplayOptionGenres() {                            //pretty sure this can be exported
@@ -91,16 +107,52 @@ function UploadBook() {
 //#region handling author & title
 
     function handleSelect(e) {
-        // console.log(e);
-        setBookTitle(e.target.firstChild.data);
+        console.log(e);
+        setBookTitle(e.target.lastChild.data);
     }
 
     function handleAuthorSelect(e) {
-        // console.log(e.target.value);
+        console.log(e);
         setBookAuthor(e.target.firstChild.data);
     }
 
 //#endregion handling author title
+
+//#region handling book cover
+
+function renderImages(props) {          //returns when search params return true
+    return 
+    <div value={bookCover}>
+        <img onclick={setBookCover} src={props.imageURL}/>
+    </div>
+};
+
+function renderInsertImage(props) {      //returns when search params return false, or if button is clicked
+    return 
+    <>
+        <p> It seems this book has yet to be in our library! </p>
+        <p> Please upload a valid image URL so that users can see the cover of the book</p>
+
+        <TextInput type="text" name="Image URL for the book cover" value={bookCover} setValue={setBookCover}/>
+
+    </>
+}
+
+function handleLibraryImg(){
+    let handler = null;
+        return
+        <>
+
+        </>
+}
+
+
+function insertSwapImage() {            //component to handle user's book image
+    return
+    <ImageUploading></ImageUploading>
+}
+
+//#endregion handling book cover
 
 //#region submit function
     //actual submit function
@@ -152,7 +204,8 @@ function UploadBook() {
 //#endregion TEST CHUNK, CODE NOT IN USE
 
 //#region CODE RENDERING CHUNK
-return (
+
+    return (
     <div>
 
         <h1 style={styles.h1Font}>Upload Book</h1>
@@ -171,6 +224,8 @@ return (
                         <></>
                     } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
                         return val;
+                    } else if (val == null) {
+                        <></>
                     }
                 }).map((item, key) => {
                     return(
@@ -199,8 +254,8 @@ return (
                             }).map((item) => {
                             // console.log("item: ", item);
                                 return (
-                                <div value={item.title} key={item.indexId} onClick={handleSelect} >
-                                    {/* define styling for above div display block*/}
+                                <div value={item.title} style={styles.bookList} key={item.indexId} onClick={handleSelect}>
+                                    <img alt="Book Cover" style={styles.profileBookPics} src={item.imageURL}/>
                                     {item.title}
                                 </div>
                                 )

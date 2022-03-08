@@ -14,12 +14,12 @@ import {
 
 const BookList = () => {
 
-    const [title, setTitle] = useState([]);             // library equivalent
-    const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
-    const [isLoading, setIsLoading] = useState(false);  //unnecs
+    const [title, setTitle] = useState([]);             
+    const [searchInput, setSearchInput] = useState(""); 
+    const [isLoading, setIsLoading] = useState(false);  
     const navigate = useNavigate();
 
-    const searchHandler = (event) => {                  //need this
+    const searchHandler = (event) => {                 
         setSearchInput(event.target.value);
     }
 
