@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "../../../styling/style-sheet";
-import { BookListing, BookDisplay } from "./book_listings";
+import { BookListing, BookDisplay } from "./book-listings";
 import { v4 as uuidv4 } from 'uuid';
 
 // props to pass in: target, detailName, detail, headerName, noListingMsg

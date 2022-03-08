@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from "../../styling/style-sheet"
+import { v4 as uuidv4 } from 'uuid';
+import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
+import ListAllBooks from './components/list-all-books';
+
 import {
     LinearProgress,
     Grid,
@@ -12,6 +15,8 @@ import {
     CircularProgress
 } from '@mui/material';
 
+const noImage = require("../../assets/no-image.png")
+
 const BookList = () => {
 
     const [title, setTitle] = useState([]);             // library equivalent
@@ -19,17 +24,12 @@ const BookList = () => {
     const [isLoading, setIsLoading] = useState(false);  //unnecs
     const navigate = useNavigate();
 
-    const searchHandler = (event) => {                  //need this
-        setSearchInput(event.target.value);
-    }
-
     const retrieve = async () => {
-        console.log("Fetching items from API....");
         try {
             await bookAPI.get(`general/searchIndex`)
                 .then(res => {
-                    console.log("Fetching items from API....", res)
-                    console.log("to read these..:", res.data.data);
+                    // console.log("Fetching items from API....", res)
+                    // console.log("to read these..:", res.data.data);
                     setTitle(res.data.data);
                 });
         } catch (err) {
@@ -38,6 +38,7 @@ const BookList = () => {
             setIsLoading(false);
         }
     };
+    // console.log("this is render")
 
     useEffect(() => {
         // setTimeout(() => { // remove in finale
@@ -45,8 +46,13 @@ const BookList = () => {
         retrieve();
         // }, 500);
         setIsLoading(true);
-        console.log("useEffect-ed")
+        console.log("API called retrieve()")
     }, [])
+
+    const searchHandler = (event) => {
+        console.log(event.target.value);
+        setSearchInput(event.target.value);
+    }
 
     return (
         <>
@@ -69,16 +75,16 @@ const BookList = () => {
                             <LinearProgress color="success" />
                         </Box>
                         : searchInput ?
-                            (title && title.filter(val => {
+                            (title && title.filter(data => {
                                 if (searchInput === " ") {
 
-                                } else if (val.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    console.log("val returns:", val)
-                                    return val;
+                                } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
+                                    // console.log("val returns:", val)
+                                    return data;
                                 }
                             }).map((item, key) => {
                                 return (
-                                    <div style={styles.bookList} key={key}>
+                                    <div style={styles.bookList} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
                                             onClick={() => {
@@ -99,7 +105,7 @@ const BookList = () => {
                                 )
                             })) : (title.map((item, key) => {
                                 return (
-                                    <div style={{ ...styles.bookList, marginBottom: 10 }} key={key}>
+                                    <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
                                             onClick={() => {
@@ -108,7 +114,7 @@ const BookList = () => {
                                         >
 
                                             <Grid item sm={5} lg={4}>
-                                                <img alt="covers" style={{ width: 150, height: 200 }} src={item.imageURL} />
+                                                <img alt="Missing Image" style={{ width: 150, height: 200 }} src={item.imageURL ? item.imageURL : noImage} />
                                             </Grid>
                                             <Grid item sm={6} lg={4}>
                                                 <p style={styles.textBold}>{item.title}</p>
@@ -130,3 +136,4 @@ const BookList = () => {
 
 
 export default BookList;
+

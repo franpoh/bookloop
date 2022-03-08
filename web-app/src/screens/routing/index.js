@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import TopNav from "./components/top-nav";
-import CustomRouter from "./components/custom_router";
+import CustomRouter from "./components/custom-router";
 import Access from "../access";
 import Account from "../account";
 import Admin from "../admin";
