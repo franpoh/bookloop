@@ -8,15 +8,16 @@ import { useNavigate } from 'react-router-dom';
 
 function UploadBook() {
     const navigate = useNavigate()
+
 //#region UseStates
     const [user, setUser] = useState('');
     const [userToken, setUserToken] = useState(false)     
     const [bookTitle, setBookTitle] = useState('');                                      //usestate for title selection
     const [bookAuthor, setBookAuthor] = useState('');                                    //useState for author selection
     const [bookGenreId, setBookGenreId] = useState(1);                                   //useState for bookgenre selection
-    const [bookYear, setBookYear] = useState('2009');                                    //useState for year
-    const [bookComments, setBookComments] = useState('test comments 4th march');         //useState for comments
-    const [msg, setMsg] = useState('');                                                  //no clue
+    const [bookYear, setBookYear] = useState('');                                        //useState for year
+    const [bookComments, setBookComments] = useState('');                                //useState for comments
+    const [msg, setMsg] = useState('');                                                  //useState for message storage
     const [library, setLibrary] = useState([])                                           //retrieved index stored here
     const [genreList, setGenreList] = useState([])                                       //retrieved genrelist stored here
     // const [bookGenre, setBookGenre] = useState('');
@@ -90,11 +91,12 @@ function UploadBook() {
 //#region handling author & title
 
     function handleSelect(e) {
-        // console.log(e.target.firstChild.data);
+        // console.log(e);
         setBookTitle(e.target.firstChild.data);
     }
 
     function handleAuthorSelect(e) {
+        // console.log(e.target.value);
         setBookAuthor(e.target.firstChild.data);
     }
 
@@ -117,27 +119,45 @@ function UploadBook() {
                 return navigate('/account');
             }, 2000);
         }).catch((error) => {
-            setMsg(error.response.data.message)
+            setMsg(error.response.data.message)         //flagging an error on chrome log.. not sure what's happening here.
         })
     }
 
-    //placeholder submit function
-    function uploadButton() {
-        if (userToken===false){
-            return;
-        } else if (userToken) {
-            console.log("Upload Button pressed");
-
-            return
-        }
-    }
 //#endregion submit function
 
+//#region TEST CHUNK, CODE NOT IN USE
+    function authorInput() {
+        return 
+
+        {bookAuthor ?
+            (library && library.filter(val => {
+                if(bookAuthor===" ") {
+                    <></>
+                } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
+                    return val;
+                }
+            }).map((item, key) => {
+                return(
+                    <div value={item.author} key={item.indexId} onClick={handleAuthorSelect}>           
+                        {item.author}
+                    </div>
+                )
+            })): (library.map((item) => {
+                return (
+                    <></>
+                )
+            }))
+            }
+    }
+//#endregion TEST CHUNK, CODE NOT IN USE
+
+//#region CODE RENDERING CHUNK
 return (
     <div>
 
         <h1 style={styles.h1Font}>Upload Book</h1>
         <p style={styles.textNormal}>What book would you like to upload today?</p>
+        
         <div style={{ ...styles.container}} >
 
             <form onSubmit={handleSubmit} style={styles.containerStart}>
@@ -152,9 +172,9 @@ return (
                     } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
                         return val;
                     }
-                }).map((item) => {
+                }).map((item, key) => {
                     return(
-                        <div value={item.author} onClick={handleAuthorSelect}>
+                        <div value={item.author} key={item.indexId} onClick={handleAuthorSelect}>           
                             {item.author}
                         </div>
                     )
@@ -166,13 +186,7 @@ return (
                 }
 
                 <label> Book Title: </label>
-                <TextInput
-                req={true}
-                type="text"
-                name="Title of the book"
-                value={bookTitle}
-                setValue={setBookTitle}
-                />
+                <TextInput req={true} type="text" name="Title of the book" value={bookTitle} setValue={setBookTitle}/>
 
                 {bookTitle ? 
                     (library && library.filter(val => {
@@ -182,22 +196,22 @@ return (
                             // console.log("val returns :", val);
                             return val;
                         }
-                    }).map((item) => {
-                        // console.log("item: ", item);
-                        return (
-                            <div value={item.title} onClick={handleSelect} >
-                                {/* define styling for above div display block*/}
-                                {item.title}
-                            </div>
-                        )
-                    })) : (library.map((item, key) => {
-                        return (
-                            <></>
-                        )   
-                    }))
+                            }).map((item) => {
+                            // console.log("item: ", item);
+                                return (
+                                <div value={item.title} key={item.indexId} onClick={handleSelect} >
+                                    {/* define styling for above div display block*/}
+                                    {item.title}
+                                </div>
+                                )
+                            })) : (library.map((item, key) => {
+                                return (
+                                    <></>
+                                )   
+                            }))
                 }
 
-                <label htmlFor='bookgenre'> Genre: </label>
+                <label> Genre: </label>
                 { genreList.length > 0 ? <select 
                     value={bookGenreId}
                     onChange={handleOption}
@@ -205,11 +219,11 @@ return (
                     id="bookgenre"
                 > <DisplayOptionGenres/> </select> : <div></div> }
 
-                <label htmlFor='bookyear'> Year of Publishing: </label>
-                <TextInput type="text" name ="bookyear" value={bookYear} setValue={setBookYear}/>
+                <label> Year of Publishing: </label>
+                <TextInput type="text" name ="Year book was published" value={bookYear} setValue={setBookYear}/>
 
-                <label htmlFor='bookcomments'> Comments: </label>
-                <TextInput type="text" name ="bookcomments" value={bookComments} setValue={setBookComments}/>
+                <label> Comments: </label>
+                <TextInput type="text" name ="Comments on book's physical condition" value={bookComments} setValue={setBookComments}/>
                         
                 {/*
                 Setting this aside temporarily
@@ -225,11 +239,12 @@ return (
                         () => handleSubmit() 
                     }
                 />
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
 )
 };
+//#endregion RENDERING CODE CHUNK
 
 export default UploadBook;
 
