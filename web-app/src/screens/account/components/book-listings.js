@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuidv4 } from 'uuid';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import styles from "../../../styling/style-sheet";
 

@@ -1,5 +1,5 @@
 import { history } from "./history";
-import callAlertOnce from "./callAlertOnce";
+import callAlertOnce from "./call-alert-once";
 
 const authWrapper = (apiCall, signOut) => {
     return apiCall.then((res) => {
