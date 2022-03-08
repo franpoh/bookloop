@@ -20,5 +20,3 @@ const authWrapper = (apiCall, signOut) => {
 
 
 export default authWrapper;
-
-
