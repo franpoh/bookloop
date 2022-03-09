@@ -369,7 +369,7 @@ function BookDetails() {
                             () => wishButton()
                         }
                     />
-                    <MyButton name={show ? "Cancel Review" : "Upload Review"}
+                    <MyButton name={show ? "Input Review Below" : "Upload Review"}
                         type={"button"}
                         handle={
                             () => {

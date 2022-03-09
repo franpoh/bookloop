@@ -145,7 +145,8 @@ const styles = {
         borderRadius: "5px",
         color: colours.baseWhite,
         fontWeight: "400",
-        fontSize: "17px"
+        fontSize: "17px",
+        marginLeft: "1px"
     },
 
     msgGap: {
