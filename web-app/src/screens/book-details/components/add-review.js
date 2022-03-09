@@ -5,6 +5,7 @@ import colours from "../../../styling/colours";
 import bookAPI from "../../../API/book-api";
 import { Portal, TextField, Box } from '@mui/material';
 import MyButton from "../../../components/button";
+import DialogAlert from '../../../components/dialog-alert';
 
 
 const ListReviews = ({ data }) => {
@@ -32,6 +33,7 @@ const ReviewInputDialog = (props) => {
 
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
+    const [toggleAlertReview, setToggleAlertReview] = useState(false);
 
     useEffect(() => {
         // setIsLoading(true); // for user perception
@@ -89,11 +91,19 @@ const ReviewInputDialog = (props) => {
         setreviewInput(event.target.value);
     }
 
-
-
+    function handleAlertClose() {
+        setToggleAlertReview(false);
+    };
 
     return (
         <>
+            <DialogAlert
+                open={toggleAlertReview}
+                onClick={handleAlertClose}
+                bodytext='Review has been added!'
+                buttonLabel='Ok'
+            />
+
             <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
                 <Portal container={container.current}>
                     <TextField
@@ -105,12 +115,14 @@ const ReviewInputDialog = (props) => {
                         fullWidth
                         value={reviewInput}
                         onChange={inputHandler.bind(this)}
-
                     />
                     <MyButton
                         name="Submit"
                         handle={
-                            () => handleSubmit()
+                            () => {
+                                handleSubmit()
+                                setToggleAlertReview(true)
+                            }
                         }
                     />
                 </Portal>

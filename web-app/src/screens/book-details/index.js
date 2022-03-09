@@ -369,12 +369,15 @@ function BookDetails() {
                             () => wishButton()
                         }
                     />
-                    <MyButton name={show ? "Input your Review" : "Upload Review"}
+                    <MyButton name={show ? "Cancel Review" : "Upload Review"}
                         type={"button"}
                         handle={
-                            () => uploadReviewButton()
+                            () => {
+                                uploadReviewButton()
+                            }
                         }
                     />
+
                 </div>
             </div>
 
