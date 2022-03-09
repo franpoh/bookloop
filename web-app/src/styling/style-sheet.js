@@ -22,7 +22,7 @@ const styles = {
         marginBottom: "5vh",
     },
 
-    topBarSpace: { 
+    topBarSpace: {
         display: "flex",
         columnGap: "10px",
         textAlign: "center",
@@ -228,7 +228,8 @@ const styles = {
 
     bookList: {
         borderBottom: "lightgrey 1px solid",
-        paddingLeft: 11
+        paddingLeft: 11,
+        cursor: "pointer"
     },
 }
 

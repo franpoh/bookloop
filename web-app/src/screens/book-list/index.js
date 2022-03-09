@@ -6,6 +6,7 @@ import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
 import ListAllBooks from './components/list-all-books';
+import Alert from "../../components/dialog-alert"
 
 import {
     LinearProgress,
@@ -22,6 +23,7 @@ const BookList = () => {
     const [title, setTitle] = useState([]);             // library equivalent
     const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
     const [isLoading, setIsLoading] = useState(false);  //unnecs
+    // const [message, isMessage] = useState("Testing")
     const navigate = useNavigate();
 
     const retrieve = async () => {
@@ -54,6 +56,7 @@ const BookList = () => {
         setSearchInput(event.target.value);
     }
 
+
     return (
         <>
             <h1 style={styles.h1Font}>BookList</h1>
@@ -75,9 +78,9 @@ const BookList = () => {
                             <LinearProgress color="success" />
                         </Box>
                         : searchInput ?
-                            (title && title.filter(data => {
-                                if (searchInput === " ") {
-
+                            (searchInput === " " ? <h3>No books found for " "</h3> : title && title.filter(data => {
+                                if (searchInput != data.title) {
+                                    // return numbers
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
                                     // console.log("val returns:", val)
                                     return data;
@@ -93,7 +96,7 @@ const BookList = () => {
                                         >
 
                                             <Grid item sm={5} lg={4}>
-                                                <img alt="covers" style={styles.profileBookPics} src={item.imageURL} />
+                                                <img alt="covers" style={styles.profileBookPics} src={item.imageURL ? item.imageURL : noImage} />
                                             </Grid>
                                             <Grid item sm={6} lg={4}>
                                                 <p style={styles.textBold}>{item.title}</p>
