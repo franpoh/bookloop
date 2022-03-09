@@ -142,7 +142,7 @@ function handleLibraryImg(){
     let handler = null;
         return
         <>
-        
+
         </>
 }
 
@@ -279,6 +279,7 @@ function insertSwapImage() {            //component to handle user's book image
                     <br/><br/>
 
                     <label> Year of Publishing: </label>
+                    <br/>
                     <TextInput type="text" name ="Year book was published" value={bookYear} setValue={setBookYear}/>
 
                     <br/><br/>
