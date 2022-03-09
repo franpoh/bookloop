@@ -82,7 +82,7 @@ const BookList = () => {
                                 if (searchInput === "") {
                                     // return numbers
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    // console.log("val returns:", val)
+                                    // console.log("filtered data returns:", data)
                                     return data;
                                 }
                             }).map((item, key) => {

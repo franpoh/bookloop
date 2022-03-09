@@ -82,9 +82,25 @@ const ReviewInputDialog = (props) => {
         }
     };
 
+    const cancelReview = async () => { //  no props ............. move to another file?
+
+        // block if rev string is empty
+        if (reviewInput === '') {
+            console.log('empty string caught');
+            setreviewInput("");
+            let status = false; // so that Community reviews refresh is not triggered
+            props.passToReviewButton({ status });
+            return;
+        };
+    }
+
 
     const handleSubmit = () => {
         addReview();
+    }
+
+    const handleCancel = () => {
+        cancelReview();
     }
 
     const inputHandler = (event) => {
@@ -121,9 +137,16 @@ const ReviewInputDialog = (props) => {
                         handle={
                             () => {
                                 handleSubmit()
-                                setToggleAlertReview(true)
+                                if (reviewInput) {
+                                    setToggleAlertReview(true)
+                                }
+
                             }
                         }
+                    />
+                    <MyButton
+                        name="Cancel"
+                        handle={() => handleCancel()}
                     />
                 </Portal>
             ) : null} </Box>
