@@ -5,8 +5,8 @@ import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
+import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import ListAllBooks from './components/list-all-books';
-import Alert from "../../components/dialog-alert"
 
 import {
     LinearProgress,
@@ -69,6 +69,9 @@ const BookList = () => {
                     placeholder="Search for more books available"
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
+                    InputProps={{
+                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' />
+                    }}
                 />
 
                 <div>
