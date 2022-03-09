@@ -14,8 +14,10 @@ import styles from '../../styling/style-sheet';
 import colours from '../../styling/colours.js';
 
 // folder sub-components
+import ShowBookInfo from './components/show-book-info';
 import removeBookfromWishList from './components/remove-book-wishlist';
 import addBooktoWishList from './components/add-book-wishlist';
+import DisplaySwapInventory from './components/display-swap';
 import grabABook from './components/grab-book';
 import { ListReviews, ReviewInputDialog } from "./components/add-review";
 
@@ -24,18 +26,18 @@ import { ListReviews, ReviewInputDialog } from "./components/add-review";
 function BookDetails() {
 
     const { index } = useParams();
-
     console.log('URL useParams: ', index);
-
-    // need index from data
     let indexId = parseInt(index);
 
-    const [matchIndex, updateMatchIndex] = useState({});
+    // data from DBs
     const [user, setUser] = useState('')
+    const [matchIndex, updateMatchIndex] = useState({});
+    const [matchSwap, updateMatchSwap] = useState([]);
+    
     const [userToken, setUserToken] = useState(false); // for controlling display for non-login
     const [userWishlist, updateUserWishlist] = useState([]);
     const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
-    const [matchSwap, updateMatchSwap] = useState([]);
+    
     const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
     const [toggleAlert, setToggleAlert] = useState(false);
@@ -44,14 +46,13 @@ function BookDetails() {
         swapId: null,
         bodytext: ''
     });
-    // const [userId, setUserId] = useState([]);
 
     // trigger on "component mount"
     useEffect(() => {
         retrieveBookDetails();
         retrieveUser();
         retrieveSwap();
-        // retrieveAll();
+        // retrieveAll(); // for testing only
         retrieveReview();
     }, []);
 
@@ -63,15 +64,13 @@ function BookDetails() {
         };
     }, [user]);
 
+    // Update wishlist button, check if already in wishlist
     useEffect(() => {
-        // check if already in wishlist
+        
         let xx;
         for (xx = 0; xx < userWishlist.length; xx++) {
             if (userWishlist[xx] === indexId) {
-                // console.log('book is already in wishlist');
                 updateCurrentBookWish(true);
-            } else {
-                // console.log('book is NOT in wishlist', indexId, userWishlist[xx]);
             };
         };
     }, [userWishlist]);
@@ -81,7 +80,7 @@ function BookDetails() {
         try {
             const result = await bookAPI.get(`/general/detail?bookID=${indexId}`);
 
-            console.log(result.data);
+            console.log('Book Detail: ', result.data);
             console.log(result.data.data[0].title);
 
             updateMatchIndex(result.data.data[0]);
@@ -98,11 +97,9 @@ function BookDetails() {
             console.log('user: ', result.data.data);
             if (result.data.data.user.wishlist === null) { result.data.data.user.wishlist = [] };
             setUser(result.data.data.user); // Comment this out to test no login
-            // setUserId(result.data.data.user.userId);
         } catch (error) {
             console.log('User info error', error);
-        }
-        return;
+        };        
     };
 
     // try catch for related swap data
@@ -119,11 +116,9 @@ function BookDetails() {
                 updateMatchSwap(result.data.data);
                 return;
             };
-
         } catch (error) {
             console.log('retr Swap by Index error', error);
-        };
-        return;
+        };        
     };
 
 
@@ -142,26 +137,37 @@ function BookDetails() {
     /////////////////////////////////////
 
 
-    function wishButton() {
+    async function wishButton() {
 
         console.log("wishbutton, token: ", userToken);
 
         if (userToken === false) {
             return;
         } else if (currentBookWish) {
-            const updateWishlist = removeBookfromWishList({
+            const updateWishlist = await removeBookfromWishList({
                 indexId: indexId,
-                userWishlist: userWishlist
+                // userWishlist: userWishlist
             });
+
+            if (updateWishlist.data === null) { // if error in updating wishlist in DB
+                return;
+            };
             updateUserWishlist(updateWishlist);
             updateCurrentBookWish(false);
+            return;
+
         } else if (!currentBookWish) {
-            const updateWishlist = addBooktoWishList({
+            const updateWishlist = await addBooktoWishList({
                 indexId: indexId,
-                userWishlist: userWishlist
+                // userWishlist: userWishlist
             });
-            updateUserWishlist(updateWishlist);
+
+            if (updateWishlist.data === null) { // if error in updating wishlist in DB
+                return;
+            };
+            updateUserWishlist(updateWishlist.data.wishlist);
             updateCurrentBookWish(true);
+            return;            
         };
         return;
     };
@@ -184,15 +190,7 @@ function BookDetails() {
         } catch (error) {
             console.log('retr reviews by Index error', error);
         };
-        return;
     };
-
-    ///////////////////////////////////
-    // this gets just one entry
-    // for (let i = 0; i < result.data.data.length; i++) {
-    //     console.log("by looping: ", result.data.data[i].review);
-    //     setReviews(result.data.data[i].review);
-    // }
 
     function uploadReviewButton(data) {
         console.log("uploadReviewButton");
@@ -230,7 +228,7 @@ function BookDetails() {
             swapId: null,
             bodytext: ''
         });
-        console.log('REDDDDDDDDDDDDDDDDDDDD', submittingSwapId);
+        console.log('Submitting to grabbook', submittingSwapId);
 
         let grabProcess = await grabABook({
             swapId: submittingSwapId,
@@ -264,84 +262,11 @@ function BookDetails() {
         return;
     };
 
-    function DisplaySwapInventory() {
-
-        if (matchSwap.length === 0) {
-            return (
-                <div></div>
-            );
-        };
-
-        return matchSwap.map((swapItem, index) => {
-            // console.log(swapItem, index);
-            return (
-                // <div style={styles.containerRowList}>
-                <div key={swapItem.data.swapId} style={{ ...styles.containerRowList, lineHeight: '1' }}>
-                    <a title="Click to buy item" /* href="#" */
-                        onClick={async () => {
-
-                            if (!userToken) { // block if no token
-                                return;
-                            };
-                            if (user.points < swapItem.data.price) { // check for enough points
-                                setToggleAlert(true);
-                                return;
-                            };
-
-                            setToggleConfirm({ // trigger Confirmation box plus send data object
-                                status: true,
-                                swapId: swapItem.data.swapId,
-                                bodytext: `Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}?`
-                            });
-
-                            return;
-
-                            // eslint-disable-next-line no-restricted-globals
-                            /*
-                            let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}`);
-                            */
-
-                        }}
-                        style={{
-                            ...styles.textBox,
-                            textDecoration: 'none',
-                            height: 'auto',
-                            width: '35vw',
-                            backgroundColor: colours.baseWhite
-                        }}
-                    >
-
-                        <div style={{ justifyContent: 'space-between', display: 'flex' }}>
-                            <h3 style={{ ...styles.textBold, fontSize: '0.7em', color: colours.baseDark }}>(Serial {swapItem.data.swapId}) By user: {swapItem.username}</h3>
-                            <h3 style={{ ...styles.textBold, fontSize: '0.7em', color: colours.baseDark }}>Cost: {swapItem.data.price}</h3>
-                        </div>
-                        <div>
-                            <h3 style={{ ...styles.textBold, fontSize: '0.7em', color: colours.baseDark }}>Condition:</h3>
-                            {(swapItem.data.comments !== null) ?
-                                <h3 style={{ ...styles.textBold, fontSize: '.7em' }}>{swapItem.data.comments}</h3>
-                                :
-                                <h3 style={{ ...styles.textBold, fontSize: '.7em', color: 'red' }}>USER DID NOT PROVIDE COMMMENT</h3>}
-                        </div>
-                    </a>
-                </div>
-            )
-        });
-    };
-
     return (
         <div style={styles.containerAlt}>
 
-            <h1 style={styles.h1Font}>{matchIndex.title}</h1>
-            <div style={styles.displayRow}>
-                <div style={styles.displayCard}>
-                    {(matchIndex.imageURL != null) ? <img src={matchIndex.imageURL} alt="Book Display" style={{ ...styles.profilePic, height: 'auto' }} /> : <div ></div>}
-                </div>
-                <div style={{ marginLeft: 15 }}>
-                    {<h1 style={{ ...styles.textBold, fontSize: '1em' }}>Author: {matchIndex.author}</h1>}
-                    {<h1 style={{ ...styles.textBold, fontSize: '1em' }}>Year: {(matchIndex.year) ? matchIndex.year : '-'}</h1>}
-                    {<h1 style={{ ...styles.textBold, fontSize: '1em' }}>Genre: {(matchIndex.genreId) ? matchIndex.Genre.genre : '-'}</h1>}
-                </div>
-            </div>
+            <ShowBookInfo data={matchIndex} />
+            
             <hr style={styles.divider} />
 
             <DialogAlert
@@ -383,15 +308,13 @@ function BookDetails() {
             <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
 
             <div style={{ position: 'relative', top: '-5vh', opacity: userToken ? 1 : 0.4 }}>
-                <h3 style={{ ...styles.textBold, fontSize: '1em' }}>Inventory available: {matchSwap.length}</h3>
-                {matchSwap.length > 0 ? <DisplaySwapInventory /> : <div></div>}
+                <DisplaySwapInventory matchSwap={matchSwap} userToken={userToken} user={user} passToggleAlert={setToggleAlert} passToggleConfirm={setToggleConfirm} matchIndex={matchIndex} />
             </div>
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
             <div style={{ position: 'relative', top: '-6vh' }}>
                 <ListReviews data={reviews} />
-                {/* {reviews} this gets just one entry */}
             </div>
         </div>
     )
