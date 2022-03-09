@@ -5,6 +5,7 @@ import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
+import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import ListAllBooks from './components/list-all-books';
 
 import {
@@ -22,6 +23,8 @@ const BookList = () => {
     const [title, setTitle] = useState([]);             // library equivalent
     const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
     const [isLoading, setIsLoading] = useState(false);  //unnecs
+    // const [message, isMessage] = useState("Testing")
+
     const navigate = useNavigate();
 
     const retrieve = async () => {
@@ -54,6 +57,7 @@ const BookList = () => {
         setSearchInput(event.target.value);
     }
 
+
     return (
         <>
             <h1 style={styles.h1Font}>BookList</h1>
@@ -66,20 +70,23 @@ const BookList = () => {
                     placeholder="Search for more books available"
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
+                    InputProps={{
+                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' />
+                    }}
                 />
 
                 <div>
-
+                    {!searchInput ? <h3 style={styles.h2Font}>Here are a few uploads from the users</h3> : <></>}
                     {isLoading ?
                         <Box sx={{ width: '100%' }}>
                             <LinearProgress color="success" />
                         </Box>
                         : searchInput ?
-                            (title && title.filter(data => {
-                                if (searchInput === " ") {
-
+                            (searchInput === " " ? <i>No books found for " "</i> : title && title.filter(data => {
+                                if (searchInput === "") {
+                                    // return numbers
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    // console.log("val returns:", val)
+                                    // console.log("filtered data returns:", data)
                                     return data;
                                 }
                             }).map((item, key) => {
@@ -93,7 +100,7 @@ const BookList = () => {
                                         >
 
                                             <Grid item sm={5} lg={4}>
-                                                <img alt="covers" style={styles.profileBookPics} src={item.imageURL} />
+                                                <img alt="covers" style={styles.profileBookPics} src={item.imageURL ? item.imageURL : noImage} />
                                             </Grid>
                                             <Grid item sm={6} lg={4}>
                                                 <p style={styles.textBold}>{item.title}</p>
@@ -103,7 +110,7 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.map((item, key) => {
+                            })) : (title.slice(0, 12).map((item, key) => {
                                 return (
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid
