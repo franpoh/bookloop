@@ -16,7 +16,7 @@ function UserDetails(props) {
     const [oldPwd, setOldPwd] = React.useState('');
     const [newPwd, setNewPwd] = React.useState('');
     const [pic, setPic] = React.useState('');
-    const [msg, setMsg] = React.useState('')
+    const [msg, setMsg] = React.useState('');
 
     // getting user info
     React.useEffect(() => {
@@ -61,7 +61,6 @@ function UserDetails(props) {
                 <img src={pic} alt="profile" style={styles.profilePic} />
                 <div>
                     <p style={styles.textBold}>{msg}</p>
-
                     <form
                         onSubmit={handleSubmit}
                         style={styles.containerStart}
