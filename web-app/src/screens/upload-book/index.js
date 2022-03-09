@@ -239,7 +239,7 @@ function insertSwapImage() {            //component to handle user's book image
                     <TextInput req={true} type="text" name="Author of the book" value ={bookAuthor} setValue={setBookAuthor}/>
                     <br/>
                     {handleAuthorInput()}
-                    <br/>       
+                    <br/>
                     <label> Book Title: </label>
                     <br/>
                     <TextInput req={true} type="text" name="Title of the book" value={bookTitle} setValue={setBookTitle}/>
