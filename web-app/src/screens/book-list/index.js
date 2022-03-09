@@ -79,7 +79,7 @@ const BookList = () => {
                         </Box>
                         : searchInput ?
                             (searchInput === " " ? <h3>No books found for " "</h3> : title && title.filter(data => {
-                                if (searchInput != data.title) {
+                                if (searchInput === "") {
                                     // return numbers
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
                                     // console.log("val returns:", val)
@@ -106,7 +106,7 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.map((item, key) => {
+                            })) : (title.slice(0, 12).map((item, key) => {
                                 return (
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid

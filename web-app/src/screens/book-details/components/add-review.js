@@ -60,10 +60,6 @@ const ReviewInputDialog = (props) => {
         console.log("Fetching items from API....");
 
         try {
-            // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
-            //     userId: getuser,
-            //     rev: reviewInput
-            // }));
             console.log('right before submitting review: ', reviewInput);
 
             const addRev = await bookAPI.post(`/protected/addReview`, {
@@ -94,6 +90,8 @@ const ReviewInputDialog = (props) => {
     }
 
 
+
+
     return (
         <>
             <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
@@ -107,6 +105,7 @@ const ReviewInputDialog = (props) => {
                         fullWidth
                         value={reviewInput}
                         onChange={inputHandler.bind(this)}
+
                     />
                     <MyButton
                         name="Submit"
