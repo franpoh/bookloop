@@ -14,10 +14,10 @@ import styles from '../../styling/style-sheet';
 import colours from '../../styling/colours.js';
 
 // folder sub-components
-import removeBookfromWishList from './/remove-book-wishlist';
-import addBooktoWishList from './/add-book-wishlist';
-import grabABook from './/grab-book';
-import { ListReviews, ReviewInputDialog, AddReviewButton } from "./add-review";
+import removeBookfromWishList from './components/remove-book-wishlist';
+import addBooktoWishList from './components/add-book-wishlist';
+import grabABook from './components/grab-book';
+import { ListReviews, ReviewInputDialog } from "./components/add-review";
 
 // icons?? images replacements? emojis?
 
@@ -30,16 +30,16 @@ function BookDetails() {
     // need index from data
     let indexId = parseInt(index);
 
-    const [ matchIndex, updateMatchIndex ] = useState({});
-    const [ user, setUser ] = useState('')
-    const [ userToken, setUserToken ] = useState(false); // for controlling display for non-login
-    const [ userWishlist, updateUserWishlist ] = useState([]);
-    const [ currentBookWish, updateCurrentBookWish ] = useState(false); // for toggling button status
-    const [ matchSwap, updateMatchSwap ] = useState([]);
-    const [ reviews, setReviews ] = useState([]);
-    const [ show, setShow ] = useState(false);
-    const [ toggleAlert, setToggleAlert ] = useState(false);
-    const [ toggleConfirm, setToggleConfirm ] = useState({
+    const [matchIndex, updateMatchIndex] = useState({});
+    const [user, setUser] = useState('')
+    const [userToken, setUserToken] = useState(false); // for controlling display for non-login
+    const [userWishlist, updateUserWishlist] = useState([]);
+    const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
+    const [matchSwap, updateMatchSwap] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [show, setShow] = useState(false);
+    const [toggleAlert, setToggleAlert] = useState(false);
+    const [toggleConfirm, setToggleConfirm] = useState({
         status: false,
         swapId: null,
         bodytext: ''
@@ -108,9 +108,9 @@ function BookDetails() {
     // try catch for related swap data
     async function retrieveSwap() {
         try {
-            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);            
+            const result = await bookAPI.get(`/general/searchSwap?indexId=${indexId}`);
 
-            if (result.data.data.length ===0) {
+            if (result.data.data.length === 0) {
                 updateMatchSwap([]);
                 console.log('retr Swap by Index is ZERO');
                 return;
@@ -119,7 +119,7 @@ function BookDetails() {
                 updateMatchSwap(result.data.data);
                 return;
             };
-            
+
         } catch (error) {
             console.log('retr Swap by Index error', error);
         };
@@ -170,7 +170,7 @@ function BookDetails() {
     async function retrieveReview() {
         try {
             const result = await bookAPI.get(`/general/reviews?indexId=${indexId}`);
-            
+
             if (result.data.data.length === 0) {
                 setReviews([]);
                 console.log('retr reviews by Index is ZERO');
@@ -180,47 +180,43 @@ function BookDetails() {
                 setReviews(result.data.data);
                 return;
             };
-            
+
         } catch (error) {
             console.log('retr reviews by Index error', error);
         };
         return;
     };
 
-            ///////////////////////////////////
-            // this gets just one entry
-            // for (let i = 0; i < result.data.data.length; i++) {
-            //     console.log("by looping: ", result.data.data[i].review);
-            //     setReviews(result.data.data[i].review);
-            // }
+    ///////////////////////////////////
+    // this gets just one entry
+    // for (let i = 0; i < result.data.data.length; i++) {
+    //     console.log("by looping: ", result.data.data[i].review);
+    //     setReviews(result.data.data[i].review);
+    // }
 
-    // const handleClick = () => {
-    //     setShow(!show);
-    //   };
-
-    function uploadReviewButton( data ) {
+    function uploadReviewButton(data) {
         console.log("uploadReviewButton");
         if (userToken === false) { // halt process if not logined
             return;
         };
 
-        if ( data !== undefined ) {
-            if ( data.status ) {
-            console.log('triggering refresh of all reviews');
-            data.status = false; // reset status of addreview component
-            retrieveReview();
+        if (data !== undefined) {
+            if (data.status) {
+                console.log('triggering refresh of all reviews');
+                data.status = false; // reset status of addreview component
+                retrieveReview();
             };
         };
-        
+
         setShow(!show);
     };
 
     // control for Dialog-Alert
     function handleAlertClose() {
-        setToggleAlert(false);        
+        setToggleAlert(false);
     };
 
-    function handleConfirmCancel() {        
+    function handleConfirmCancel() {
         setToggleConfirm({
             status: false,
             swapId: null
@@ -283,7 +279,7 @@ function BookDetails() {
                 <div key={swapItem.data.swapId} style={{ ...styles.containerRowList, lineHeight: '1' }}>
                     <a title="Click to buy item" /* href="#" */
                         onClick={async () => {
-                            
+
                             if (!userToken) { // block if no token
                                 return;
                             };
@@ -304,7 +300,7 @@ function BookDetails() {
                             /*
                             let buyConfirm = confirm(`Confirm purchase of ${matchIndex.title}, serial ${swapItem.data.swapId}`);
                             */
-                                                      
+
                         }}
                         style={{
                             ...styles.textBox,
@@ -348,14 +344,14 @@ function BookDetails() {
             </div>
             <hr style={styles.divider} />
 
-            <DialogAlert 
+            <DialogAlert
                 open={toggleAlert}
                 onClick={handleAlertClose}
                 bodytext='You do not have enough points'
                 buttonLabel='Ok'
             />
 
-            <DialogConfirm 
+            <DialogConfirm
                 open={toggleConfirm.status}
                 bodytext={toggleConfirm.bodytext}
                 onClickA={handleConfirmCancel}
@@ -366,7 +362,6 @@ function BookDetails() {
 
             <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
-                {/* <h3 style={{ ...styles.textNormal, fontSize: '1em' }}> [Testing] User: {(userToken) ? userId : 'You are not logged in..'}</h3> */}
                 <div style={{ ...styles.containerRow, width: '85%' }}>
                     <MyButton name={currentBookWish ? "Now in Wishlist" : "Add to Wishlist"}
                         type={"button"}
@@ -382,11 +377,12 @@ function BookDetails() {
                     />
                 </div>
             </div>
-            <ReviewInputDialog data={show} user={(userToken) ? user.userId : false } index={indexId} passToReviewButton={uploadReviewButton} />
 
-            <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
+            <ReviewInputDialog data={show} user={(userToken) ? user.userId : false} index={indexId} passToReviewButton={uploadReviewButton} />
 
-            <div style={{ position: 'relative', top: '-6vh', opacity: userToken ? 1 : 0.4 }}>
+            <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
+
+            <div style={{ position: 'relative', top: '-5vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textBold, fontSize: '1em' }}>Inventory available: {matchSwap.length}</h3>
                 {matchSwap.length > 0 ? <DisplaySwapInventory /> : <div></div>}
             </div>
@@ -394,7 +390,6 @@ function BookDetails() {
             <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
 
             <div style={{ position: 'relative', top: '-6vh' }}>
-                {/* test the book On Writing for multiple reviews, a few books has error but not from this component  */}
                 <ListReviews data={reviews} />
                 {/* {reviews} this gets just one entry */}
             </div>

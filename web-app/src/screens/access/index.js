@@ -9,6 +9,7 @@ function Access() {
     const [display, setDisplay] = React.useState(<Login />);
     const [buttonText, setButtonText] = React.useState("Sign Up Now");
 
+    // Switching between login and sign up display on same page
     function handleDisplay() {
         if (buttonText === "Sign Up Now") {
             setDisplay(<Register />);

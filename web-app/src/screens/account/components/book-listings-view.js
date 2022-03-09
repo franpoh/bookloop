@@ -1,7 +1,8 @@
 import React from "react";
 
 import styles from "../../../styling/style-sheet";
-import { BookListing, BookDisplay } from "./book_listings";
+import { BookListing, BookDisplay } from "./book-listings";
+import { v4 as uuidv4 } from 'uuid';
 
 // props to pass in: target, detailName, detail, headerName, noListingMsg
 // <BookListView target={} detailName={} detail={} headerName={} noListingMsg={} />
@@ -22,8 +23,19 @@ function BookListView(props) {
             } else if (response.length === 0) {
                 setUploaded(<li style={styles.textBold}>{props.noListingMsg}</li>);
             } else {
+
+                // Wishlist Filter for duplicate items
+                if (props.headerName == "Wishlist") {
+                    response = response.filter((value, index, array) => {
+                        return index === array.findIndex((item) => {
+                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || value.availability == "NO")
+                        })
+                    })
+                }
+
+                // Mapping details of each book into a list item
                 const listing = response.map((item) => {
-                    return <BookListing item={item} name={props.detailName} detail={props.detail} />;
+                    return <BookListing key={uuidv4()} item={item} index={item.Index.indexId} name={props.detailName} detail={props.detail} />;
                 });
                 setUploaded(listing);
             }
