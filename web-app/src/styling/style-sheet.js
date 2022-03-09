@@ -140,7 +140,7 @@ const styles = {
     button: {
         height: "40px",
         width: "130px",
-        backgroundColor: colours.primary,
+        backgroundColor: colours.secondaryDark,
         border: "none",
         borderRadius: "5px",
         color: colours.baseWhite,
@@ -230,6 +230,12 @@ const styles = {
         borderBottom: "lightgrey 1px solid",
         paddingLeft: 11
     },
+
+    overflowScroll: {
+        height: "45vh",
+        overflowY: "auto",
+        scrollbarColor: `${colours.secondaryDark} ${colours.secondaryLight}`
+    }
 }
 
 export default styles;
