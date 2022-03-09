@@ -21,7 +21,4 @@ export default async function grabABook(data) {
         console.log('grab-book error: ', error);
         return { status: 'Grab Fail' }; // failed transaction
     };
-
-    // anything pass this line means missed err catch
-    return { status: 'Unknown Error' };
 };
