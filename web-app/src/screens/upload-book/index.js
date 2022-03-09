@@ -5,6 +5,7 @@ import MyButton from "../../components/button";
 import TextInput from "../../components/text-input";
 import ImageUploading from "react-images-uploading";
 import { useNavigate } from 'react-router-dom';
+// import authWrapper from '../../components/auth-wrapper'; add authwrapper later
 // import {TextField, Autocomplete} from "@mui/material";
 
 function UploadBook() {
@@ -29,7 +30,7 @@ function UploadBook() {
 
 //#region useEffects for necessary params
     useEffect(() => {
-        retrieveUser();                 //user id
+        // retrieveUser();                 //user id
         retrieveIndex();                //index info stored in library to sort author & title
         retrieveGenreList();            //genre list
     }, []);
@@ -45,7 +46,7 @@ function UploadBook() {
     async function retrieveUser() {
         try {
             const result = await bookAPI.get('/protected/viewprofile');
-            console.log('user: ', result.data.data.user.username);
+            console.log('user: ', result);
             console.log('userId: ', result.data.data.user.userId);
             setUser(result.data.data.user);
         } catch (err) {
@@ -105,6 +106,36 @@ function UploadBook() {
     //#endregion handling genre
 
 //#region handling author & title
+    function handleAuthorInput() {
+        const filteredAuthorList = library && library.filter(book => {
+            return (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase()))
+            });
+        const setAuthorList = new Set(filteredAuthorList.map(book => book.author))      //array but only with unique values. set cannot map.
+        const uniqueAuthorList = [...setAuthorList]                                     //convert to set, then back to array ( but with unique values)
+        
+            return uniqueAuthorList.map((authorname) => {
+                return (
+                    <div value={authorname} onClick={handleAuthorSelect}>           
+                        {authorname}
+                    </div>
+                )
+            })
+    }
+
+    function handleTitleInput() {
+        const filteredTitleList = library && library.filter(book => {
+            return (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase()))
+        });
+        
+        return filteredTitleList.map((book) => {
+            return (
+                <div value={book.title} onClick={handleSelect}>
+                    {book.title}
+                </div>
+                )
+            }
+        )
+    }
 
     function handleSelect(e) {
         console.log(e);
@@ -120,30 +151,47 @@ function UploadBook() {
 
 //#region handling book cover
 
-function renderImages(props) {          //returns when search params return true
-    return 
-    <div value={bookCover}>
-        <img onclick={setBookCover} src={props.imageURL}/>
-    </div>
+function renderImages(props,key) {          //returns when search params return true
+    console.log("renderImages called");
+    return (
+        <div key={key}>
+            <img width={50} height={50} src={props.imageURL}/>
+        </div>
+    )
 };
 
-function renderInsertImage(props) {      //returns when search params return false, or if button is clicked
-    return 
+function renderInsertImage() {      //returns when search params return false, or if button is clicked
+    return (
     <>
-        <p> It seems this book has yet to be in our library! </p>
+        <p> It seems this particular book has yet to be in our library!</p>
         <p> Please upload a valid image URL so that users can see the cover of the book</p>
 
         <TextInput type="text" name="Image URL for the book cover" value={bookCover} setValue={setBookCover}/>
 
     </>
+    )
 }
 
 function handleLibraryImg(){
-    let handler = null;
-        return
-        <>
+        const filteredlist = library && library.filter(book => {                                                     //filter logic
+            if (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
+                if (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
+                    return book;
+                } else if (!bookTitle) {
+                return book; }
+            } else if (!bookAuthor && bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
+                return book;
+            }
+        })
+        // console.log("filtered list :", filteredlist);
 
-        </>
+        if (filteredlist.length > 0) {
+            return filteredlist.map((book, key) => {
+                return renderImages(book, key);
+            })
+        } else if (bookAuthor || bookTitle) {
+            return renderInsertImage();
+        }
 }
 
 function insertSwapImage() {            //component to handle user's book image
@@ -176,32 +224,6 @@ function insertSwapImage() {            //component to handle user's book image
 
 //#endregion submit function
 
-//#region TEST CHUNK, CODE NOT IN USE
-    function authorInput() {
-        return 
-
-        {bookAuthor ?
-            (library && library.filter(val => {
-                if(bookAuthor===" ") {
-                    <></>
-                } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
-                    return val;
-                }
-            }).map((item, key) => {
-                return(
-                    <div value={item.author} key={item.indexId} onClick={handleAuthorSelect}>           
-                        {item.author}
-                    </div>
-                )
-            })): (library.map((item) => {
-                return (
-                    <></>
-                )
-            }))
-            }
-    }
-//#endregion TEST CHUNK, CODE NOT IN USE
-
 //#region CODE RENDERING CHUNK
 
     return (
@@ -211,61 +233,17 @@ function insertSwapImage() {            //component to handle user's book image
             <p style={styles.textNormal}>What book would you like to upload today?</p>
             
             <div>
-
+                    {handleLibraryImg()}
                     <label>Book Author:</label>
                     <br/>
                     <TextInput req={true} type="text" name="Author of the book" value ={bookAuthor} setValue={setBookAuthor}/>
                     <br/>
-
-                    {bookAuthor ?
-                    (library && library.filter(val => {
-                        if(bookAuthor===" ") {
-                            <></>
-                        } else if (val.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
-                            return val;
-                        } else if (val == null) {
-                            <></>
-                        }
-                    }).map((item, key) => {
-                        return(
-                            <div value={item.author} key={item.indexId} onClick={handleAuthorSelect}>           
-                                {item.author}
-                            </div>
-                        )
-                    })): (library.map((item) => {
-                        return (
-                            <></>
-                        )
-                    }))
-                    }
-
+                    {handleAuthorInput()}
                     <br/>       
                     <label> Book Title: </label>
                     <br/>
                     <TextInput req={true} type="text" name="Title of the book" value={bookTitle} setValue={setBookTitle}/>
-
-                    {bookTitle ? 
-                        (library && library.filter(val => {
-                            if (bookTitle === " ") {
-                                <></>
-                            } else if (val.title.toLowerCase().includes(bookTitle.toLowerCase())) {
-                                // console.log("val returns :", val);
-                                return val;
-                            }
-                                }).map((item) => {
-                                // console.log("item: ", item);
-                                    return (
-                                    <div value={item.title} key={item.indexId} onClick={handleSelect}>
-                                        {/* <img alt="Book Cover" style={styles.profileBookPics} src={item.imageURL}/> */}
-                                        {item.title}
-                                    </div>
-                                    )
-                                })) : (library.map((item, key) => {
-                                    return (
-                                        <></>
-                                    )   
-                                }))
-                    }
+                    {handleTitleInput()}
 
                     <br/><br/>
                     <label> Genre: </label>
