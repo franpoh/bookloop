@@ -72,13 +72,13 @@ const BookList = () => {
                 />
 
                 <div>
-
+                    {!searchInput ? <h3 style={styles.h2Font}>Here are a few uploads from the users</h3> : <></>}
                     {isLoading ?
                         <Box sx={{ width: '100%' }}>
                             <LinearProgress color="success" />
                         </Box>
                         : searchInput ?
-                            (searchInput === " " ? <h3>No books found for " "</h3> : title && title.filter(data => {
+                            (searchInput === " " ? <i>No books found for " "</i> : title && title.filter(data => {
                                 if (searchInput === "") {
                                     // return numbers
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
