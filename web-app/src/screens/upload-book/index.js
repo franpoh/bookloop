@@ -154,11 +154,20 @@ function UploadBook() {
 function renderImages(props,key) {          //returns when search params return true
     console.log("renderImages called");
     return (
-        <div key={key}>
+        <div value={props} key={key} onClick={handleSelectImage}>
             <img width={50} height={50} src={props.imageURL}/>
         </div>
     )
 };
+
+function handleSelectImage(e) {
+    console.log("index.js line 164 - e.target.src ", e.target.src);
+    setBookCover(e.target.src);
+}
+
+function handleImageInput() {       //manual image input
+
+}
 
 function renderInsertImage() {      //returns when search params return false, or if button is clicked
     return (
