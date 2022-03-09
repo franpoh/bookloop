@@ -40,7 +40,7 @@ function Account() {
                 setProfile(response.user.data.data.user);
                 setReviews(response.user.data.data.reviews);
                 setUploadedBooks(response.user.data.data.swap);
-                setPurchaseHistory(response.user.data.data.swap);
+                setPurchaseHistory(response.user.data.data.purchaseHistory);
             }
 
             if (!response.wishlist) {
