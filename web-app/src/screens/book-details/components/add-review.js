@@ -39,14 +39,14 @@ const ReviewInputDialog = (props) => {
         // setIsLoading(true); // for user perception
     }, [])
 
-    console.log('review input params: ', props.show, props.user, props.index)
+    console.log('review input params: ', props.show, props.user, props.indexId)
 
     if (!props.user) { // this allows reuse of parent userId under user useState
         return <div></div>;
     };
 
     // above console log at start would show false, no. of userId, no. of indexId, not keys
-    const getindex = props.index;
+    const getindex = props.indexId;
 
     const addReview = async () => { //  no props ............. move to another file?
 
@@ -59,7 +59,7 @@ const ReviewInputDialog = (props) => {
                 status: status,
                 show: props.show,
                 passRetrieveReview: props.passRetrieveReview,
-                passSetShow: props.passSetShow  
+                passSetShow: props.passSetShow,
             });
             return;
         };
@@ -79,10 +79,12 @@ const ReviewInputDialog = (props) => {
             setreviewInput("");
             let status = true;
             props.passToReviewButton({
+                indexId: getindex,
                 status: status,
                 show: props.show,
                 passRetrieveReview: props.passRetrieveReview,
-                passSetShow: props.passSetShow 
+                passSetShow: props.passSetShow,
+                passSetReviews: props.passSetReviews,
             });
 
         } catch (err) {
@@ -99,7 +101,12 @@ const ReviewInputDialog = (props) => {
             console.log('empty string caught');
             setreviewInput("");
             let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({ status });
+            props.passToReviewButton({
+                status: status,
+                show: props.show,
+                passRetrieveReview: props.passRetrieveReview,
+                passSetShow: props.passSetShow,
+            });
             return;
         };
     }
@@ -130,7 +137,7 @@ const ReviewInputDialog = (props) => {
                 buttonLabel='Ok'
             />
 
-            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.show ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"

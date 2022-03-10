@@ -42,7 +42,7 @@ async function wishButton( data ) {
 
 function uploadReviewButton( data ) {
 
-    // console.log("uploadReviewButton", data);
+    console.log("uploadReviewButton", data);
     
     if (data.userToken === false) { // halt process if not logined
         return;
@@ -52,11 +52,14 @@ function uploadReviewButton( data ) {
         if (data.status) {
             console.log('triggering refresh of all reviews');
             data.status = false; // reset status of addreview component
-            data.passRetrieveReview();
+            data.passRetrieveReview({
+                indexId: data.indexId,
+                passSetReviews: data.passSetReviews
+            });
         };
-    };
-
-    data.passSetShow(!data.show);    
+    };   
+    data.passSetShow(!(data.show));
+    console.log("uploadReviewButton2", data);
 };
 
 export {

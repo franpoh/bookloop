@@ -49,6 +49,9 @@ async function retrieveSwap( data ) {
 
 // try catch for related reviews
 async function retrieveReview( data ) {
+
+    console.log('retrv rev data: ', data);
+
     try {
         const result = await bookAPI.get(`/general/reviews?indexId=${data.indexId}`);
 
