@@ -6,8 +6,6 @@ import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
 import TextInput from "../../../components/text-input";
 
-// pass props 
-
 function UserDetails(props) {
     let target = props.target;
 
