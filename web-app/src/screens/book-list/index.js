@@ -32,7 +32,6 @@ const BookList = () => {
             await bookAPI.get(`general/searchIndex`)
                 .then(res => {
                     // console.log("Fetching items from API....", res)
-                    // console.log("to read these..:", res.data.data);
                     setTitle(res.data.data);
                 });
         } catch (err) {
@@ -41,7 +40,6 @@ const BookList = () => {
             setIsLoading(false);
         }
     };
-    // console.log("this is render")
 
     useEffect(() => {
         // setTimeout(() => { // remove in finale
@@ -57,7 +55,6 @@ const BookList = () => {
         setSearchInput(event.target.value);
     }
 
-
     return (
         <>
             <h1 style={styles.h1Font}>BookList</h1>
@@ -71,7 +68,7 @@ const BookList = () => {
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
                     InputProps={{
-                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' />
+                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' color='disabled' />
                     }}
                 />
 
@@ -81,12 +78,12 @@ const BookList = () => {
                         <Box sx={{ width: '100%' }}>
                             <LinearProgress color="success" />
                         </Box>
+                        /* ref: refactor as Fn for filter({}).map({}) */
                         : searchInput ?
                             (searchInput === " " ? <i>No books found for " "</i> : title && title.filter(data => {
                                 if (searchInput === "") {
-                                    // return numbers
+                                    // return data
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    // console.log("filtered data returns:", data)
                                     return data;
                                 }
                             }).map((item, key) => {

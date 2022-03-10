@@ -33,11 +33,11 @@ function BookDetails() {
     const [user, setUser] = useState('')
     const [matchIndex, updateMatchIndex] = useState({});
     const [matchSwap, updateMatchSwap] = useState([]);
-    
+
     const [userToken, setUserToken] = useState(false); // for controlling display for non-login
     const [userWishlist, updateUserWishlist] = useState([]);
     const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
-    
+
     const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
     const [toggleAlert, setToggleAlert] = useState(false);
@@ -66,7 +66,7 @@ function BookDetails() {
 
     // Update wishlist button, check if already in wishlist
     useEffect(() => {
-        
+
         let xx;
         for (xx = 0; xx < userWishlist.length; xx++) {
             if (userWishlist[xx] === indexId) {
@@ -99,7 +99,7 @@ function BookDetails() {
             setUser(result.data.data.user); // Comment this out to test no login
         } catch (error) {
             console.log('User info error', error);
-        };        
+        };
     };
 
     // try catch for related swap data
@@ -118,7 +118,7 @@ function BookDetails() {
             };
         } catch (error) {
             console.log('retr Swap by Index error', error);
-        };        
+        };
     };
 
 
@@ -167,7 +167,7 @@ function BookDetails() {
             };
             updateUserWishlist(updateWishlist.data.wishlist);
             updateCurrentBookWish(true);
-            return;            
+            return;
         };
         return;
     };
@@ -266,7 +266,7 @@ function BookDetails() {
         <div style={styles.containerAlt}>
 
             <ShowBookInfo data={matchIndex} />
-            
+
             <hr style={styles.divider} />
 
             <DialogAlert
@@ -294,7 +294,7 @@ function BookDetails() {
                             () => wishButton()
                         }
                     />
-                    <MyButton name={show ? "Input Review Below" : "Upload Review"}
+                    <MyButton name={show ? "Input Review Upload" : "Upload Review"}
                         type={"button"}
                         handle={
                             () => {
