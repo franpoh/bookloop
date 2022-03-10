@@ -93,25 +93,29 @@ const styles = {
     h1Font: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.primary
+        color: colours.primary,
+        fontSize: "40px"
     },
 
     h2Font: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.baseDark
+        color: colours.baseDark,
+        fontSize: "30px"
     },
 
     h3Bold: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.secondaryDark
+        color: colours.secondaryDark,
+        fontSize: "25px"
     },
 
     h3Normal: {
         fontFamily: fontType,
         fontWeight: 'normal',
-        color: colours.baseDark
+        color: colours.baseDark,
+        fontSize: "25px"
     },
 
     textNormal: {
@@ -146,7 +150,19 @@ const styles = {
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        marginLeft: "1px"
+        marginLeft: "5px"
+    },
+
+    dropdown: {
+        height: "40px",
+        width: "160px",
+        backgroundColor: colours.primary,
+        border: "none",
+        borderRadius: "5px",
+        color: colours.baseWhite,
+        fontWeight: "400",
+        fontSize: "17px",
+        padding: "5px"
     },
 
     msgGap: {
@@ -203,6 +219,10 @@ const styles = {
         marginTop: "15vh"
     },
 
+    negativeMarginAtTop: {
+        marginTop: "-5vh"
+    },
+
     searcher: {
         marginTop: 20,
         width: 300,
@@ -237,7 +257,12 @@ const styles = {
         height: "45vh",
         overflowY: "auto",
         scrollbarColor: `${colours.secondaryDark} ${colours.secondaryLight}`
-    }
+    },
+
+    dataGrid: {
+        height: "72vh", 
+        width: '45vw',
+    },
 }
 
 export default styles;
