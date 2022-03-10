@@ -68,7 +68,6 @@ function UserDetails(props) {
                         <TextInput req={false} type="password" name="New Password" value={newPwd} setValue={setNewPwd} />
                         <div style={styles.containerRow}>
                             <MyButton name={"Save Profile"} />
-                            <MyButton type={"button"} name={"Upload Book"} handle={() => console.log("uploadbook")} />
                             <Link to="/admin"><MyButton name={"Admin"} /></Link>
                         </div>
                     </form>
