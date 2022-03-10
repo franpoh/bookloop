@@ -1,8 +1,10 @@
 import bookAPI from '../../../API/book-api';
 
-// requires parent to pass swapId as objects
+// folder sub-components
+import removeBookfromWishList from './remove-book-wishlist';
 
-export default async function grabABook(data) {
+// requires to pass swapId as objects
+async function grabABook( data ) {
 
     console.log(`grabbing ${data.swapId}`);
 
@@ -21,4 +23,55 @@ export default async function grabABook(data) {
         console.log('grab-book error: ', error);
         return { status: 'Grab Fail' }; // failed transaction
     };
+};
+
+async function handleConfirmYes( data ) {
+    let submittingSwapId = data.toggleConfirm.swapId;
+    data.passSetToggleConfirm({
+        status: false,
+        swapId: null,
+        bodytext: ''
+    });
+    console.log('Submitting to grabbook', submittingSwapId);
+
+    let grabProcess = await grabABook({
+        swapId: submittingSwapId,
+    });
+
+    console.log('this should only trigger after grab component finish', grabProcess.status);
+
+    if (grabProcess.status === 'Grab Fail' || grabProcess.status === 'Unknown Error') { // failed transaction
+        console.log('Grab error:', grabProcess.status);
+        return;
+    };
+
+    if (grabProcess.status === 'Grab Done') { // transaction complete
+
+        data.passRetrieveSwap({
+            indexId: data.indexId,
+            passUpdateMatchSwap: data.passUpdateMatchSwap
+        }); // trigger fresh pull from swap for index book
+        data.passRetrieveUser({
+            passSetUser: data.passSetUser
+        }); // same for user points
+
+        // trigger remove index from user wishlist if valid
+        console.log('index vs wishlist: ', data.userWishlist.includes(data.indexId));
+        if (data.userWishlist.includes(data.indexId)) {
+            console.log('also removing from wishlist');
+            const updateWishlist = removeBookfromWishList({
+                indexId: data.indexId,
+                userWishlist: data.userWishlist
+            });
+            data.passUpdateUserWishlist(updateWishlist);
+            data.passUpdateCurrentBookWish(false);
+        };
+        return;
+    };
+    return;
+};
+
+export {
+    grabABook, 
+    handleConfirmYes,
 };

@@ -26,7 +26,7 @@ const ListReviews = ({ data }) => {
     )
 }
 
-// const ReviewInputDialog = (props) => {
+
 const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
@@ -39,23 +39,28 @@ const ReviewInputDialog = (props) => {
         // setIsLoading(true); // for user perception
     }, [])
 
-    console.log('review input params: ', props.data, props.user, props.index)
+    console.log('review input params: ', props.show, props.user, props.indexId)
 
     if (!props.user) { // this allows reuse of parent userId under user useState
         return <div></div>;
     };
 
     // above console log at start would show false, no. of userId, no. of indexId, not keys
-    const getindex = props.index;
+    const getindex = props.indexId;
 
-    const addReview = async () => { //  no props ............. move to another file?
+    const addReview = async () => {
 
         // block if rev string is empty
         if (reviewInput === '') {
             console.log('empty string caught');
             setreviewInput("");
             let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({ status });
+            props.passToReviewButton({
+                status: status,
+                show: props.show,
+                passRetrieveReview: props.passRetrieveReview,
+                passSetShow: props.passSetShow,
+            });
             return;
         };
 
@@ -73,7 +78,14 @@ const ReviewInputDialog = (props) => {
             // after successful submission, clear text input, reset review button
             setreviewInput("");
             let status = true;
-            props.passToReviewButton({ status });
+            props.passToReviewButton({
+                indexId: getindex,
+                status: status,
+                show: props.show,
+                passRetrieveReview: props.passRetrieveReview,
+                passSetShow: props.passSetShow,
+                passSetReviews: props.passSetReviews,
+            });
 
         } catch (err) {
             console.log("You have an error: ", err);
@@ -82,18 +94,22 @@ const ReviewInputDialog = (props) => {
         }
     };
 
-    const cancelReview = async () => { //  no props ............. move to another file?
+    const cancelReview = async () => {
 
         // block if rev string is empty
-        if (reviewInput === '') {
-            console.log('empty string caught');
-            setreviewInput("");
-            let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({ status });
-            return;
-        };
+        // if (reviewInput === '') { 
+        console.log('empty string caught');
+        setreviewInput("");
+        let status = false; // so that Community reviews refresh is not triggered
+        props.passToReviewButton({
+            status: status,
+            show: props.show,
+            passRetrieveReview: props.passRetrieveReview,
+            passSetShow: props.passSetShow,
+        });
+        // return;
+        // };
     }
-
 
     const handleSubmit = () => {
         addReview();
@@ -120,7 +136,7 @@ const ReviewInputDialog = (props) => {
                 buttonLabel='Ok'
             />
 
-            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.show ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"
