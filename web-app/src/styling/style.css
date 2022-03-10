@@ -11,7 +11,7 @@
 }
 
 .button {
-  background-color: #6F9452;
+  background-color: #6f9452;
   border: none;
   color: white;
   padding: 16px 32px;
@@ -27,11 +27,11 @@
 .button1 {
   background-color: white;
   color: black;
-  border: 2px solid #6F9452;
+  border: 2px solid #6f9452;
 }
 
 .button1:hover {
-  background-color: #6F9452;
+  background-color: #6f9452;
   color: white;
 }
 
@@ -44,3 +44,40 @@
   text-decoration: none;
 }
 
+.icon:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.libraryGrid {
+  display: grid;
+  justify-content: space-evenly;
+  text-align: center;
+  width: 95vw;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+  /* border: red 2px solid; */
+}
+
+.library {
+  margin-bottom: 10px;
+}
+
+.library:hover {
+  cursor: pointer;
+  background-color: lightgray;
+}
+
+@media screen and (max-width: 960px) {
+  .libraryGrid {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .libraryGrid {
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+  }
+}

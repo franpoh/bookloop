@@ -26,7 +26,7 @@ const ListReviews = ({ data }) => {
     )
 }
 
-// const ReviewInputDialog = (props) => {
+
 const ReviewInputDialog = (props) => {
 
     const container = useRef(null);
@@ -48,7 +48,7 @@ const ReviewInputDialog = (props) => {
     // above console log at start would show false, no. of userId, no. of indexId, not keys
     const getindex = props.indexId;
 
-    const addReview = async () => { //  no props ............. move to another file?
+    const addReview = async () => {
 
         // block if rev string is empty
         if (reviewInput === '') {
@@ -94,23 +94,22 @@ const ReviewInputDialog = (props) => {
         }
     };
 
-    const cancelReview = async () => { //  no props ............. move to another file?
+    const cancelReview = async () => {
 
         // block if rev string is empty
-        if (reviewInput === '') {
-            console.log('empty string caught');
-            setreviewInput("");
-            let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({
-                status: status,
-                show: props.show,
-                passRetrieveReview: props.passRetrieveReview,
-                passSetShow: props.passSetShow,
-            });
-            return;
-        };
+        // if (reviewInput === '') { 
+        console.log('empty string caught');
+        setreviewInput("");
+        let status = false; // so that Community reviews refresh is not triggered
+        props.passToReviewButton({
+            status: status,
+            show: props.show,
+            passRetrieveReview: props.passRetrieveReview,
+            passSetShow: props.passSetShow,
+        });
+        // return;
+        // };
     }
-
 
     const handleSubmit = () => {
         addReview();

@@ -30,11 +30,11 @@ function BookDetails() {
     const [user, setUser] = useState('')
     const [matchIndex, updateMatchIndex] = useState({});
     const [matchSwap, updateMatchSwap] = useState([]);
-    
+
     const [userToken, setUserToken] = useState(false); // for controlling display for non-login
     const [userWishlist, updateUserWishlist] = useState([]);
     const [currentBookWish, updateCurrentBookWish] = useState(false); // for toggling button status
-    
+
     const [reviews, setReviews] = useState([]);
     const [show, setShow] = useState(false);
     const [toggleAlert, setToggleAlert] = useState(false);
@@ -45,7 +45,7 @@ function BookDetails() {
     });
 
     // trigger on "component mount"
-    useEffect(() => {        
+    useEffect(() => {
         retrieveBookDetails({
             indexId: indexId,
             passUpdateMatchIndex: updateMatchIndex
@@ -85,7 +85,7 @@ function BookDetails() {
         <div style={styles.containerAlt}>
 
             <ShowBookInfo data={matchIndex} />
-            
+
             <hr style={styles.divider} />
 
             <DialogAlert
@@ -103,7 +103,7 @@ function BookDetails() {
                     swapId: null
                 })}
                 // onClickA={handleConfirmCancel}
-                buttonLabelA='Cancel'                
+                buttonLabelA='Cancel'
                 onClickB={() => handleConfirmYes({
                     toggleConfirm: toggleConfirm,
                     passSetToggleConfirm: setToggleConfirm,
@@ -134,7 +134,7 @@ function BookDetails() {
                             })
                         }
                     />
-                    <MyButton name={show ? "Input Review Below" : "Upload Review"}
+                    <MyButton name={show ? "Input Review Upload" : "Upload Review"}
                         type={"button"}
                         handle={
                             () => uploadReviewButton({
@@ -151,7 +151,7 @@ function BookDetails() {
                 </div>
             </div>
 
-            <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews}/>
+            <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews} />
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
 

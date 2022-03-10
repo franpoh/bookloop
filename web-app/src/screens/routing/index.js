@@ -14,6 +14,7 @@ import SplashScreen from "../splash/splash";
 import styles from "../../styling/style-sheet";
 import { history } from "../../components/history";
 import AuthContext from "../../components/context";
+import ListAllBooks from "../book-list/components/list-all-books";
 
 function RoutePages() {
     const [isLoading, setIsLoading] = React.useState(true);
@@ -56,6 +57,7 @@ function RoutePages() {
                             <Route path="/bookdetails/:index" element={<BookDetails />} />
                             <Route path="/uploadbook" element={<UploadBook />} />
                             <Route path="/admin" element={<Admin />} />
+                            <Route path="/library" element={<ListAllBooks />} />
                         </Routes>
                     </ div>
                 </div>

@@ -1,40 +1,74 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import bookAPI from "../../../API/book-api";
 import { v4 as uuidv4 } from 'uuid';
 import styles from "../../../styling/style-sheet";
 import "../../../styling/style.css"
 import colours from "../../../styling/colours";
-import { Grid } from '@mui/material';
+import { Grid, Box, LinearProgress } from '@mui/material';
 
-const ListAllBooks = ({ data }) => {
+const noImage = require("../../../assets/no-image.png")
+const ListAllBooks = () => {
+
+    const [title, setTitle] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
+    const retrieve = async () => {
+        try {
+            await bookAPI.get(`general/searchIndex`)
+                .then(res => {
+                    setTitle(res.data.data);
+                });
+        } catch (err) {
+            console.log("You have an error: ", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        retrieve();
+        setIsLoading(true);
+    }, [])
+
     return (
-        data.map((item, key) => {
-            return (
-                <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
-                    <Grid
-                        container spacing={0.5}
-                        onClick={() => {
-                            navigate(`/bookdetails/${item.indexId}`)
-                        }}
-                    >
+        <>
+            <h1 style={styles.h1Font}> BookLibrary</h1>
+            <div className="libraryGrid">
+                {isLoading ?
+                    <Box sx={{ width: '100%' }}>
+                        <LinearProgress color="success" />
+                    </Box> :
+                    (title.map((item, key) => {
+                        return (
+                            <div className="library" key={uuidv4()}>
+                                <Grid
+                                    container spacing={0.5}
+                                    onClick={() => {
+                                        navigate(`/bookdetails/${item.indexId}`)
+                                    }}
+                                >
 
-                        <Grid item sm={5} lg={4}>
-                            <img alt="covers" style={{ width: 150, height: 200 }} src={item.imageURL} />
-                        </Grid>
-                        <Grid item sm={6} lg={4}>
-                            <p style={styles.textBold}>{item.title}</p>
-                            <p style={{ color: `${colours.baseDark}` }}><i>by {item.author}</i></p>
-                        </Grid>
+                                    <Grid item sm={5} lg={5}>
+                                        <img alt="covers" style={{ width: 150, height: 200 }} src={item.imageURL ? item.imageURL : noImage} />
+                                    </Grid>
+                                    <Grid item sm={3} lg={6}>
+                                        <p style={styles.textBold}>{item.title}</p>
+                                        <p style={{ color: `${colours.baseDark}` }}><i>by {item.author}</i></p>
+                                    </Grid>
 
-                    </Grid>
-                </div>
-            )
-        })
+                                </Grid>
+                            </div>
+                        )
+                    }))
+                }
+            </div>
+        </>
     )
 }
+
 
 export default ListAllBooks;
 
