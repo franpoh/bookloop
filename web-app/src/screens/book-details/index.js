@@ -134,7 +134,7 @@ function BookDetails() {
                             })
                         }
                     />
-                    <MyButton name={show ? "Input your Review" : "Upload Review"}
+                    <MyButton name={show ? "Input Review Below" : "Upload Review"}
                         type={"button"}
                         handle={
                             () => uploadReviewButton({
@@ -145,6 +145,7 @@ function BookDetails() {
                             })
                         }
                     />
+
                 </div>
             </div>
 

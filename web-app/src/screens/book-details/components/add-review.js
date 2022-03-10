@@ -5,6 +5,7 @@ import colours from "../../../styling/colours";
 import bookAPI from "../../../API/book-api";
 import { Portal, TextField, Box } from '@mui/material';
 import MyButton from "../../../components/button";
+import DialogAlert from '../../../components/dialog-alert';
 
 
 const ListReviews = ({ data }) => {
@@ -32,6 +33,7 @@ const ReviewInputDialog = (props) => {
 
     // const [isLoading, setIsLoading] = useState(false); // for user perception
     const [reviewInput, setreviewInput] = useState("");
+    const [toggleAlertReview, setToggleAlertReview] = useState(false);
 
     useEffect(() => {
         // setIsLoading(true); // for user perception
@@ -65,10 +67,6 @@ const ReviewInputDialog = (props) => {
         console.log("Fetching items from API....");
 
         try {
-            // const addRev = await authWrapper(bookAPI.post(`/protected/${getindex}/addReview`, {
-            //     userId: getuser,
-            //     rev: reviewInput
-            // }));
             console.log('right before submitting review: ', reviewInput);
 
             const addRev = await bookAPI.post(`/protected/addReview`, {
@@ -94,19 +92,45 @@ const ReviewInputDialog = (props) => {
         }
     };
 
+    const cancelReview = async () => { //  no props ............. move to another file?
+
+        // block if rev string is empty
+        if (reviewInput === '') {
+            console.log('empty string caught');
+            setreviewInput("");
+            let status = false; // so that Community reviews refresh is not triggered
+            props.passToReviewButton({ status });
+            return;
+        };
+    }
+
 
     const handleSubmit = () => {
         addReview();
+    }
+
+    const handleCancel = () => {
+        cancelReview();
     }
 
     const inputHandler = (event) => {
         setreviewInput(event.target.value);
     }
 
+    function handleAlertClose() {
+        setToggleAlertReview(false);
+    };
 
     return (
         <>
-            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.show ? (
+            <DialogAlert
+                open={toggleAlertReview}
+                onClick={handleAlertClose}
+                bodytext='Review has been added!'
+                buttonLabel='Ok'
+            />
+
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"
@@ -121,8 +145,18 @@ const ReviewInputDialog = (props) => {
                     <MyButton
                         name="Submit"
                         handle={
-                            () => handleSubmit()
+                            () => {
+                                handleSubmit()
+                                if (reviewInput) {
+                                    setToggleAlertReview(true)
+                                }
+
+                            }
                         }
+                    />
+                    <MyButton
+                        name="Cancel"
+                        handle={() => handleCancel()}
                     />
                 </Portal>
             ) : null} </Box>

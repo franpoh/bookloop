@@ -12,8 +12,6 @@ const BookListing = (props) => {
     const detailName = props.name;
     const detail = props.detail;
 
-    console.log(props);
-
     function navBook() {
         navigate(`/bookdetails/${passIndex}`);
     }
@@ -35,7 +33,7 @@ const BookDisplay = (props) => {
         <div style={styles.containerAlt}>
             <h1 style={styles.h1Font}>{props.name}</h1>
             <hr style={styles.accountDivider} />
-            <ul style={styles.listNoBullets}>{props.uploaded}</ul>
+            <ul style={{ ...styles.listNoBullets, ...styles.overflowScroll }}>{props.uploaded}</ul>
         </div>
     )
 }
