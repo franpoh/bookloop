@@ -17,10 +17,9 @@ const noImage = require("../../assets/no-image.png")
 
 const BookList = () => {
 
-    const [title, setTitle] = useState([]);             // library equivalent
-    const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
-    const [isLoading, setIsLoading] = useState(false);  //unnecs
-    // const [message, isMessage] = useState("Testing")
+    const [title, setTitle] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
