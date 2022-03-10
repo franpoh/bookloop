@@ -22,7 +22,7 @@ const styles = {
         marginBottom: "5vh",
     },
 
-    topBarSpace: { 
+    topBarSpace: {
         display: "flex",
         columnGap: "10px",
         textAlign: "center",
@@ -140,12 +140,13 @@ const styles = {
     button: {
         height: "40px",
         width: "130px",
-        backgroundColor: colours.primary,
+        backgroundColor: colours.secondaryDark,
         border: "none",
         borderRadius: "5px",
         color: colours.baseWhite,
         fontWeight: "400",
-        fontSize: "17px"
+        fontSize: "17px",
+        marginLeft: "1px"
     },
 
     msgGap: {
@@ -228,8 +229,15 @@ const styles = {
 
     bookList: {
         borderBottom: "lightgrey 1px solid",
-        paddingLeft: 11
+        paddingLeft: 11,
+        cursor: "pointer"
     },
+
+    overflowScroll: {
+        height: "45vh",
+        overflowY: "auto",
+        scrollbarColor: `${colours.secondaryDark} ${colours.secondaryLight}`
+    }
 }
 
 export default styles;
