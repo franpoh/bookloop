@@ -5,6 +5,8 @@ import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
+import ListAllBooks from './components/list-all-books';
+
 import {
     LinearProgress,
     Grid,
@@ -12,6 +14,8 @@ import {
     TextField,
     CircularProgress
 } from '@mui/material';
+
+const noImage = require("../../assets/no-image.png")
 
 const BookList = () => {
 
@@ -21,7 +25,6 @@ const BookList = () => {
     const navigate = useNavigate();
 
     const retrieve = async () => {
-        // console.log("Fetching items from API....");
         try {
             await bookAPI.get(`general/searchIndex`)
                 .then(res => {
@@ -72,12 +75,12 @@ const BookList = () => {
                             <LinearProgress color="success" />
                         </Box>
                         : searchInput ?
-                            (title && title.filter(val => {
+                            (title && title.filter(data => {
                                 if (searchInput === " ") {
 
-                                } else if (val.title.toLowerCase().includes(searchInput.toLowerCase())) {
+                                } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
                                     // console.log("val returns:", val)
-                                    return val;
+                                    return data;
                                 }
                             }).map((item, key) => {
                                 return (
@@ -111,7 +114,7 @@ const BookList = () => {
                                         >
 
                                             <Grid item sm={5} lg={4}>
-                                                <img alt="covers" style={{ width: 150, height: 200 }} src={item.imageURL} />
+                                                <img alt="Missing Image" style={{ width: 150, height: 200 }} src={item.imageURL ? item.imageURL : noImage} />
                                             </Grid>
                                             <Grid item sm={6} lg={4}>
                                                 <p style={styles.textBold}>{item.title}</p>
