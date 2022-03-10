@@ -141,7 +141,9 @@ function BookDetails() {
                                 userToken: userToken,
                                 show: show,
                                 passRetrieveReview: retrieveReview,
-                                passSetShow: setShow
+                                passSetShow: setShow,
+                                passSetReviews: setReviews,
+                                indexId: indexId
                             })
                         }
                     />
@@ -149,7 +151,7 @@ function BookDetails() {
                 </div>
             </div>
 
-            <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} index={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow}/>
+            <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews}/>
 
             <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
 
