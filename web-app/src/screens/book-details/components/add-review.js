@@ -37,7 +37,7 @@ const ReviewInputDialog = (props) => {
         // setIsLoading(true); // for user perception
     }, [])
 
-    console.log('review input params: ', props.data, props.user, props.index)
+    console.log('review input params: ', props.show, props.user, props.index)
 
     if (!props.user) { // this allows reuse of parent userId under user useState
         return <div></div>;
@@ -53,7 +53,12 @@ const ReviewInputDialog = (props) => {
             console.log('empty string caught');
             setreviewInput("");
             let status = false; // so that Community reviews refresh is not triggered
-            props.passToReviewButton({ status });
+            props.passToReviewButton({
+                status: status,
+                show: props.show,
+                passRetrieveReview: props.passRetrieveReview,
+                passSetShow: props.passSetShow  
+            });
             return;
         };
 
@@ -75,7 +80,12 @@ const ReviewInputDialog = (props) => {
             // after successful submission, clear text input, reset review button
             setreviewInput("");
             let status = true;
-            props.passToReviewButton({ status });
+            props.passToReviewButton({
+                status: status,
+                show: props.show,
+                passRetrieveReview: props.passRetrieveReview,
+                passSetShow: props.passSetShow 
+            });
 
         } catch (err) {
             console.log("You have an error: ", err);
@@ -96,7 +106,7 @@ const ReviewInputDialog = (props) => {
 
     return (
         <>
-            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.data ? (
+            <Box sx={{ width: "85%", marginTop: "-3vh" }} ref={container}>{props.show ? (
                 <Portal container={container.current}>
                     <TextField
                         id="standard-basic"
