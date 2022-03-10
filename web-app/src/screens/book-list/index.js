@@ -57,7 +57,14 @@ const BookList = () => {
 
     return (
         <>
+
             <h1 style={styles.h1Font}>BookList</h1>
+            <h3 className="icon"
+                style={styles.h2Font}
+                onClick={() => {
+                    navigate(`/library`)
+                }}> + Browse the entire collection</h3>
+
             <div>
 
                 <TextField
@@ -68,7 +75,12 @@ const BookList = () => {
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
                     InputProps={{
-                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' color='disabled' />
+                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='large' color='disabled'
+                            onClick={() => {
+                                navigate(`/library`)
+                            }}
+                            className="icon"
+                        />
                     }}
                 />
 
@@ -107,8 +119,9 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.slice(0, 12).map((item, key) => {
+                            })) : (title.slice(0, 10).map((item, key) => {
                                 return (
+
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
@@ -127,6 +140,7 @@ const BookList = () => {
 
                                         </Grid>
                                     </div>
+
                                 )
                             }))
                     }
