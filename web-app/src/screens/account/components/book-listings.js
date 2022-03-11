@@ -7,19 +7,22 @@ import styles from "../../../styling/style-sheet";
 const BookListing = (props) => {
     const navigate = useNavigate();
 
+    // assigning props
     const passIndex = props.index;
     const bookItem = props.item;
     const detailName = props.name;
     const detail = props.detail;
 
+    // navigate to specific book URL
     function navBook() {
         navigate(`/bookdetails/${passIndex}`);
     }
 
+    // list item format
     return (
         <div style={styles.containerRowList}>
             <img src={bookItem.Index.imageURL} alt="book covers" style={styles.profileBookPics} className="nav" onClick={navBook} />
-            <div style={styles.profileBookDetails} props>
+            <div style={styles.profileBookDetails}>
                 <p style={styles.textBold} className="nav" onClick={navBook}>{bookItem.Index.title}</p>
                 <p style={styles.textNormal}><b>{detailName}:</b> {bookItem[detail]}</p>
             </div>

@@ -6,6 +6,8 @@ import Register from "./components/register";
 import MyButton from "../../components/button";
 
 function Access() {
+    
+    // set states
     const [display, setDisplay] = React.useState(<Login />);
     const [buttonText, setButtonText] = React.useState("Sign Up Now");
 
@@ -20,6 +22,7 @@ function Access() {
         }
     }
 
+    // render
     return (
         <div>
             {display}

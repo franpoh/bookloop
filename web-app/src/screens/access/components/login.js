@@ -8,9 +8,13 @@ import MyButton from "../../../components/button";
 import AuthContext from "../../../components/context";
 
 function Login() {
+
     const { signIn } = React.useContext(AuthContext);
+
+    // for navigating with react router
     const navigate = useNavigate();
 
+    // set state
     const [email, setEmail] = React.useState('shepard@normandy.com');
     const [pwd, setPwd] = React.useState('fuckreapers');
     const [msg, setMsg] = React.useState('')
@@ -25,9 +29,10 @@ function Login() {
                 password: pwd
             }
         ).then((response) => {
+            // automatically navigate to book list page if login successful
             setMsg(response.data.message)
             setTimeout(() => {
-                signIn();
+                signIn(response.data.data);
                 return navigate('/');
             }, 2000);
         }).catch((error) => {
@@ -35,6 +40,7 @@ function Login() {
         })
     }
 
+    // render
     return (
         <div>
             <h1 style={styles.h1Font}>LOGIN</h1>

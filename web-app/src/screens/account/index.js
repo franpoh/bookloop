@@ -9,16 +9,21 @@ import authWrapper from "../../components/auth-wrapper";
 import AuthContext from "../../components/context"
 
 function Account() {
+
     const { signOut } = React.useContext(AuthContext);
 
+    // message for if reviews/uploaded books/wishlist/purchase history is empty
+    const defaultMsg = "You have not uploaded anything yet!";
+
+    // set state
     const [profile, setProfile] = React.useState([])
     const [reviews, setReviews] = React.useState([]);
     const [uploadedBooks, setUploadedBooks] = React.useState([]);
     const [wishlist, setWishlist] = React.useState([]);
     const [purchaseHistory, setPurchaseHistory] = React.useState([]);
+    const [errorMsg, setErrorMsg] = React.useState('');
 
-    const defaultMsg = "You have not uploaded anything yet!";
-
+    // get profile details and wishlist
     React.useEffect(() => {
         let p = new Promise(async (resolve) => {
             let user = await authWrapper(bookAPI.get('/protected/viewprofile'), signOut);
@@ -34,13 +39,16 @@ function Account() {
 
         p.then((response) => {
             if (!response.user) {
-                console.log("Error calling viewprofile in screens/account", response.user);
+                setErrorMsg("Loading profile failed, please login again.");
                 return;
             } else {
-                setProfile(response.user.data.data.user);
-                setReviews(response.user.data.data.reviews);
-                setUploadedBooks(response.user.data.data.swap);
-                setPurchaseHistory(response.user.data.data.purchaseHistory);
+                // set states for data to be sent to various handling components
+                const userData = response.user.data.data;
+
+                setProfile(userData.user);
+                setReviews(userData.reviews);
+                setUploadedBooks(userData.swap);
+                setPurchaseHistory(userData.purchaseHistory);
             }
 
             if (!response.wishlist) {
@@ -51,8 +59,11 @@ function Account() {
         });
     }, [])
 
-    if (!profile) {
+    // render
+    if (profile.length === 0) {
         return <></>
+    } else if (errorMsg) {
+        return <h3 style={styles.h3Bold}>{errorMsg}</h3>
     } else {
         return (
             <div style={styles.container}>
