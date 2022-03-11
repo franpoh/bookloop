@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Popup from 'reactjs-popup';
 import bookAPI from "../../API/book-api";
 import styles from "../../styling/style-sheet";
@@ -7,12 +7,14 @@ import TextInput from "../../components/text-input";
 // import ImageUploading from "react-images-uploading";
 import logo from "../../assets/logo.png";
 import { useNavigate } from 'react-router-dom';
-// import authWrapper from '../../components/auth-wrapper'; add authwrapper later
+import authWrapper from "../../components/auth-wrapper";
+import AuthContext from "../../components/context"
 // import {TextField, Autocomplete} from "@mui/material";
 
 function UploadBook() {
     const navigate = useNavigate()
-
+    const { signOut } = useContext(AuthContext);
+    
 //#region UseStates
     const [user, setUser] = useState('');
     const [userToken, setUserToken] = useState(false)
@@ -31,6 +33,21 @@ function UploadBook() {
     // const [inputValue, setInputValue] = useState('');                                 //for TextField/Autocomplete
 //#endregion UseStates
 
+//#region useEffects for necessary params
+useEffect(() => {
+    retrieveUser();                 //user id
+    retrieveIndex();                //index info stored in *library* to sort author, title and imageURL
+    retrieveGenreList();            //genre list
+}, []);
+
+useEffect(() => {
+    if (user.username !== '') {
+        setUserToken(true);
+    };
+}, [user]);
+
+//#endregion useEffects for necessary params
+
 //#region Pop Up
 function PopUp() {
     <Popup trigger={<button>Trigger</button>} position="right center">
@@ -45,20 +62,6 @@ function PopUp() {
     </Popup>
 }
 //#endregion Pop Up
-
-//#region useEffects for necessary params
-    useEffect(() => {
-        retrieveUser();                 //user id
-        retrieveIndex();                //index info stored in *library* to sort author, title and imageURL
-        retrieveGenreList();            //genre list
-    }, []);
-
-    useEffect(() => {
-        if (user.username !== '') {
-            setUserToken(true);
-        };
-    }, [user]);
-//#endregion useEffects for necessary params
 
 //#region async retrieve functions
     async function retrieveUser() {
