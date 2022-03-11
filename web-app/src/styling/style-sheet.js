@@ -291,8 +291,8 @@ const styles = {
     },
 
     defaultImageBlock: {
-        width: "200px",
-        height: "100px",
+        minWidth: "200px",
+        maxWidth: "350px",
         margin: "auto",
         textAlign: "center",
         alignItems: "center",

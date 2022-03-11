@@ -5,9 +5,6 @@ import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
-// import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import ListAllBooks from './components/list-all-books';
-
 import {
     LinearProgress,
     Grid,
@@ -20,10 +17,9 @@ const noImage = require("../../assets/no-image.png")
 
 const BookList = () => {
 
-    const [title, setTitle] = useState([]);             // library equivalent
-    const [searchInput, setSearchInput] = useState(""); // bookTitle, setBookTitle equiv
-    const [isLoading, setIsLoading] = useState(false);  //unnecs
-    // const [message, isMessage] = useState("Testing")
+    const [title, setTitle] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -71,17 +67,9 @@ const BookList = () => {
                     style={{ ...styles.searcher, width: "45vw" }}
                     id="standard-basic"
                     varient="standard"
-                    placeholder="Search for more books available"
+                    placeholder="Search from collection"
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
-                // InputProps={{
-                //     endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='large' color='disabled'
-                //         onClick={() => {
-                //             navigate(`/library`)
-                //         }}
-                //         className="icon"
-                //     />
-                // }}
                 />
 
                 <div>
