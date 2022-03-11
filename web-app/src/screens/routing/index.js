@@ -17,14 +17,16 @@ import AuthContext from "../../components/context";
 import ListAllBooks from "../book-list/components/list-all-books";
 
 function RoutePages() {
+
+    // set state
     const [isLoading, setIsLoading] = React.useState(true);
     const [userToken, setUserToken] = React.useState(localStorage.getItem("userToken"));
 
     // local storage is used, otherwise userToken is lost upon reloading page
     const authContext = {
-        signIn: () => {
+        signIn: (user) => {
             setIsLoading(false);
-            localStorage.setItem("userToken", "mellon");
+            localStorage.setItem("userToken", user);
             setUserToken(localStorage.getItem("userToken"))
         },
         signOut: () => {
@@ -34,6 +36,7 @@ function RoutePages() {
         },
     }
 
+    // when page loading, show splashscreen for 1 second
     React.useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
@@ -44,6 +47,7 @@ function RoutePages() {
         return <SplashScreen />
     }
 
+    // render, passing userToken into TopNav and authContext into everything
     return (
         <AuthContext.Provider value={authContext} >
             <CustomRouter history={history} >
