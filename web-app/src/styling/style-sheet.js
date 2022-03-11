@@ -93,25 +93,29 @@ const styles = {
     h1Font: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.primary
+        color: colours.primary,
+        fontSize: "40px"
     },
 
     h2Font: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.baseDark
+        color: colours.baseDark,
+        fontSize: "30px"
     },
 
     h3Bold: {
         fontFamily: fontType,
         fontWeight: 'bold',
-        color: colours.secondaryDark
+        color: colours.secondaryDark,
+        fontSize: "25px"
     },
 
     h3Normal: {
         fontFamily: fontType,
         fontWeight: 'normal',
-        color: colours.baseDark
+        color: colours.baseDark,
+        fontSize: "25px"
     },
 
     textNormal: {
@@ -140,13 +144,25 @@ const styles = {
     button: {
         height: "40px",
         width: "130px",
+        backgroundColor: colours.secondaryDark,
+        border: "none",
+        borderRadius: "5px",
+        color: colours.baseWhite,
+        fontWeight: "400",
+        fontSize: "17px",
+        marginLeft: "5px"
+    },
+
+    dropdown: {
+        height: "40px",
+        width: "160px",
         backgroundColor: colours.primary,
         border: "none",
         borderRadius: "5px",
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        marginLeft: "1px"
+        padding: "5px"
     },
 
     msgGap: {
@@ -201,6 +217,10 @@ const styles = {
 
     marginAtTop: {
         marginTop: "15vh"
+    },
+
+    negativeMarginAtTop: {
+        marginTop: "-5vh"
     },
 
     searcher: {
@@ -294,6 +314,18 @@ const styles = {
         margin: "20px",
     },
 
+    //end aaron
+
+    overflowScroll: {
+        height: "45vh",
+        overflowY: "auto",
+        scrollbarColor: `${colours.secondaryDark} ${colours.secondaryLight}`
+    },
+
+    dataGrid: {
+        height: "72vh", 
+        width: '45vw',
+    },
 }
 
 export default styles;
