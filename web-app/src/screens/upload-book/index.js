@@ -38,7 +38,7 @@ function PopUp() {
             <div>
                 Test
                 <a className="close" onClick={close}>
-                    &times;
+                    &times;~
                 </a>
             </div>    
         )}
