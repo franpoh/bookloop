@@ -13,12 +13,13 @@ function Logout() {
     const handleLogout = async () => {
         await authWrapper(bookAPI.post("/protected/logout", signOut)
         ).then((res) => {
+            console.log('>>>>>>>>>>>>', res);
             alert(res.data.message);
             setTimeout(() => {
                 signOut();
                 return navigate('/access');
             }, 2000);
-        }).catch((error) => {
+        }).catch((error) => {            
             alert(error.data.message);
         })
     }
