@@ -253,6 +253,69 @@ const styles = {
         cursor: "pointer"
     },
 
+    //aaron
+    uploadBookContainer: {
+        display: "flex",
+        flexFlow: "row",
+        rowGap: "20px",
+        padding: "40px",
+        paddingTop: "25px",
+        width: "55vw",
+        backgroundColor: colours.secondaryLight,
+        borderRadius: "30px",
+        columnGap: "15px",
+    },
+
+    inputFieldsContainer: {
+        flexGrow: 1,
+    },
+
+    bookCoverContainer: {
+        flexGrow: 2,
+        display: "flex",
+        flexFlow: "row wrap",
+        alignItems: "space-around",
+        justifyContent: "center",
+        marginLeft: "5px",
+        border: `1px solid ${colours.baseWhite}`,
+        borderRadius: "30px",
+    },
+
+    bookCoverBorder: {
+        justifyContent: "space-between",
+        display: "flex",
+        height: "180px",
+        width: "130px",
+        border: `1px solid ${colours.baseGrey}`,
+        margin: "20px",
+    },
+
+    defaultImageBlock: {
+        width: "200px",
+        height: "100px",
+        margin: "auto",
+        textAlign: "center",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    manualInsertContainer: {
+        display: "flex",
+        flexFlow: "column reverse",
+        alignItems: "center",
+        justifyContent: "space-between",
+        margin: "20px",
+        height: "180px",
+        width: "130px",
+        backgroundColor: `${colours.primary}`
+    },
+
+    manualInsertButton: {
+        margin: "20px",
+    },
+
+    //end aaron
+
     overflowScroll: {
         height: "45vh",
         overflowY: "auto",
