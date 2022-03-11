@@ -8,7 +8,11 @@ import { v4 as uuidv4 } from 'uuid';
 // <BookListView target={} detailName={} detail={} headerName={} noListingMsg={} />
 
 function BookListView(props) {
+
+    // target is individual profile elements, to be used in useEffect as dependency
     let target = props.target;
+
+    // mapped list items
     const [uploaded, setUploaded] = React.useState('')
 
     React.useEffect(() => {
@@ -28,7 +32,7 @@ function BookListView(props) {
                 if (props.headerName == "Wishlist") {
                     response = response.filter((value, index, array) => {
                         return index === array.findIndex((item) => {
-                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || value.availability == "NO")
+                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || item.availability == "YES")
                         })
                     })
                 }
@@ -45,7 +49,7 @@ function BookListView(props) {
     // if state is listed as a dependency, you create a new object for state every time
     // when you use a dependency that isn't set in useEffect, it won't loop
 
-
+    // render
     return (
         <BookDisplay name={props.headerName} uploaded={uploaded} />
     )
