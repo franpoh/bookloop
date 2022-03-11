@@ -27,7 +27,7 @@ function BookDetails() {
     let indexId = parseInt(index);
 
     // data from DBs
-    const [user, setUser] = useState('')
+    const [user, setUser] = useState('');
     const [matchIndex, updateMatchIndex] = useState({});
     const [matchSwap, updateMatchSwap] = useState([]);
 
