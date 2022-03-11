@@ -68,6 +68,13 @@
   background-color: lightgray;
 }
 
+@media screen and (max-width: 1280px) {
+  .libraryGrid {
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+  }
+}
+
 @media screen and (max-width: 960px) {
   .libraryGrid {
     grid-template-columns: auto auto;
