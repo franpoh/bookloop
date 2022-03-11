@@ -14,6 +14,7 @@ const authWrapper = (apiCall, signOut) => {
             // https://github.com/remix-run/history/blob/3e9dab413f4eda8d6bce565388c5ddb7aeff9f7e/docs/navigation.md
         } else {
             console.log("AUTHWRAPPER", err);
+            return err;
         }
     })
 }

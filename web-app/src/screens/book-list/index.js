@@ -5,7 +5,7 @@ import styles from "../../styling/style-sheet";
 import "../../styling/style.css"
 import colours from "../../styling/colours";
 import bookAPI from "../../API/book-api";
-import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+// import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import ListAllBooks from './components/list-all-books';
 
 import {
@@ -32,7 +32,6 @@ const BookList = () => {
             await bookAPI.get(`general/searchIndex`)
                 .then(res => {
                     // console.log("Fetching items from API....", res)
-                    // console.log("to read these..:", res.data.data);
                     setTitle(res.data.data);
                 });
         } catch (err) {
@@ -41,7 +40,6 @@ const BookList = () => {
             setIsLoading(false);
         }
     };
-    // console.log("this is render")
 
     useEffect(() => {
         // setTimeout(() => { // remove in finale
@@ -57,10 +55,16 @@ const BookList = () => {
         setSearchInput(event.target.value);
     }
 
-
     return (
         <>
+
             <h1 style={styles.h1Font}>BookList</h1>
+            <h3 className="icon"
+                style={styles.h2Font}
+                onClick={() => {
+                    navigate(`/library`)
+                }}> + Browse the entire collection</h3>
+
             <div>
 
                 <TextField
@@ -70,9 +74,14 @@ const BookList = () => {
                     placeholder="Search for more books available"
                     value={searchInput}
                     onChange={searchHandler.bind(this)}
-                    InputProps={{
-                        endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='medium' />
-                    }}
+                // InputProps={{
+                //     endAdornment: <CollectionsBookmarkOutlinedIcon fontSize='large' color='disabled'
+                //         onClick={() => {
+                //             navigate(`/library`)
+                //         }}
+                //         className="icon"
+                //     />
+                // }}
                 />
 
                 <div>
@@ -81,12 +90,12 @@ const BookList = () => {
                         <Box sx={{ width: '100%' }}>
                             <LinearProgress color="success" />
                         </Box>
+                        /* ref: refactor as Fn for filter({}).map({}) */
                         : searchInput ?
                             (searchInput === " " ? <i>No books found for " "</i> : title && title.filter(data => {
                                 if (searchInput === "") {
-                                    // return numbers
+                                    // return data
                                 } else if (data.title.toLowerCase().includes(searchInput.toLowerCase())) {
-                                    // console.log("filtered data returns:", data)
                                     return data;
                                 }
                             }).map((item, key) => {
@@ -110,8 +119,9 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.slice(0, 12).map((item, key) => {
+                            })) : (title.slice(0, 10).map((item, key) => {
                                 return (
+
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
                                         <Grid
                                             container spacing={0.5}
@@ -130,6 +140,7 @@ const BookList = () => {
 
                                         </Grid>
                                     </div>
+
                                 )
                             }))
                     }
