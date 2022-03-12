@@ -55,7 +55,7 @@ function UserDetails(props) {
             <div style={styles.containerRow}>
                 <img src={pic} alt="profile" style={styles.profilePic} />
                 <div>
-                    <p style={styles.textBold}>{msg}</p>
+                    <p style={styles.textRed}>{msg}</p>
                     <form
                         onSubmit={handleSubmit}
                         style={styles.containerStart}

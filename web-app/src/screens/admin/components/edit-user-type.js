@@ -64,7 +64,7 @@ function EditUserType(props) {
         <div>
             <h3 style={styles.h3Bold}>Edit User Type:</h3>
             <p style={styles.textNormal}>Select users before selecting user type from dropdown menu</p>
-            <p style={styles.textNormal}>{msg}</p>
+            <p style={styles.textRed}>{msg}</p>
             <select
                 onChange={e => setUserType(e.target.value)}
                 style={styles.dropdown}

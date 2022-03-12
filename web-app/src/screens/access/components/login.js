@@ -44,7 +44,7 @@ function Login() {
     return (
         <div>
             <h1 style={styles.h1Font}>LOGIN</h1>
-            <p style={{ ...styles.msgGap, ...styles.textBold }}>{msg}</p>
+            <p style={{ ...styles.msgGap, ...styles.textRed }}>{msg}</p>
             <form
                 onSubmit={handleSubmit}
                 style={styles.containerStart}

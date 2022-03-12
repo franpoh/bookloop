@@ -132,6 +132,13 @@ const styles = {
         fontSize: "20px"
     },
 
+    textRed: {
+        fontFamily: fontType,
+        fontWeight: 'bold',
+        color: "red",
+        fontSize: "20px"
+    },
+
     textBox: {
         height: "20px",
         width: "300px",

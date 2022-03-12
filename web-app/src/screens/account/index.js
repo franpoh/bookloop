@@ -51,7 +51,7 @@ function Account() {
                 setPurchaseHistory(userData.purchaseHistory);
             }
 
-            if (!response.wishlist) {
+            if (!response.wishlist.data) {
                 return;
             } else {
                 setWishlist(response.wishlist.data.data);

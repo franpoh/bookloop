@@ -30,9 +30,22 @@ function BookListView(props) {
 
                 // Wishlist Filter for duplicate items
                 if (props.headerName == "Wishlist") {
+
+                    // sort by availability, YES to NO
+                    response = response.sort((a, b) => {
+                        if (a.availability > b.availability) {
+                            return -1;
+                        } else if (a.availability < b.availability){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+
+                    // Filter if same availability and availability is equal to NO, then by same indexId
                     response = response.filter((value, index, array) => {
                         return index === array.findIndex((item) => {
-                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || item.availability == "YES")
+                            return item.Index.indexId === value.Index.indexId && (item.availability === value.availability || value.availability == "NO");
                         })
                     })
                 }
