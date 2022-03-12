@@ -107,7 +107,7 @@ const BookList = () => {
                                         </Grid>
                                     </div>
                                 )
-                            })) : (title.slice(0, 10).map((item, key) => {
+                            })) : (title.slice(15, 23).map((item, key) => {
                                 return (
 
                                     <div style={{ ...styles.bookList, marginBottom: 10 }} key={uuidv4()}>
