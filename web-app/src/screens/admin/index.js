@@ -49,7 +49,7 @@ function Admin() {
         }).catch((error) => {
             setErrorMsg(error.response.data.message);
         })
-    }, [signOut]);
+    }, []);
 
     // render
     if (rows.length === 0) {
