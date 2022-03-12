@@ -1,10 +1,8 @@
 import React from "react";
-import bookAPI from "../../../API/book-api";
 
 import styles from "../../../styling/style-sheet";
 import MyButton from "../../../components/button";
 import TextInput from "../../../components/text-input";
-import authWrapper from "../../../components/auth-wrapper";
 import AuthContext from "../../../components/context";
 
 import editProfile from "./edit-profile";
