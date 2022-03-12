@@ -153,6 +153,18 @@ const styles = {
         marginLeft: "5px"
     },
 
+    loadingButton: {
+        height: "40px",
+        width: "174px",
+        backgroundColor: colours.secondaryDark,
+        border: "none",
+        borderRadius: "5px",
+        color: colours.baseWhite,
+        fontWeight: "400",
+        fontSize: "17px",
+        marginLeft: "5px"
+    },
+
     dropdown: {
         height: "40px",
         width: "160px",
@@ -323,7 +335,7 @@ const styles = {
     },
 
     dataGrid: {
-        height: "72vh", 
+        height: "72vh",
         width: '45vw',
     },
 }
