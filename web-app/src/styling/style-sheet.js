@@ -157,7 +157,6 @@ const styles = {
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        marginLeft: "5px"
     },
 
     dropdown: {
@@ -169,7 +168,8 @@ const styles = {
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        padding: "5px"
+        padding: "5px",
+        marginRight: "10px",
     },
 
     msgGap: {
