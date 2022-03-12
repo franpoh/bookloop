@@ -7,8 +7,7 @@ const authWrapper = (apiCall, signOut) => {
     return apiCall.then((res) => {
         return res;
     }).catch((err) => {
-        // error catching time
-        
+
         if (err.response.status === 403) {
             signOut();
             callAlertOnce("You are not logged in! Redirecting...");
@@ -24,7 +23,7 @@ const authWrapper = (apiCall, signOut) => {
             return history.push("/");
 
         } else {
-            console.log("AUTHWRAPPER", err);
+            console.log("AUTHWRAPPER", err.response);
             return err;
         }
     })
