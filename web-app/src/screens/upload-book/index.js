@@ -332,7 +332,7 @@ function UploadBook() {
                     Est deserunt laboris voluptate duis quis amet eu nisi nostrud proident laborum fugiat occaecat. Voluptate labore qui do dolore. Cillum sunt commodo eiusmod sit adipisicing non. Irure sint dolore in ex labore. Commodo in fugiat et eu irure anim eu nisi adipisicing sint consequat.</textarea><br/><br/> 
                     */}
 
-                        <MyButton name={"Upload This Book"}
+                        <MyButton name={loading ? "Uploaded!" : "Upload This Book"}
                             type={"button"}
                             handle={
                                 () => handleSubmit()
