@@ -57,7 +57,7 @@ function Account() {
                 setWishlist(response.wishlist.data.data);
             }
         });
-    }, [])
+    }, [signOut])
 
     // render
     if (profile.length === 0) {
