@@ -7,6 +7,7 @@ import MyButton from "../../../components/button";
 
 function Register() {
 
+    // set states
     const [user, setUser] = React.useState('')
     const [email, setEmail] = React.useState('');
     const [pwd, setPwd] = React.useState('');
@@ -23,6 +24,7 @@ function Register() {
                 password: pwd,
             }
         ).then((response) => {
+            // reloads page if registration is successful, to land back at login
             setMsg(response.data.message)
             setTimeout(() => {
                 return window.location.reload();
@@ -32,10 +34,11 @@ function Register() {
         })
     }
 
+    // render
     return (
         <div>
             <h1 style={styles.h1Font}>SIGN UP</h1>
-            <p style={{ ...styles.msgGap, ...styles.textBold }}>{msg}</p>
+            <p style={{ ...styles.msgGap, ...styles.textRed }}>{msg}</p>
             <form
                 onSubmit={handleSubmit}
                 style={styles.containerStart}
