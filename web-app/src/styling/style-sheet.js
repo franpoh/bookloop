@@ -132,6 +132,13 @@ const styles = {
         fontSize: "20px"
     },
 
+    textRed: {
+        fontFamily: fontType,
+        fontWeight: 'bold',
+        color: "red",
+        fontSize: "20px"
+    },
+
     textBox: {
         height: "20px",
         width: "300px",
@@ -150,7 +157,6 @@ const styles = {
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        marginLeft: "5px"
     },
 
     loadingButton: {
@@ -174,7 +180,8 @@ const styles = {
         color: colours.baseWhite,
         fontWeight: "400",
         fontSize: "17px",
-        padding: "5px"
+        padding: "5px",
+        marginRight: "10px",
     },
 
     msgGap: {
