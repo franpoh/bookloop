@@ -10,6 +10,8 @@ import AuthContext from "../../components/context";
 import authWrapper from "../../components/auth-wrapper";
 import TextInput from "../../components/text-input";
 
+
+
 function Admin() {
 
     const { signOut } = React.useContext(AuthContext);
@@ -24,7 +26,7 @@ function Admin() {
     const [selectUsers, setSelectUsers] = React.useState([]);
     const [password, setPassword] = React.useState('');
 
-    // get list of users and map into table rows
+    // ----------------------------------------------- GET ARRAY OF USERS BY CALLING API, AND MAP INTO DATAGRID TABLE
     React.useEffect(() => {
         let p = new Promise(async (resolve, reject) => {
             let users = await authWrapper(bookAPI.get("/protected/admin/viewusers"), signOut);
@@ -38,6 +40,8 @@ function Admin() {
         });
 
         p.then((res) => {
+
+            // error catch - if return array is null or empty
             if (res.length === 0 || !res) {
                 setErrorMsg(res.message);
             } else {
@@ -48,12 +52,14 @@ function Admin() {
                 })
                 setRows(listing);
             }
+
+        // return error message
         }).catch((error) => {
             setErrorMsg(error.response.data.message);
         })
     }, [reload]);
 
-    // render
+    // ----------------------------------------------- RENDER
     if (rows.length === 0) {
         return <></>
     } else if (errorMsg) {

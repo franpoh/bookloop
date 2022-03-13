@@ -7,6 +7,8 @@ import AuthContext from "../../../components/context";
 
 import editProfile from "./edit-profile";
 
+
+
 function UserDetails(props) {
 
     const { signOut } = React.useContext(AuthContext);
@@ -22,16 +24,20 @@ function UserDetails(props) {
     const [pic, setPic] = React.useState('');
     const [msg, setMsg] = React.useState('');
 
-    // getting user info
+    
+    // ----------------------------------------------- HANDLING USER INFORMATION FROM API CALL
     React.useEffect(() => {
         let p = new Promise((resolve) => {
             let response = target;
             resolve(response);
         })
 
+        // setting displayed user information in accounts page
         p.then((response) => {
+
             if (!response) {
                 return;
+
             } else {
                 setUser(response.username);
                 setEmail(response.email);
@@ -40,13 +46,14 @@ function UserDetails(props) {
         });
     }, [target]);
 
-    // editing account info
+    
+    // ----------------------------------------------- EDIT PROFILE INFORMATION
     const handleSubmit = (e) => {
         e.preventDefault();
         editProfile(email, oldPwd, newPwd, signOut, setMsg, setEmail, setOldPwd, setNewPwd);
     }
 
-    // render
+    // ----------------------------------------------- RENDER
     return (
         <div style={styles.containerAlt}>
             <h1 style={styles.h1Font}>Welcome {user}!</h1>

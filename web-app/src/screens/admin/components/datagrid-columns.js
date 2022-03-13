@@ -1,3 +1,4 @@
+// define column information in datagrid
 const users = [
     { field: 'id', headerName: 'User ID' },
     { field: 'username', headerName: 'Username', width: 120 },

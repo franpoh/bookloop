@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from "../../../styling/style-sheet";
 
-// Mapping details of each book into a list item
+
+
+// ----------------------------------------------- MAPPING DETAILS OF EACH BOOK INTO A LIST ITEM
 const BookListing = (props) => {
+
     const navigate = useNavigate();
 
     // assigning props
@@ -13,7 +16,7 @@ const BookListing = (props) => {
     const detailName = props.name;
     const detail = props.detail;
 
-    // navigate to specific book URL
+    // navigation to specific book URL
     function navBook() {
         navigate(`/bookdetails/${passIndex}`);
     }
@@ -30,7 +33,9 @@ const BookListing = (props) => {
     )
 }
 
-// Displaying list items in list
+
+
+// ----------------------------------------------- DISPLAY LIST ITEMS IN LIST
 const BookDisplay = (props) => {
     return (
         <div style={styles.containerAlt}>
