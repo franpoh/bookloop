@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import authWrapper from "../../components/auth-wrapper";
 import AuthContext from "../../components/context";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { CircularProgress, Box, Button } from "@mui/material";
 
 function UploadBook() {
     const navigate = useNavigate()
@@ -345,6 +346,29 @@ function UploadBook() {
                             loadingIndicator="Uploaded!"
                             variant="contained"
                         >Upload This Book</LoadingButton> */}
+                        {/* <Box sx={{ m: 1, position: 'relative' }}>
+                            <Button
+                                variant="contained"
+                                sx={styles.button}
+                                disabled={loading}
+                                onClick={handleSubmit}
+                            >
+                                Upload
+                            </Button>
+                            {loading && (
+                                <CircularProgress
+                                    size={24}
+                                    sx={{
+                                        color: "green",
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        marginTop: '-12px',
+                                        marginLeft: '-12px',
+                                    }}
+                                />
+                            )}
+                        </Box> */}
                     </div>
                 </form>
             </div>
