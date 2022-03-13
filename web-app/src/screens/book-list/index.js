@@ -108,7 +108,7 @@ const BookList = () => {
                                                 >
                                                     <Grid item sm={5} lg={4}>
                                                         <img
-                                                            alt="covers"
+                                                            alt="cover missing"
                                                             style={styles.profileBookPics}
                                                             src={item.imageURL ? item.imageURL : noImage}
                                                         />
@@ -140,7 +140,7 @@ const BookList = () => {
                                         >
                                             <Grid item sm={5} lg={4}>
                                                 <img
-                                                    alt="Missing"
+                                                    alt="cover missing"
                                                     style={{ width: 150, height: 200 }}
                                                     src={item.imageURL ? item.imageURL : noImage}
                                                 />

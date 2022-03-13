@@ -344,9 +344,9 @@ function UploadBook() {
                             onClick={handleSubmit}
                             loading={loading}
                             loadingIndicator="Uploaded!"
-                            variant="contained"
-                        >Upload This Book</LoadingButton> */}
-                        {/* <Box sx={{ m: 1, position: 'relative' }}>
+                            variant="outlined"
+                        >Upload This Book</LoadingButton>
+                        <Box sx={{ m: 1, position: 'relative' }}>
                             <Button
                                 variant="contained"
                                 sx={styles.button}

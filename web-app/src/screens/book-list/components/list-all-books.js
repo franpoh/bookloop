@@ -56,7 +56,7 @@ const ListAllBooks = () => {
                                 >
                                     <Grid item sm={5} lg={5}>
                                         <img
-                                            alt="covers"
+                                            alt="cover missing"
                                             style={{ width: 150, height: 200 }}
                                             src={item.imageURL ? item.imageURL : noImage}
                                         />
