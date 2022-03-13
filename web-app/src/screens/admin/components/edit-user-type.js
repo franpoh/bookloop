@@ -20,7 +20,8 @@ function EditUserType(props) {
     const [userType, setUserType] = React.useState('');
 
     // submit edits to user type
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
         // error message
         if (selectUsers.length === 0) {
@@ -51,12 +52,14 @@ function EditUserType(props) {
             setMsg(response.data.message)
             setTimeout(() => {
                 setMsg('');
-                return window.location.reload();
+                document.getElementById("user-type-select").value = "default";
+                props.setReload(true);
+                props.setReload(false);
             }, 3000);
         }).catch((error) => {
             setMsg(error.response.data.message);
             setTimeout(() => setMsg(''), 3000);
-        })
+        });
     }
 
     // render
@@ -65,16 +68,19 @@ function EditUserType(props) {
             <h3 style={styles.h3Bold}>Edit User Type:</h3>
             <p style={styles.textNormal}>Select users before selecting user type from dropdown menu</p>
             <p style={styles.textRed}>{msg}</p>
-            <select
-                onChange={e => setUserType(e.target.value)}
-                style={styles.dropdown}
-            >
-                <option selected disabled>Select User Type</option>
-                <option value="USER">User</option>
-                <option value="BANNED">Banned</option>
-                <option value="ADMIN">Admin</option>
-            </select >
-            <MyButton type={"button"} name={"Submit"} handle={handleSubmit} />
+            <form>
+                <select
+                    id="user-type-select"
+                    onChange={e => setUserType(e.target.value)}
+                    style={styles.dropdown}
+                >
+                    <option selected value="default" disabled>Select User Type</option>
+                    <option value="USER">User</option>
+                    <option value="BANNED">Banned</option>
+                    <option value="ADMIN">Admin</option>
+                </select >
+                <MyButton name={"Submit"} handle={handleSubmit} />
+            </form>
         </div >
 
     )

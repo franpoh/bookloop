@@ -15,8 +15,8 @@ function Login() {
     const navigate = useNavigate();
 
     // set state
-    const [email, setEmail] = React.useState('shepard@normandy.com');
-    const [pwd, setPwd] = React.useState('fuckreapers');
+    const [email, setEmail] = React.useState('');
+    const [pwd, setPwd] = React.useState('');
     const [msg, setMsg] = React.useState('')
 
     // Submitting user details to login

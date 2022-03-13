@@ -1,11 +1,12 @@
 import React from "react";
+import Login from "./login";
 
 import bookAPI from "../../../API/book-api";
 import styles from "../../../styling/style-sheet";
 import TextInput from "../../../components/text-input";
 import MyButton from "../../../components/button";
 
-function Register() {
+function Register(props) {
 
     // set states
     const [user, setUser] = React.useState('')
@@ -24,10 +25,15 @@ function Register() {
                 password: pwd,
             }
         ).then((response) => {
-            // reloads page if registration is successful, to land back at login
+            // reset page and forms if registration is successful, to land back at login
             setMsg(response.data.message)
+            setUser('');
+            setEmail('');
+            setPwd('');
             setTimeout(() => {
-                return window.location.reload();
+                setMsg('');
+                props.changeDisplay(<Login />);
+                props.changeButton("Sign Up Now");
             }, 2000);
         }).catch((error) => {
             setMsg(error.response.data.message)

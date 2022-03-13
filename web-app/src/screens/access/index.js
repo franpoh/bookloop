@@ -14,7 +14,7 @@ function Access() {
     // Switching between login and sign up display on same page
     function handleDisplay() {
         if (buttonText === "Sign Up Now") {
-            setDisplay(<Register />);
+            setDisplay(<Register changeDisplay={setDisplay} changeButton={setButtonText} />);
             setButtonText("Login Now");
         } else if (buttonText === "Login Now") {
             setDisplay(<Login />);

@@ -18,6 +18,7 @@ function Admin() {
     const columns = users;
 
     // set state
+    const [reload, setReload] = React.useState(false);
     const [rows, setRows] = React.useState([]);
     const [errorMsg, setErrorMsg] = React.useState('');
     const [selectUsers, setSelectUsers] = React.useState([]);
@@ -27,6 +28,7 @@ function Admin() {
     React.useEffect(() => {
         let p = new Promise(async (resolve, reject) => {
             let users = await authWrapper(bookAPI.get("/protected/admin/viewusers"), signOut);
+            setPassword('');
 
             if (users.status === 200) {
                 resolve(users.data.data);
@@ -49,7 +51,7 @@ function Admin() {
         }).catch((error) => {
             setErrorMsg(error.response.data.message);
         })
-    }, []);
+    }, [reload]);
 
     // render
     if (rows.length === 0) {
@@ -64,7 +66,7 @@ function Admin() {
                     <h3 style={styles.h3Bold}>Enter Password to Submit Changes:</h3>
                     <TextInput req={true} type="password" name="Password" value={password} setValue={setPassword} />
                 </div>
-                <EditUserType selectUsers={selectUsers} password={password} />
+                <EditUserType selectUsers={selectUsers} password={password} setReload={setReload} />
                 <div>
                     <DataGrid
                         rows={rows}

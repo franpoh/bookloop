@@ -43,7 +43,7 @@ function UserDetails(props) {
     // editing account info
     const handleSubmit = (e) => {
         e.preventDefault();
-        editProfile(email, oldPwd, newPwd, signOut, setMsg);
+        editProfile(email, oldPwd, newPwd, signOut, setMsg, setEmail, setOldPwd, setNewPwd);
     }
 
     // render

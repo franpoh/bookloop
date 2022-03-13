@@ -3,7 +3,7 @@ import bookAPI from "../../../API/book-api";
 import authWrapper from "../../../components/auth-wrapper";
 import handleLogout from "../../access/components/logout";
 
-async function editProfile(email, oldPwd, newPwd, signOut, setMsg) {
+async function editProfile(email, oldPwd, newPwd, signOut, setMsg, setEmail, setOldPwd, setNewPwd) {
 
 
     let p = new Promise(async (resolve, reject) => {
@@ -29,7 +29,10 @@ async function editProfile(email, oldPwd, newPwd, signOut, setMsg) {
                 handleLogout(signOut);
                 return;
             } else {
-                return window.location.reload();
+                setOldPwd(''); 
+                setNewPwd('');
+                setMsg('');
+                return;
             }
         }, 3000);
     }).catch((error) => {
