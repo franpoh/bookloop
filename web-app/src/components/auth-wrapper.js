@@ -20,7 +20,7 @@ const authWrapper = (apiCall, signOut) => {
         } else if (err.response.status === 401) {
             console.log("AUTHWRAPPER", err.response);
             callAlertOnce(err.response.data.message);
-            return history.push("/");
+            return history.push("/bookloop");
 
         } else {
             console.log("AUTHWRAPPER", err.response);

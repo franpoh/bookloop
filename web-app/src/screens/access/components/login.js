@@ -33,7 +33,7 @@ function Login() {
             setMsg(response.data.message)
             setTimeout(() => {
                 signIn(response.data.data);
-                return navigate('/');
+                return navigate('/bookloop');
             }, 2000);
         }).catch((error) => {
             setMsg(error.response.data.message)
