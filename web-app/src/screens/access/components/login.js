@@ -7,6 +7,8 @@ import TextInput from "../../../components/text-input";
 import MyButton from "../../../components/button";
 import AuthContext from "../../../components/context";
 
+
+
 function Login() {
 
     const { signIn } = React.useContext(AuthContext);
@@ -15,11 +17,11 @@ function Login() {
     const navigate = useNavigate();
 
     // set state
-    const [email, setEmail] = React.useState('shepard@normandy.com');
-    const [pwd, setPwd] = React.useState('fuckreapers');
+    const [email, setEmail] = React.useState('');
+    const [pwd, setPwd] = React.useState('');
     const [msg, setMsg] = React.useState('')
 
-    // Submitting user details to login
+    // ----------------------------------------------- SUBMIT USER DETAILS TO LOGIN
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -28,19 +30,23 @@ function Login() {
                 email: email,
                 password: pwd
             }
+        
+        // automatically navigate to book list page if login successful
         ).then((response) => {
-            // automatically navigate to book list page if login successful
             setMsg(response.data.message)
+            
             setTimeout(() => {
                 signIn(response.data.data);
-                return navigate('/');
+                return navigate('/bookloop');
             }, 2000);
+        
+        // display error message
         }).catch((error) => {
             setMsg(error.response.data.message)
         })
     }
 
-    // render
+    // ----------------------------------------------- RENDER
     return (
         <div>
             <h1 style={styles.h1Font}>LOGIN</h1>

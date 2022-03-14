@@ -15,7 +15,7 @@ const ListReviews = ({ data }) => {
             {(data.length === 0) ? <p><i>No reviews yet.</i></p> : <div></div>}
             {(data.length > 0) && data.map((item) => {
                 return (
-                    <div key={item.reviewId}>
+                    <div style={{ width: "85%" }} key={item.reviewId}>
                         <div>
                             <p style={{ color: `${colours.baseDark}` }}><i><b>{item.User.username}</b> : {item.review}</i></p>
                         </div>
@@ -156,7 +156,6 @@ const ReviewInputDialog = (props) => {
                                 if (reviewInput) {
                                     setToggleAlertReview(true)
                                 }
-
                             }
                         }
                     />

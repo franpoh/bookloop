@@ -1,11 +1,14 @@
 import React from "react";
+import Login from "./login";
 
 import bookAPI from "../../../API/book-api";
 import styles from "../../../styling/style-sheet";
 import TextInput from "../../../components/text-input";
 import MyButton from "../../../components/button";
 
-function Register() {
+
+
+function Register(props) {
 
     // set states
     const [user, setUser] = React.useState('')
@@ -13,7 +16,7 @@ function Register() {
     const [pwd, setPwd] = React.useState('');
     const [msg, setMsg] = React.useState('');
 
-    // Submitting user details to register
+    // ----------------------------------------------- SUBMIT USER DETAILS FOR REGISTRATION
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -23,18 +26,27 @@ function Register() {
                 email: email,
                 password: pwd,
             }
+
+        // reset page and forms if registration is successful, to land back at login
         ).then((response) => {
-            // reloads page if registration is successful, to land back at login
             setMsg(response.data.message)
+            setUser('');
+            setEmail('');
+            setPwd('');
+            
             setTimeout(() => {
-                return window.location.reload();
+                setMsg('');
+                props.changeDisplay(<Login />);
+                props.changeButton("Sign Up Now");
             }, 2000);
+
+        // return error message
         }).catch((error) => {
             setMsg(error.response.data.message)
         })
     }
 
-    // render
+    // ----------------------------------------------- RENDER
     return (
         <div>
             <h1 style={styles.h1Font}>SIGN UP</h1>

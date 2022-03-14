@@ -8,13 +8,16 @@ import TextInput from "../../components/text-input";
 import logo from "../../assets/logo.png";
 import { useNavigate } from 'react-router-dom';
 import authWrapper from "../../components/auth-wrapper";
-import AuthContext from "../../components/context"
+import AuthContext from "../../components/context";
+import LoadingButton from '@mui/lab/LoadingButton';
+import { CircularProgress, Box, Button } from "@mui/material";
 
 function UploadBook() {
     const navigate = useNavigate()
     const { signOut } = useContext(AuthContext);
-    
-//#region UseStates
+
+    //#region UseStates
+    const [loading, setLoading] = React.useState(false);
     const [user, setUser] = useState('');
     const [userToken, setUserToken] = useState(false)
     const [bookTitle, setBookTitle] = useState('');                                      //usestate for title selection
@@ -30,24 +33,24 @@ function UploadBook() {
     // const [bookGenre, setBookGenre] = useState('');                                   //unable to retrieve name of book genre, redundant
     // const [value, setValue] = useState(genreList[0]);                                 //for TextField/Autocomplete
     // const [inputValue, setInputValue] = useState('');                                 //for TextField/Autocomplete
-//#endregion UseStates
+    //#endregion UseStates
 
-//#region useEffects for necessary params
-useEffect(() => {
-    retrieveUser();                 //user id
-    retrieveIndex();                //index info stored in *library* to sort author, title and imageURL
-    retrieveGenreList();            //genre list
-}, []);
+    //#region useEffects for necessary params
+    useEffect(() => {
+        retrieveUser();                 //user id
+        retrieveIndex();                //index info stored in *library* to sort author, title and imageURL
+        retrieveGenreList();            //genre list
+    }, []);
 
-useEffect(() => {
-    if (user.username !== '') {
-        setUserToken(true);
-    };
-}, [user]);
+    useEffect(() => {
+        if (user.username !== '') {
+            setUserToken(true);
+        };
+    }, [user]);
 
-//#endregion useEffects for necessary params
+    //#endregion useEffects for necessary params
 
-//#region async retrieve functions
+    //#region async retrieve functions
     async function retrieveUser() {
         try {
             const result = await authWrapper(bookAPI.get('/protected/viewprofile'), signOut);
@@ -79,9 +82,9 @@ useEffect(() => {
         }
     };
 
-//#endregion async retrieve functions
+    //#endregion async retrieve functions
 
-//#region handling genre
+    //#region handling genre
     function DisplayOptionGenres() {                            //pretty sure this can be exported
         return genreList.map((element, key) => {
             return (
@@ -95,37 +98,37 @@ useEffect(() => {
         console.log("book genre selected, returning genreId: ", e.target.value);
         setBookGenreId(e.target.value)
     }
-//#endregion handling genre
+    //#endregion handling genre
 
-//#region handling author & title
+    //#region handling author & title
     function handleAuthorInput() {
         const filteredAuthorList = library && library.filter(book => {
             return (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase()))
-            });
+        });
         const setAuthorList = new Set(filteredAuthorList.map(book => book.author))      //array but only with unique values. set cannot map.
         const uniqueAuthorList = [...setAuthorList]                                     //convert to set, then back to array ( but with unique values)
-        
-            return uniqueAuthorList.map((authorname) => {
-                return (
-                    <div value={authorname} onClick={handleAuthorSelect}>           
-                        {authorname}
-                    </div>
-                )
-            })
+
+        return uniqueAuthorList.map((authorname) => {
+            return (
+                <div value={authorname} onClick={handleAuthorSelect}>
+                    {authorname}
+                </div>
+            )
+        })
     }
 
     function handleTitleInput() {
         const filteredTitleList = library && library.filter(book => {
             return (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase()))
         });
-        
+
         return filteredTitleList.map((book) => {
             return (
                 <div value={book.title} onClick={handleSelect}>
                     {book.title}
                 </div>
-                )
-            }
+            )
+        }
         )
     }
 
@@ -139,62 +142,64 @@ useEffect(() => {
         setBookAuthor(e.target.firstChild.data);
     }
 
-//#endregion handling author title
+    //#endregion handling author title
 
-//#region handling book cover
+    //#region handling book cover
 
-function renderImages(props,key) {          //returns when search params return true
-    console.log("renderImages called");
-    return (
-        <div value={props} key={key} onClick={handleSelectImage}>
-            <img style={styles.bookCoverBorder} src={props.imageURL}/>
-        </div>
-    )
-};
-
-function handleSelectImage(e) {             //onclick image, set bookCover
-    console.log("index.js line 164 - e.target.src ", e.target.src);
-    setBookCover(e.target.src);
-};
-
-function handleBookCoverInput() {
-    const filteredlist = library && library.filter(book => {      //
-        if (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
-            if (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
-                return book;
-            } else if (!bookTitle) {
-            return book; }
-        } else if (!bookAuthor && bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
-            return book;
-        }
-    });
-};
-
-function renderInsertImage() {      //returns when search params return false, or if button is clicked
+    function renderImages(props, key) {          //returns when search params return true
+        console.log("renderImages called");
         return (
-        <div style = {styles.defaultImageBlock}>
-            <p style={styles.justifyCenter}> It seems this particular book has yet to be in our library!</p>
-            <p style={styles.justifyCenter}> Please upload a valid image URL in our form so that users can see the cover of the book</p>
-        </div>
+            <div value={props} key={key} onClick={handleSelectImage}>
+                <img style={styles.bookCoverBorder} src={props.imageURL} />
+            </div>
         )
-};
+    };
 
-function renderDefaultImageBlock() {
-    return (
+    function handleSelectImage(e) {             //onclick image, set bookCover
+        console.log("index.js line 164 - e.target.src ", e.target.src);
+        setBookCover(e.target.src);
+    };
+
+    function handleBookCoverInput() {
+        const filteredlist = library && library.filter(book => {      //
+            if (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
+                if (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
+                    return book;
+                } else if (!bookTitle) {
+                    return book;
+                }
+            } else if (!bookAuthor && bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
+                return book;
+            }
+        });
+    };
+
+    function renderInsertImage() {      //returns when search params return false, or if button is clicked
+        return (
+            <div style={styles.defaultImageBlock}>
+                <p style={styles.justifyCenter}> It seems this particular book has yet to be in our library!</p>
+                <p style={styles.justifyCenter}> Please upload a valid image URL in our form so that users can see the cover of the book</p>
+            </div>
+        )
+    };
+
+    function renderDefaultImageBlock() {
+        return (
             <div style={styles.defaultImageBlock}>
                 <p>Key in some info about your book in the fields to your left!</p>
                 <img src={logo} alt="splash screen" />
             </div>
-    )
-};
+        )
+    };
 
-function handleLibraryImg(){
+    function handleLibraryImg() {
         const filteredlist = library && library.filter(book => {                                                     //filter logic
             if (bookAuthor && book.author.toLowerCase().includes(bookAuthor.toLowerCase())) {
                 if (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
                     return book;
                 } else if (!bookTitle) {
-                return book; }
+                    return book;
+                }
             } else if (!bookAuthor && bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase())) {
                 return book;
             }
@@ -207,44 +212,44 @@ function handleLibraryImg(){
             });
         } else if (bookAuthor || bookTitle) {
             return renderInsertImage();
-        } else if (bookAuthor==="" && bookTitle ==="") {
+        } else if (bookAuthor === "" && bookTitle === "") {
             return renderDefaultImageBlock();
         };
-};
+    };
 
-//#endregion handling book cover
+    //#endregion handling book cover
 
-//#region alternate image handling (NOT IN USE)
+    //#region alternate image handling (NOT IN USE)
 
-// function newInsertImage() {            //optional input for user to upload a new book cover
-//     return (
-//         <div style={styles.manualInsertContainer}>
-//             <div style={styles.manualInsertButton} onClick={handleNewImage}>Click here to upload a new cover!</div>
-//             {showInsertImage ? renderInsertImage() : <></> }
-//         </div>
-//     )
-// };
+    // function newInsertImage() {            //optional input for user to upload a new book cover
+    //     return (
+    //         <div style={styles.manualInsertContainer}>
+    //             <div style={styles.manualInsertButton} onClick={handleNewImage}>Click here to upload a new cover!</div>
+    //             {showInsertImage ? renderInsertImage() : <></> }
+    //         </div>
+    //     )
+    // };
 
-// function handleNewImage() {             //state changer to show child if user requires
-//     if (showInsertImage) {
-//         setShowInsertImage(false);
-//     } else if (!showInsertImage) {
-//         setShowInsertImage(true);
-//     }
-// };
+    // function handleNewImage() {             //state changer to show child if user requires
+    //     if (showInsertImage) {
+    //         setShowInsertImage(false);
+    //     } else if (!showInsertImage) {
+    //         setShowInsertImage(true);
+    //     }
+    // };
 
-//#endregion alternate image handling
+    //#endregion alternate image handling
 
-//#region swap image handling (NOT IN USE)
+    //#region swap image handling (NOT IN USE)
 
-// function insertSwapImage() {             //component to handle user's book image
-//     return
-//     <ImageUploading></ImageUploading>
-// }
+    // function insertSwapImage() {             //component to handle user's book image
+    //     return
+    //     <ImageUploading></ImageUploading>
+    // }
 
-//#endregion swap image handling
+    //#endregion swap image handling
 
-//#region submit function
+    //#region submit function
     //actual submit function
     const handleSubmit = async (e) => {
         await authWrapper(bookAPI.post("protected/uploadbook", {
@@ -258,6 +263,7 @@ function handleLibraryImg(){
         }), signOut).then((response) => {
             console.log("Submitted form to backend successfully.");
             setMsg(response.data.message)
+            setLoading(true)
             setTimeout(() => {
                 return navigate('/account');
             }, 2000);
@@ -266,60 +272,60 @@ function handleLibraryImg(){
         })
     }
 
-//#endregion submit function
+    //#endregion submit function
 
-//#region CODE RENDERING CHUNK
+    //#region CODE RENDERING CHUNK
 
     return (
         <div style={styles.uploadBookContainer}>
             <div >
                 <form>
-                <h1 style={styles.h1Font}>Upload to BookLoop!</h1>
-                <p style={styles.h2Font}>What book would you like to upload today?</p>
-                
-                <div>
-                    <label style={styles.textBold}>Book Author:</label>
-                    <br/>
-                    <TextInput req={true} type="text" name="Author of the book" value ={bookAuthor} setValue={setBookAuthor}/>
-                    <br/>
-                    {handleAuthorInput()}
-                    <br/>
-                    <label style={styles.textBold}>Book Title: </label>
-                    <br/>
-                    <TextInput req={true} type="text" name="Title of the book" value={bookTitle} setValue={setBookTitle}/>
-                    {handleTitleInput()}
+                    <h1 style={styles.h1Font}>Upload to BookLoop!</h1>
+                    <p style={styles.h2Font}>What book would you like to upload today?</p>
 
-                    <br/><br/>
-                    <label style={styles.textBold}>Book Cover Image URL: </label>
-                    <br/>
-                    <TextInput req={true} type="text" name="Image of Book Cover" value={bookCover} setValue={setBookCover}/>
-                    {handleBookCoverInput()}
+                    <div>
+                        <label style={styles.textBold}>Book Author:</label>
+                        <br />
+                        <TextInput req={true} type="text" name="Author of the book" value={bookAuthor} setValue={setBookAuthor} />
+                        <br />
+                        {handleAuthorInput()}
+                        <br />
+                        <label style={styles.textBold}>Book Title: </label>
+                        <br />
+                        <TextInput req={true} type="text" name="Title of the book" value={bookTitle} setValue={setBookTitle} />
+                        {handleTitleInput()}
 
-                    <br/><br/>
-                    <label style={styles.textBold}> Genre: </label>
-                    {genreList.length > 0 ? <select 
-                        value={bookGenreId}
-                        onChange={handleOption}
-                        name="bookgenre" 
-                        id="bookgenre"
-                    > <DisplayOptionGenres/> </select> : <div></div> }
-                        
-                    <br/><br/>
+                        <br /><br />
+                        <label style={styles.textBold}>Book Cover Image URL: </label>
+                        <br />
+                        <TextInput req={true} type="text" name="Image of Book Cover" value={bookCover} setValue={setBookCover} />
+                        {handleBookCoverInput()}
 
-                    <label style={styles.textBold}> Year of Publishing: </label>
-                    <br/>
-                    <TextInput type="text" name ="Year book was published" value={bookYear} setValue={setBookYear}/>
+                        <br /><br />
+                        <label style={styles.textBold}> Genre: </label>
+                        {genreList.length > 0 ? <select
+                            value={bookGenreId}
+                            onChange={handleOption}
+                            name="bookgenre"
+                            id="bookgenre"
+                        > <DisplayOptionGenres /> </select> : <div></div>}
 
-                    <br/><br/>
+                        <br /><br />
 
-                    <label style={styles.textBold}> Comments: </label>
-                        
-                    <br/>
+                        <label style={styles.textBold}> Year of Publishing: </label>
+                        <br />
+                        <TextInput type="text" name="Year book was published" value={bookYear} setValue={setBookYear} />
 
-                    <TextInput type="text" name ="Comments on book's physical condition" value={bookComments} setValue={setBookComments}/>
-                        
-                    <br/><br/>
-                    {/*
+                        <br /><br />
+
+                        <label style={styles.textBold}> Comments: </label>
+
+                        <br />
+
+                        <TextInput type="text" name="Comments on book's physical condition" value={bookComments} setValue={setBookComments} />
+
+                        <br /><br />
+                        {/*
                     Setting this aside temporarily
 
                     <label for='bookreview'> Book Review (Optional): </label><br/>
@@ -327,16 +333,46 @@ function handleLibraryImg(){
                     Est deserunt laboris voluptate duis quis amet eu nisi nostrud proident laborum fugiat occaecat. Voluptate labore qui do dolore. Cillum sunt commodo eiusmod sit adipisicing non. Irure sint dolore in ex labore. Commodo in fugiat et eu irure anim eu nisi adipisicing sint consequat.</textarea><br/><br/> 
                     */}
 
-                    <MyButton name={"Upload This Book"}
-                        type={"button"}
-                        handle={
-                            () => handleSubmit() 
-                        }
-                    />
-                </div>
+                        <MyButton name={loading ? "Uploaded!" : "Upload This Book"}
+                            type={"button"}
+                            handle={
+                                () => handleSubmit()
+                            }
+                        />
+                        {/* <LoadingButton
+                            style={{ ...styles.loadingButton, textTransform: "inherit" }}
+                            onClick={handleSubmit}
+                            loading={loading}
+                            loadingIndicator="Uploaded!"
+                            variant="outlined"
+                        >Upload This Book</LoadingButton>
+                        <Box sx={{ m: 1, position: 'relative' }}>
+                            <Button
+                                variant="contained"
+                                sx={styles.button}
+                                disabled={loading}
+                                onClick={handleSubmit}
+                            >
+                                Upload
+                            </Button>
+                            {loading && (
+                                <CircularProgress
+                                    size={24}
+                                    sx={{
+                                        color: "green",
+                                        position: 'absolute',
+                                        top: '50%',
+                                        left: '50%',
+                                        marginTop: '-12px',
+                                        marginLeft: '-12px',
+                                    }}
+                                />
+                            )}
+                        </Box> */}
+                    </div>
                 </form>
             </div>
-            
+
             <div style={styles.bookCoverContainer}>
                 {/* {bookAuthor || bookTitle ? newInsertImage() : <></>} */}
                 {handleLibraryImg()}

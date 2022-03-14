@@ -5,24 +5,28 @@ import Register from "./components/register";
 
 import MyButton from "../../components/button";
 
+
+
 function Access() {
     
     // set states
     const [display, setDisplay] = React.useState(<Login />);
     const [buttonText, setButtonText] = React.useState("Sign Up Now");
 
-    // Switching between login and sign up display on same page
+    // ----------------------------------------------- SWITCH BETWEEN LOGIN AND REGISTRATION COMPONENTS
     function handleDisplay() {
+        
         if (buttonText === "Sign Up Now") {
-            setDisplay(<Register />);
+            setDisplay(<Register changeDisplay={setDisplay} changeButton={setButtonText} />);
             setButtonText("Login Now");
+
         } else if (buttonText === "Login Now") {
             setDisplay(<Login />);
             setButtonText("Sign Up Now");
         }
     }
 
-    // render
+    // ----------------------------------------------- RENDER
     return (
         <div>
             {display}

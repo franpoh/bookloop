@@ -7,6 +7,9 @@ import authWrapper from "../../../components/auth-wrapper";
 import MyButton from "../../../components/button";
 
 // <EditUserType selectUsers={} password={} />
+
+
+
 function EditUserType(props) {
 
     const { signOut } = React.useContext(AuthContext);
@@ -19,10 +22,11 @@ function EditUserType(props) {
     const [msg, setMsg] = React.useState('');
     const [userType, setUserType] = React.useState('');
 
-    // submit edits to user type
-    const handleSubmit = async () => {
+    // ----------------------------------------------- SUBMIT EDITS TO USER TYPE BY CALLING API
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        // error message
+        // error catch - if no users were selected to be edited
         if (selectUsers.length === 0) {
             setMsg("Please select user(s) first.");
             setTimeout(() => setMsg(''), 3000);
@@ -41,40 +45,50 @@ function EditUserType(props) {
 
                 if (result.status === 200) {
                     resolve(result);
+
                 } else {
                     reject(result);
                 }
             });
         })
 
+        // if edit user is successful, reset all inputs and dropdown menu to default and empty
         p.then((response) => {
             setMsg(response.data.message)
+
             setTimeout(() => {
                 setMsg('');
-                return window.location.reload();
+                document.getElementById("user-type-select").value = "default";
+                props.setReload(true);
+                props.setReload(false);
             }, 3000);
+
+        // return error message
         }).catch((error) => {
             setMsg(error.response.data.message);
             setTimeout(() => setMsg(''), 3000);
-        })
+        });
     }
 
-    // render
+    // ----------------------------------------------- RENDER
     return (
         <div>
             <h3 style={styles.h3Bold}>Edit User Type:</h3>
             <p style={styles.textNormal}>Select users before selecting user type from dropdown menu</p>
             <p style={styles.textRed}>{msg}</p>
-            <select
-                onChange={e => setUserType(e.target.value)}
-                style={styles.dropdown}
-            >
-                <option selected disabled>Select User Type</option>
-                <option value="USER">User</option>
-                <option value="BANNED">Banned</option>
-                <option value="ADMIN">Admin</option>
-            </select >
-            <MyButton type={"button"} name={"Submit"} handle={handleSubmit} />
+            <form>
+                <select
+                    id="user-type-select"
+                    onChange={e => setUserType(e.target.value)}
+                    style={styles.dropdown}
+                >
+                    <option selected value="default" disabled>Select User Type</option>
+                    <option value="USER">User</option>
+                    <option value="BANNED">Banned</option>
+                    <option value="ADMIN">Admin</option>
+                </select >
+                <MyButton name={"Submit"} handle={handleSubmit} />
+            </form>
         </div >
 
     )

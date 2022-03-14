@@ -1,4 +1,7 @@
 import { history } from "./history";
+// part of history library
+// https://github.com/remix-run/history/blob/3e9dab413f4eda8d6bce565388c5ddb7aeff9f7e/docs/navigation.md
+
 import callAlertOnce from "./call-alert-once";
 
 const authWrapper = (apiCall, signOut) => {
@@ -8,19 +11,16 @@ const authWrapper = (apiCall, signOut) => {
         return res;
     }).catch((err) => {
 
+        // catch 403 errors, which come from authentication token checking
         if (err.response.status === 403) {
             signOut();
             callAlertOnce("You are not logged in! Redirecting...");
+            return history.push("/access"); // Push a new entry onto the history stack.
 
-            return history.push("/access");
-            // Push a new entry onto the history stack.
-            // part of history library
-            // https://github.com/remix-run/history/blob/3e9dab413f4eda8d6bce565388c5ddb7aeff9f7e/docs/navigation.md
-
+        // catch 401 errors, which come from user permission checking
         } else if (err.response.status === 401) {
-            console.log("AUTHWRAPPER", err.response);
             callAlertOnce(err.response.data.message);
-            return history.push("/");
+            return history.push("/bookloop");
 
         } else {
             console.log("AUTHWRAPPER", err.response);
