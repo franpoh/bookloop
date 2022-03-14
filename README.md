@@ -22,7 +22,7 @@ Trello Agile Board: https://trello.com/b/Tb93uy07/bookloop-find-the-books-a-home
 - [User Story 2] - As a guest, I can sign into an existing account to use the website
 - [User Story 3] - As a user, I can give away my read books, so that other people can enjoy them too
 - [User Story 4] - As a user, I can look at a library of books so that I can browse around for books that I may enjoy
-- [User Story 5] - As a user, I can leave reviews for books that I have read, so that other people can have a reference for the book
+- [User Story 5] - As a user, I can leave reviews for books that I have read, for other users to peruse.
 - [User Story 6] - As a user, I can obtain books that I'm interested in, so that I can read them
 - [User Story 7] - As a user, I can look at other people's reviews so that I have a better understanding of a book
 - [User Story 8] - As a user, I can search for book titles, so that I can find/search for a certain book
