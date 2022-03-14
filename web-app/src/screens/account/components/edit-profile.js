@@ -46,6 +46,9 @@ async function editProfile(email, oldPwd, newPwd, signOut, setMsg, setEmail, set
     // display error message
     }).catch((error) => {
         setMsg(error.response.data.message)
+        setTimeout(() => {
+            setMsg('');
+        }, 3000);
         return;
     })
 }
