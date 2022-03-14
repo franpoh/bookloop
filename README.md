@@ -1,25 +1,53 @@
-// PREMISE //
+# TABLE-OF-CONTENTS
 
-To create a community-driven book swapping website, where users can sign up to exchange books with each other. 
-
-Users will be able to view books that have been uploaded, with associated information, such as user reviews.
-
-Users will be able to upload their own books for others to buy, which will earn them points which they can use to buy books that other users upload.
-
-Admins will be able to moderate the website by banning users if need be. 
+1. [Premise](#premise)
+2. [User_stories](#userstories)
+3. [Frontend](#frontend)
+4. [Backend](#backend)
+5. [Start_Up](#startup)
 
 
 
-// CODE //
+# PREMISE
 
-This folder contains all of the frontend code, found at https://github.com/franpoh/bookloop
+To create a community-driven book swapping website, where users can sign up for free to trade books with each other, using a one-for-one exchange system. 
 
-- Axios for frontend communication with servers by making http requests from node.js
+
+
+# USER_STORIES
+
+Trello Agile Board: https://trello.com/b/Tb93uy07/bookloop-find-the-books-a-home
+
+[User Story 1] - As a guest, I can create a new account to use the website
+[User Story 2] - As a guest, I can sign into an existing account to use the website
+[User Story 3] - As a user, I can give away my read books, so that other people can enjoy them too
+[User Story 4] - As a user, I can look at a library of books so that I can browse around for books that I may enjoy
+[User Story 5] - As a user, I can leave reviews for books that I have read, so that other people can have a reference for the book
+[User Story 6] - As a user, I can obtain books that I'm interested in, so that I can read them
+[User Story 7] - As a user, I can look at other people's reviews so that I have a better understanding of a book
+[User Story 8] - As a user, I can search for book titles, so that I can find/search for a certain book
+[User Story 9] - As an admin, I can ban users who are not suitable to participate in the community
+
+
+
+# FRONTEND
+
+Frontend Github Repository: https://github.com/franpoh/bookloop
+
+- Axios for frontend communication with servers by making http requests
 - React for building user interface
 - React Router Dom for webpage routing
 - MUI, react UI library for certain components
 
-Backend is found at https://github.com/franpoh/groupproject2-book
+UI Layout
+- [Draft](./images/Database_Draft.jpg)
+- [Final](./images/Database_Final.JPG)
+
+
+
+# BACKEND
+
+Backend Github Repository: https://github.com/franpoh/groupproject2-book
 
 - PostgreSQL database
 - Database deployed on Heroku PostgreSQL
@@ -29,15 +57,15 @@ Backend is found at https://github.com/franpoh/groupproject2-book
 - Bcrypt for password hashing
 - JSON web token for keeping user data authenticated at each new http request
 
+Database Layout
+- [Draft](./images//Database_Draft.jpg)
+- [Final](./images//Database_Final.JPG)
 
 
-// START UP //
 
-npm run deploy
+# START_UP
 
 The website is hosted at https://franpoh.github.io/bookloop/
 
-//  UI //
-
-// USER STORIES //
+You can also run it with 'npm start': http://localhost:3000/
 
