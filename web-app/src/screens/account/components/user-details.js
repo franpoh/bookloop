@@ -58,8 +58,8 @@ function UserDetails(props) {
     // ----------------------------------------------- RENDER
     return (
         <div style={styles.containerAlt}>
-            <h1 style={styles.h1Font}>Welcome {user}!</h1>
-            <p style={{ ...styles.textBold, ...styles.negativeMarginAtTop }}>You have {points} points.</p>
+            <h1 style={styles.h1Font}>Welcome {user},</h1>
+            <p style={{ ...styles.textBold, ...styles.negativeMarginAtTop }}>You have {points} points!</p>
             <hr style={styles.accountDivider} />
             <div style={styles.containerRow}>
                 <img src={pic} alt="profile" style={styles.profilePic} />
