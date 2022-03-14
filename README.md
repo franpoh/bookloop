@@ -1,10 +1,10 @@
 # TABLE-OF-CONTENTS
 
 1. [Premise](#premise)
-2. [User_stories](#userstories)
+2. [User Stories](#userstories)
 3. [Frontend](#frontend)
 4. [Backend](#backend)
-5. [Start_Up](#startup)
+5. [Start Up](#startup)
 
 
 
