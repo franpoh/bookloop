@@ -261,8 +261,8 @@ function UploadBook() {
         if (bookTitle.length === 0 || bookTitle.length > 100) {
             errorMsg = errorMsg + `- a valid title not longer than 100 chars `;
         };
-        if (bookAuthor.length === 0) {
-            errorMsg = errorMsg + `- a valid author name `;
+        if (bookAuthor.length === 0 || bookAuthor.length > 100) {
+            errorMsg = errorMsg + `- a valid author name not longer than 100 chars`;
         };
 
         if (errorMsg.length > originalLength) {
