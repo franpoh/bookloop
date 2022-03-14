@@ -9,7 +9,7 @@ import logo from "../../assets/logo.png";
 import { useNavigate } from 'react-router-dom';
 import authWrapper from "../../components/auth-wrapper";
 import AuthContext from "../../components/context";
-import LoadingButton from '@mui/lab/LoadingButton';
+import DialogAlert from '../../components/dialog-alert';
 import { CircularProgress, Box, Button } from "@mui/material";
 
 function UploadBook() {
@@ -33,6 +33,8 @@ function UploadBook() {
     // const [bookGenre, setBookGenre] = useState('');                                   //unable to retrieve name of book genre, redundant
     // const [value, setValue] = useState(genreList[0]);                                 //for TextField/Autocomplete
     // const [inputValue, setInputValue] = useState('');                                 //for TextField/Autocomplete
+    const [toggleAlert, setToggleAlert] = useState(false);  // for alertdialog trigger
+    const [alertText, setAlertText] = useState(""); // for changing alert diablog text
     //#endregion UseStates
 
     //#region useEffects for necessary params
@@ -88,7 +90,7 @@ function UploadBook() {
     function DisplayOptionGenres() {                            //pretty sure this can be exported
         return genreList.map((element, key) => {
             return (
-                <option key={element.genre} value={element.genreId}> {element.genre} </option>
+                <option key={element.genreId} value={element.genreId}> {element.genre} </option>
             )
         });
     }
@@ -108,9 +110,9 @@ function UploadBook() {
         const setAuthorList = new Set(filteredAuthorList.map(book => book.author))      //array but only with unique values. set cannot map.
         const uniqueAuthorList = [...setAuthorList]                                     //convert to set, then back to array ( but with unique values)
 
-        return uniqueAuthorList.map((authorname) => {
+        return uniqueAuthorList.map((authorname, index) => {
             return (
-                <div value={authorname} onClick={handleAuthorSelect}>
+                <div key={index} value={authorname} onClick={handleAuthorSelect}>
                     {authorname}
                 </div>
             )
@@ -122,9 +124,9 @@ function UploadBook() {
             return (bookTitle && book.title.toLowerCase().includes(bookTitle.toLowerCase()))
         });
 
-        return filteredTitleList.map((book) => {
+        return filteredTitleList.map((book, index) => {
             return (
-                <div value={book.title} onClick={handleSelect}>
+                <div key={index} value={book.title} onClick={handleSelect}>
                     {book.title}
                 </div>
             )
@@ -252,24 +254,75 @@ function UploadBook() {
     //#region submit function
     //actual submit function
     const handleSubmit = async (e) => {
-        await authWrapper(bookAPI.post("protected/uploadbook", {
-            userid: user.userId,            //done
-            booktitle: bookTitle,           //done
-            bookauthor: bookAuthor,         //done
-            bookgenre: bookGenreId,         //done
-            bookyear: bookYear,             //done
-            usercomments: bookComments,     //done
-            bookcover: bookCover,           //bugged, values managed to pass to backend but post not processing..
-        }), signOut).then((response) => {
-            console.log("Submitted form to backend successfully.");
-            setMsg(response.data.message)
+
+        // client side data vetting here
+        let errorMsg = 'Error: Please provide ';
+        let originalLength = errorMsg.length;        
+        if (bookTitle.length === 0 || bookTitle.length > 100) {
+            errorMsg = errorMsg + `- a valid title not longer than 100 chars `;
+        };
+        if (bookAuthor.length === 0) {
+            errorMsg = errorMsg + `- a valid author name `;
+        };
+
+        if (errorMsg.length > originalLength) {
+            setAlertText(errorMsg);
+            setToggleAlert(true);
+            return;
+        };
+
+        try {
+
+            const result = await authWrapper(bookAPI.post("protected/uploadbook", {
+                userid: user.userId,            //done
+                booktitle: bookTitle,           //done
+                bookauthor: bookAuthor,         //done
+                bookgenre: bookGenreId,         //done
+                bookyear: bookYear,             //done
+                usercomments: bookComments,     //done
+                bookcover: bookCover,           //bugged, values managed to pass to backend but post not processing..
+            }), signOut)
+
+            if (result.response) {
+                if (!result.response.data.data) {
+                    console.log("result is null, API call failed");
+                    setAlertText(result.response.data.message);
+                    setToggleAlert(true);
+                    return;
+                };
+            };
+
+            console.log("Submitted form to backend successfully.");            
+            setMsg(result.data.message)
             setLoading(true)
             setTimeout(() => {
                 return navigate('/account');
             }, 2000);
-        }).catch((error) => {
-            setMsg(error.response.data.message)         //flagging an error on chrome log.. not sure what's happening here.
-        })
+
+        } catch(error) {
+            console.log("uncaught error at handleSubmit: ", error);
+        };
+
+        // await authWrapper(bookAPI.post("protected/uploadbook", {
+        //     userid: user.userId,            //done
+        //     booktitle: bookTitle,           //done
+        //     bookauthor: bookAuthor,         //done
+        //     bookgenre: bookGenreId,         //done
+        //     bookyear: bookYear,             //done
+        //     usercomments: bookComments,     //done
+        //     bookcover: bookCover,           //bugged, values managed to pass to backend but post not processing..
+        // }), signOut).then((response) => {
+        //     console.log("Submitted form to backend successfully.");
+        //     console.log(response);
+        //     setMsg(response.data.message)
+        //     setLoading(true)
+        //     setTimeout(() => {
+        //         return navigate('/account');
+        //     }, 2000);
+        // }).catch((error) => {
+        //     console.log("error obj: ", error);
+        //     setMsg(error.data.message)         //flagging an error on chrome log.. not sure what's happening here.
+        // })
     }
 
     //#endregion submit function
@@ -279,6 +332,16 @@ function UploadBook() {
     return (
         <div style={styles.uploadBookContainer}>
             <div >
+                <DialogAlert
+                    open={toggleAlert}
+                    onClick={() => {
+                        setAlertText("");
+                        setToggleAlert(false);
+                        }
+                    }
+                    bodytext={alertText}
+                    buttonLabel='Ok'
+                />
                 <form>
                     <h1 style={styles.h1Font}>Upload to BookLoop!</h1>
                     <p style={styles.h2Font}>What book would you like to upload today?</p>
