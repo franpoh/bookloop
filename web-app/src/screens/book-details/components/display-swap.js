@@ -39,7 +39,8 @@ function DisplaySwapInventory ( props ) {
                                 textDecoration: 'none',
                                 height: 'auto',
                                 width: '35vw',
-                                backgroundColor: colours.baseWhite
+                                backgroundColor: colours.baseWhite,
+                                cursor: 'pointer'
                             }}
                         >
                             <DisplaySwapDetails data={swapItem}/>
