@@ -24,15 +24,15 @@ function TopNav({ userToken }) {
             <div style={styles.topBarSpace}>
 
                 {userToken === "ADMIN" ? 
-                    (<Link to="/admin"><MyButton name={"Admin"} /></Link>) : (<></>) 
+                    (<Link to="/bookloop/admin"><MyButton name={"Admin"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "USER" || userToken === "ADMIN" ? 
-                    (<Link to="/uploadbook"><MyButton name={"Upload Book"} /></Link>) : (<></>) 
+                    (<Link to="/bookloop/uploadbook"><MyButton name={"Upload Book"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "USER" || userToken === "ADMIN" ? 
-                    (<Link to="/account"><MyButton name={"Account"} /></Link>) : (<></>) 
+                    (<Link to="/bookloop/account"><MyButton name={"Account"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "BANNED" ? 
@@ -40,7 +40,7 @@ function TopNav({ userToken }) {
                 }
 
                 {userToken === "USER" || userToken === "BANNED" || userToken === "ADMIN" ? 
-                    (<MyButton name="Logout" handle={() => handleLogout(signOut)} />) : (<Link to="/access"><MyButton name={"Login"} /></Link>) 
+                    (<MyButton name="Logout" handle={() => handleLogout(signOut)} />) : (<Link to="/bookloop/access"><MyButton name={"Login"} /></Link>) 
                 }
                 
             </div>

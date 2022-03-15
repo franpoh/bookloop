@@ -15,7 +15,7 @@ const authWrapper = (apiCall, signOut) => {
         if (err.response.status === 403) {
             signOut();
             callAlertOnce("You are not logged in! Redirecting...");
-            return history.push("/access"); // Push a new entry onto the history stack.
+            return history.push("/bookloop/access"); // Push a new entry onto the history stack.
 
         // catch 401 errors, which come from user permission checking
         } else if (err.response.status === 401) {

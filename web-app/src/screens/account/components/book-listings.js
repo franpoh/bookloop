@@ -18,7 +18,7 @@ const BookListing = (props) => {
 
     // navigation to specific book URL
     function navBook() {
-        navigate(`/bookdetails/${passIndex}`);
+        navigate(`/bookloop/bookdetails/${passIndex}`);
     }
 
     // list item format

@@ -13,7 +13,7 @@ const handleLogout = async (signOut) => {
         
         setTimeout(() => {
             signOut();
-            return history.push("/access");
+            return history.push("/bookloop/access");
         }, 2000);
 
     // display error message

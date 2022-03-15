@@ -296,7 +296,7 @@ function UploadBook() {
             setMsg(result.data.message)
             setLoading(true)
             setTimeout(() => {
-                return navigate('/account');
+                return navigate('/bookloop/account');
             }, 2000);
 
         } catch(error) {
