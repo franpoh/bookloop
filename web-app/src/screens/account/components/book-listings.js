@@ -5,6 +5,8 @@ import styles from "../../../styling/style-sheet";
 
 
 
+const noImage = require("../../../assets/no-image.png"); // used for books with no covers
+
 // ----------------------------------------------- MAPPING DETAILS OF EACH BOOK INTO A LIST ITEM
 const BookListing = (props) => {
 
@@ -24,7 +26,7 @@ const BookListing = (props) => {
     // list item format
     return (
         <div style={styles.containerRowList}>
-            <img src={bookItem.Index.imageURL} alt="book covers" style={styles.profileBookPics} className="nav" onClick={navBook} />
+            <img src={bookItem.Index.imageURL ? bookItem.Index.imageURL : noImage} alt="book covers" style={styles.profileBookPics} className="nav" onClick={navBook} />
             <div style={styles.profileBookDetails}>
                 <p style={styles.textBold} className="nav" onClick={navBook}>{bookItem.Index.title}</p>
                 <p style={styles.textNormal}><b>{detailName}:</b> {bookItem[detail]}</p>
