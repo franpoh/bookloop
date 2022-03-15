@@ -50,7 +50,7 @@ function RoutePages() {
     // render, passing userToken into TopNav and authContext into everything
     return (
         <AuthContext.Provider value={authContext} >
-            <CustomRouter history={history} >
+            <CustomRouter history={history} basename="/bookloop" >
                 <div style={{ ...styles.container, ...styles.border }}>
                     <TopNav userToken={userToken} />
                     <div>

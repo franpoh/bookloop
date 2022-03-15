@@ -3,7 +3,7 @@ import { Router } from "react-router-dom";
 
 // added custom router for navigating outside of react context
 // https://stackoverflow.com/questions/69871987/react-router-v6-navigate-outside-of-components
-// you can now navigate to specific path, Example: return history.push("/access");
+// you can now navigate to specific path, Example: return history.push("/bookloop/access");
 // back and forward navigation as well
 
 // Router: The common low-level interface for all router components. 
