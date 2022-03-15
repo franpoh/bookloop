@@ -18,21 +18,21 @@ function TopNav({ userToken }) {
     return (
         <div style={{ ...styles.topBar, ...styles.topBarSpace }}>
             <div style={styles.topBarSpace}>
-                <Link to="/bookloop"><img src={logo} alt="website logo" className="nav" width="70px" height="70px" /></Link>
-                <Link to="/bookloop" className="nav"><h1 style={styles.headerFont}>BOOK LOOP</h1></Link>
+                <Link to="/booklist"><img src={logo} alt="website logo" className="nav" width="70px" height="70px" /></Link>
+                <Link to="/booklist" className="nav"><h1 style={styles.headerFont}>BOOK LOOP</h1></Link>
             </div>
             <div style={styles.topBarSpace}>
 
                 {userToken === "ADMIN" ? 
-                    (<Link to="/bookloop/admin"><MyButton name={"Admin"} /></Link>) : (<></>) 
+                    (<Link to="/admin"><MyButton name={"Admin"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "USER" || userToken === "ADMIN" ? 
-                    (<Link to="/bookloop/uploadbook"><MyButton name={"Upload Book"} /></Link>) : (<></>) 
+                    (<Link to="/uploadbook"><MyButton name={"Upload Book"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "USER" || userToken === "ADMIN" ? 
-                    (<Link to="/bookloop/account"><MyButton name={"Account"} /></Link>) : (<></>) 
+                    (<Link to="/account"><MyButton name={"Account"} /></Link>) : (<></>) 
                 }
 
                 {userToken === "BANNED" ? 
@@ -40,7 +40,7 @@ function TopNav({ userToken }) {
                 }
 
                 {userToken === "USER" || userToken === "BANNED" || userToken === "ADMIN" ? 
-                    (<MyButton name="Logout" handle={() => handleLogout(signOut)} />) : (<Link to="/bookloop/access"><MyButton name={"Login"} /></Link>) 
+                    (<MyButton name="Logout" handle={() => handleLogout(signOut)} />) : (<Link to="/access"><MyButton name={"Login"} /></Link>) 
                 }
                 
             </div>

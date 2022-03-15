@@ -50,18 +50,18 @@ function RoutePages() {
     // render, passing userToken into TopNav and authContext into everything
     return (
         <AuthContext.Provider value={authContext} >
-            <CustomRouter history={history} basename="/bookloop" >
+            <CustomRouter history={history} >
                 <div style={{ ...styles.container, ...styles.border }}>
                     <TopNav userToken={userToken} />
                     <div>
                         <Routes>
-                            <Route exact path="/bookloop" element={<BookList />} />
-                            <Route path="/bookloop/account" element={<Account />} />
-                            <Route path="/bookloop/access" element={<Access />} />
-                            <Route path="/bookloop/bookdetails/:index" element={<BookDetails />} />
-                            <Route path="/bookloop/uploadbook" element={<UploadBook />} />
-                            <Route path="/bookloop/admin" element={<Admin />} />
-                            <Route path="/bookloop/library" element={<ListAllBooks />} />
+                            <Route exact path="/booklist" element={<BookList />} />
+                            <Route path="/account" element={<Account />} />
+                            <Route path="/access" element={<Access />} />
+                            <Route path="/bookdetails/:index" element={<BookDetails />} />
+                            <Route path="/uploadbook" element={<UploadBook />} />
+                            <Route path="/admin" element={<Admin />} />
+                            <Route path="/library" element={<ListAllBooks />} />
                         </Routes>
                     </ div>
                 </div>
