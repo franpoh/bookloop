@@ -23,6 +23,7 @@ function UserDetails(props) {
     const [newPwd, setNewPwd] = React.useState('');
     const [pic, setPic] = React.useState('');
     const [msg, setMsg] = React.useState('');
+    const [points, setPoints] = React.useState('');
 
     
     // ----------------------------------------------- HANDLING USER INFORMATION FROM API CALL
@@ -42,6 +43,7 @@ function UserDetails(props) {
                 setUser(response.username);
                 setEmail(response.email);
                 setPic(response.imageURL);
+                setPoints(response.points);
             }
         });
     }, [target]);
@@ -56,7 +58,9 @@ function UserDetails(props) {
     // ----------------------------------------------- RENDER
     return (
         <div style={styles.containerAlt}>
-            <h1 style={styles.h1Font}>Welcome {user}!</h1>
+            <h1 style={styles.h1Font}>Welcome {user},</h1>
+            <p style={{ ...styles.textBold, ...styles.negativeMarginAtTop }}>You have {points} points!</p>
+            <hr style={styles.accountDivider} />
             <div style={styles.containerRow}>
                 <img src={pic} alt="profile" style={styles.profilePic} />
                 <div>

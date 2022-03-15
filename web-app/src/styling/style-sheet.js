@@ -50,7 +50,7 @@ const styles = {
     containerAlt: {
         display: "flex",
         flexFlow: "column",
-        rowGap: "20px",
+        // rowGap: "20px",
         padding: "50px",
         paddingTop: "25px",
         width: "45vw",
@@ -239,7 +239,7 @@ const styles = {
     },
 
     negativeMarginAtTop: {
-        marginTop: "-5vh"
+        marginTop: "-2vh"
     },
 
     searcher: {

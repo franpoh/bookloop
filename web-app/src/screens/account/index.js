@@ -8,8 +8,6 @@ import bookAPI from "../../API/book-api";
 import authWrapper from "../../components/auth-wrapper";
 import AuthContext from "../../components/context"
 
-
-
 function Account() {
 
     const { signOut } = React.useContext(AuthContext);
@@ -25,8 +23,7 @@ function Account() {
     const [purchaseHistory, setPurchaseHistory] = React.useState([]);
     const [errorMsg, setErrorMsg] = React.useState('');
 
-    
-    // ----------------------------------------------- API CALL FOR USER INFORMATION
+    // get profile details and wishlist
     React.useEffect(() => {
         let p = new Promise(async (resolve) => {
             let user = await authWrapper(bookAPI.get('/protected/viewprofile'), signOut);
@@ -41,14 +38,11 @@ function Account() {
         })
 
         p.then((response) => {
-
-            // if user data is null
             if (!response.user) {
                 setErrorMsg("Loading profile failed, please login again.");
                 return;
-
-            // set states for data to be sent to various handling components
             } else {
+                // set states for data to be sent to various handling components
                 const userData = response.user.data.data;
 
                 setProfile(userData.user);
@@ -57,18 +51,15 @@ function Account() {
                 setPurchaseHistory(userData.purchaseHistory);
             }
 
-            // if wishlist data is null
             if (!response.wishlist.data) {
                 return;
-
-            // set state for wishlist information to be sent to various handling components
             } else {
                 setWishlist(response.wishlist.data.data);
             }
         });
     }, [])
 
-    // ----------------------------------------------- RENDER
+    // render
     if (profile.length === 0) {
         return <></>
     } else if (errorMsg) {
