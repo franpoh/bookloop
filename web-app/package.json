@@ -1,6 +1,6 @@
 {
   "name": "web-app",
-  "homepage": "https://franpoh.github.io/bookloop/",
+  "homepage": "https://franpoh.github.io/bookloop/booklist",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

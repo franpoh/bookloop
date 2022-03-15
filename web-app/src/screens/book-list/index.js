@@ -55,7 +55,7 @@ const BookList = () => {
                 className="icon"
                 style={styles.h2Font}
                 onClick={() => {
-                    navigate(`/bookloop/library`);
+                    navigate(`/library`);
                 }}
             >
                 {" "}
@@ -103,7 +103,7 @@ const BookList = () => {
                                                     container
                                                     spacing={0.5}
                                                     onClick={() => {
-                                                        navigate(`/bookloop/bookdetails/${item.indexId}`);
+                                                        navigate(`/bookdetails/${item.indexId}`);
                                                     }}
                                                 >
                                                     <Grid item sm={5} lg={4}>
@@ -135,7 +135,7 @@ const BookList = () => {
                                             container
                                             spacing={0.5}
                                             onClick={() => {
-                                                navigate(`/bookloop/bookdetails/${item.indexId}`);
+                                                navigate(`/bookdetails/${item.indexId}`);
                                             }}
                                         >
                                             <Grid item sm={5} lg={4}>

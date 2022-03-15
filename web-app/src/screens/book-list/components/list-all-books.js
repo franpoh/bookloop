@@ -51,7 +51,7 @@ const ListAllBooks = () => {
                                     container
                                     spacing={0.5}
                                     onClick={() => {
-                                        navigate(`/bookloop/bookdetails/${item.indexId}`);
+                                        navigate(`/bookdetails/${item.indexId}`);
                                     }}
                                 >
                                     <Grid item sm={5} lg={5}>
