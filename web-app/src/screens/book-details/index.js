@@ -151,7 +151,9 @@ function BookDetails() {
                 </div>
             </div>
 
-            <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews} />
+            <div style={{ position: 'relative', top: '3vh' }}>
+                <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews} />
+            </div>
 
             <hr style={{ ...styles.divider, position: 'relative', top: '3vh' }} />
 
