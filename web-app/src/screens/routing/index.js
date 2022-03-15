@@ -55,7 +55,7 @@ function RoutePages() {
                     <TopNav userToken={userToken} />
                     <div>
                         <Routes>
-                            <Route exact path="/booklist" element={<BookList />} />
+                            <Route exact path="/" element={<BookList />} />
                             <Route path="/account" element={<Account />} />
                             <Route path="/access" element={<Access />} />
                             <Route path="/bookdetails/:index" element={<BookDetails />} />

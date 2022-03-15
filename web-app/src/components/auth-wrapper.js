@@ -20,7 +20,7 @@ const authWrapper = (apiCall, signOut) => {
         // catch 401 errors, which come from user permission checking
         } else if (err.response.status === 401) {
             callAlertOnce(err.response.data.message);
-            return history.push("/bookloop/booklist");
+            return history.push("/bookloop/");
 
         } else {
             console.log("AUTHWRAPPER", err.response);
