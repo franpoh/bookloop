@@ -119,7 +119,7 @@ function BookDetails() {
                 buttonLabelB='Confirm'
             />
 
-            <div style={{ position: 'relative', top: '-3vh', opacity: userToken ? 1 : 0.4 }}>
+            <div style={{ position: 'relative', top: '-1vh', opacity: userToken ? 1 : 0.4 }}>
                 <h3 style={{ ...styles.textNormal, fontSize: '1em' }}>Current available points: {(userToken) ? user.points : 'You are not logged in..'}</h3>
                 <div style={{ ...styles.containerRow, width: '85%' }}>
                     <MyButton name={currentBookWish ? "Now in Wishlist" : "Add to Wishlist"}
@@ -153,15 +153,15 @@ function BookDetails() {
 
             <ReviewInputDialog show={show} user={(userToken) ? user.userId : false} indexId={indexId} passToReviewButton={uploadReviewButton} passRetrieveReview={retrieveReview} passSetShow={setShow} passSetReviews={setReviews} />
 
-            <hr style={{ ...styles.divider, position: 'relative', top: '-2vh' }} />
+            <hr style={{ ...styles.divider, position: 'relative', top: '3vh' }} />
 
-            <div style={{ position: 'relative', top: '-5vh', opacity: userToken ? 1 : 0.4 }}>
+            <div style={{ position: 'relative', top: '2vh', opacity: userToken ? 1 : 0.4 }}>
                 <DisplaySwapInventory matchSwap={matchSwap} userToken={userToken} user={user} passToggleAlert={setToggleAlert} passToggleConfirm={setToggleConfirm} matchIndex={matchIndex} />
             </div>
 
-            <hr style={{ ...styles.divider, position: 'relative', top: '-3vh' }} />
+            <hr style={{ ...styles.divider, position: 'relative', top: '1vh' }} />
 
-            <div style={{ position: 'relative', top: '-6vh' }}>
+            <div style={{ position: 'relative', top: '0vh' }}>
                 <ListReviews data={reviews} />
             </div>
         </div>
