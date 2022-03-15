@@ -18,8 +18,8 @@ function TopNav({ userToken }) {
     return (
         <div style={{ ...styles.topBar, ...styles.topBarSpace }}>
             <div style={styles.topBarSpace}>
-                <Link to="/booklist"><img src={logo} alt="website logo" className="nav" width="70px" height="70px" /></Link>
-                <Link to="/booklist" className="nav"><h1 style={styles.headerFont}>BOOK LOOP</h1></Link>
+                <Link to="/"><img src={logo} alt="website logo" className="nav" width="70px" height="70px" /></Link>
+                <Link to="/" className="nav"><h1 style={styles.headerFont}>BOOK LOOP</h1></Link>
             </div>
             <div style={styles.topBarSpace}>
 
