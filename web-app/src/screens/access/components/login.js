@@ -37,7 +37,7 @@ function Login() {
             
             setTimeout(() => {
                 signIn(response.data.data);
-                return navigate('/booklist');
+                return navigate('/');
             }, 2000);
         
         // display error message
