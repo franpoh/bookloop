@@ -65,7 +65,7 @@ Database Layout
 
 # START_UP
 
-The website is hosted at https://franpoh.github.io/bookloop/
+Access our website at https://franpoh.github.io/bookloop/booklist
 
 You can also run it with 'npm start', which will host the site at http://localhost:3000/
 
